@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/avatar.jpg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hadoop," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="环境
+操作系统：Ubuntu 14.04
+Hadoop版本：Hadoop 2.6.5
+JDK版本：OpenJDK 1.7
+
+创建Hadoop用户创建用户1sudo useradd -m hadoop
+为新用户设置密码1sudo passwd hadoop
+为新用户添加权限1sudo adduser hadoop sudo
+
+如果失败，则切换到root用户下，修改/etc/sudoers文件，将ha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop 安装和使用">
+<meta property="og:url" content="http://fighterhit.github.io/2017/11/12/learning_summary/Hadoop-安装和使用/index.html">
+<meta property="og:site_name" content="Fighter's Blog">
+<meta property="og:description" content="环境
+操作系统：Ubuntu 14.04
+Hadoop版本：Hadoop 2.6.5
+JDK版本：OpenJDK 1.7
+
+创建Hadoop用户创建用户1sudo useradd -m hadoop
+为新用户设置密码1sudo passwd hadoop
+为新用户添加权限1sudo adduser hadoop sudo
+
+如果失败，则切换到root用户下，修改/etc/sudoers文件，将ha">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-14d8fa9cf9e8fec4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-21dda5b3a1dcbbd1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-0ea47d412d606a21.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-2e2d2f39dc26cf88.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-27a23c6c960a1b9c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-bdf67932c07a1efa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-d3bb6626500d065c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-3863016cb756abe8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-bf6fc9e6ee002389.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-31e7db693f954734.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-12-23T15:18:03.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop 安装和使用">
+<meta name="twitter:description" content="环境
+操作系统：Ubuntu 14.04
+Hadoop版本：Hadoop 2.6.5
+JDK版本：OpenJDK 1.7
+
+创建Hadoop用户创建用户1sudo useradd -m hadoop
+为新用户设置密码1sudo passwd hadoop
+为新用户添加权限1sudo adduser hadoop sudo
+
+如果失败，则切换到root用户下，修改/etc/sudoers文件，将ha">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/137261-14d8fa9cf9e8fec4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fighterhit.github.io/2017/11/12/learning_summary/Hadoop-安装和使用/"/>
+
+
+
+
+
+  <title>Hadoop 安装和使用 | Fighter's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fighter's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">深度沉迷学习</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/11/12/learning_summary/Hadoop-安装和使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hadoop 安装和使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T12:07:00+08:00">
+                2017-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习总结/" itemprop="url" rel="index">
+                    <span itemprop="name">学习总结</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>操作系统：Ubuntu 14.04</li>
+<li>Hadoop版本：Hadoop 2.6.5</li>
+<li>JDK版本：OpenJDK 1.7</li>
+</ul>
+<h2 id="创建Hadoop用户"><a href="#创建Hadoop用户" class="headerlink" title="创建Hadoop用户"></a>创建Hadoop用户</h2><h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo useradd -m hadoop</div></pre></td></tr></table></figure>
+<h4 id="为新用户设置密码"><a href="#为新用户设置密码" class="headerlink" title="为新用户设置密码"></a>为新用户设置密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo passwd hadoop</div></pre></td></tr></table></figure>
+<h4 id="为新用户添加权限"><a href="#为新用户添加权限" class="headerlink" title="为新用户添加权限"></a>为新用户添加权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo adduser hadoop sudo</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如果失败，则切换到root用户下，修改/etc/sudoers文件，将hadoop用户添加进去。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="安装SSH-Server、配置SSH免密钥登录"><a href="#安装SSH-Server、配置SSH免密钥登录" class="headerlink" title="安装SSH Server、配置SSH免密钥登录"></a>安装SSH Server、配置SSH免密钥登录</h2><p>Ubuntu默认安装了SSH client，还需要安装SSH server。集群、单节点模式都需要用到SSH无密码登陆。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install openssh-server</div></pre></td></tr></table></figure>
+<h4 id="设置登录到本机"><a href="#设置登录到本机" class="headerlink" title="设置登录到本机"></a>设置登录到本机</h4><p>运行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh localhost</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-14d8fa9cf9e8fec4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置登录到本机"></p>
+<p>会有如下提示，输入yes。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-21dda5b3a1dcbbd1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置登录到本机"></p>
+<p>SSH首次登陆提示。然后按提示输入密码hadoop，这样就登陆到本机了。但这样的登陆是需要密码的，需要配置成无密码登陆。</p>
+<h4 id="配置免密钥登录"><a href="#配置免密钥登录" class="headerlink" title="配置免密钥登录"></a>配置免密钥登录</h4><p>运行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd ~/.ssh</div><div class="line">ssh-keyen</div></pre></td></tr></table></figure>
+<p>连按三次回车。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-0ea47d412d606a21.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="生成密钥"></p>
+<p>再运行命令（将公钥拷贝到本地）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-copy-id -i ~/.ssh/id_rsa.pub localhost</div></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-2e2d2f39dc26cf88.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="将公钥拷贝到本地"></p>
+<p>此时再执行 <figure class="highlight plain"><figcaption><span>localhost``` 命令，就可以直接登陆了，如下图所示。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">![免密钥登录本地](http://upload-images.jianshu.io/upload_images/137261-40144e2790b61b17.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line"></div><div class="line">## 配置Java环境</div><div class="line"></div><div class="line">#### 下载JDK</div><div class="line"></div><div class="line">根据 [Hadoop Java Versions](https://wiki.apache.org/hadoop/HadoopJavaVersions) 中的罗列的 Tested JDK 项可知，Hadoop 支持 openjdk 1.7，因此下载 openjdk 1.7。运行如下命令，下载 openjdk 1.7：</div><div class="line"></div><div class="line">```shell</div><div class="line">sudo apt-get install openjdk-7-jre openjdk-7-jdk</div></pre></td></tr></table></figure></p>
+<p>JDK默认安装在 <figure class="highlight plain"><figcaption><span>-version```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">出现下图，表示 jdk 安装成功。</div><div class="line"></div><div class="line">![jdk安装成功](http://upload-images.jianshu.io/upload_images/137261-5799532edfea6048.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line"></div><div class="line">#### 配置JDK环境变量</div><div class="line"></div><div class="line">运行如下命令，来编辑全局环境变量文件</div><div class="line"></div><div class="line">```shell</div><div class="line">sudo vim /etc/environment</div></pre></td></tr></table></figure></p>
+<p>在文件末尾添加一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JAVA_HOME=&quot;/usr/lib/jvm/java-7-openjdk-amd64&quot;</div></pre></td></tr></table></figure>
+<p>注销或重启后，在终端执行<figure class="highlight plain"><figcaption><span>$JAVA_HOME```即可查看环境变量是否生效，生效后的效果如下图。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">![配置JAVA_HOME](http://upload-images.jianshu.io/upload_images/137261-27ba96b62b566db8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line"></div><div class="line">## 安装、配置 Hadoop 2.6.5</div><div class="line"></div><div class="line">#### 下载 Hadoop</div><div class="line"></div><div class="line">从 [Hadoop官网](http://hadoop.apache.org/releases.html) 上下载 Hadoop二进制压缩包 hadoop-2.6.5.tar.gz 到本地目录中。下载完成后解压缩：</div><div class="line"></div><div class="line">```shell</div><div class="line">cd ~/software/</div><div class="line">sudo tar -zxvf hadoop-2.6.5.tar.gz -C /usr/local   # 解压到/usr/local中</div><div class="line">cd /usr/local</div><div class="line">sudo mv hadoop-2.6.5 hadoop      # 将文件名改为hadoop</div><div class="line">sudo chown -R hadoop:hadoop /usr/local/hadoop       # 修改文件权限</div></pre></td></tr></table></figure></p>
+<p>Hadoop解压后即可使用，输入如下命令Hadoop检查是否可用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/local/hadoop/bin/hadoop</div></pre></td></tr></table></figure>
+<p>可用则会显示命令行的用法：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-27a23c6c960a1b9c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Hadoop安装成功"></p>
+<h4 id="Hadoop单机配置"><a href="#Hadoop单机配置" class="headerlink" title="Hadoop单机配置"></a>Hadoop单机配置</h4><p>Hadoop默认配置是以非分布式模式运行，即单Java进程，方便进行调试。可以执行附带的例子WordCount来查看Hadoop的运行。例子将Hadoop的配置文件作为输入文件，统计符合正则表达式dfs[a-z.]+的单词的出现次数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cd /usr/local/hadoop</div><div class="line">mkdir input</div><div class="line">cp etc/hadoop/*.xml input</div><div class="line">bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar grep input output &apos;dfs[a-z.]+&apos;</div><div class="line">cat ./output/*</div></pre></td></tr></table></figure>
+<p>执行成功后如下所示，输出了作业的相关信息，输出的结果是符合正则的单词<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">![Hadoop单机实例运行结果](http://upload-images.jianshu.io/upload_images/137261-63927a3add57b2a3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line"></div><div class="line">#### Hadoop伪分布式配置</div><div class="line"></div><div class="line">Hadoop可以在单节点上以伪分布式的方式运行，此时Hadoop进程以分离的Java进程来运行，节点既是NameNode也是DataNode。这种情况下，需要修改```etc/hadoop/```目录下core-site.xml和hdfs-site.xml。Hadoop的配置文件是xml格式，声明property的name和value。</div><div class="line"></div><div class="line">##### 修改配置文件 etc/hadoop/core-site.xml</div><div class="line"></div><div class="line">将 ```etc/hadoop/core-site.xml``` 文件中的 ```&lt;configuration&gt;</div><div class="line">&lt;/configuration&gt;``` 修改为：</div><div class="line"></div><div class="line">```xml</div><div class="line">&lt;configuration&gt;</div><div class="line">    &lt;property&gt;</div><div class="line">        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;</div><div class="line">        &lt;value&gt;file:/usr/local/hadoop/tmp&lt;/value&gt;</div><div class="line">        &lt;description&gt;some description&lt;/description&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">    &lt;property&gt;</div><div class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;</div><div class="line">        &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-bdf67932c07a1efa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="core-site.xml配置"></p>
+<h5 id="修改配置文件etc-hadoop-hdfs-site-xml"><a href="#修改配置文件etc-hadoop-hdfs-site-xml" class="headerlink" title="修改配置文件etc/hadoop/hdfs-site.xml"></a>修改配置文件etc/hadoop/hdfs-site.xml</h5><p>将 <figure class="highlight plain"><figcaption><span>文件中的 ```<configuration></configuration></span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;/configuration&gt;``` 修改为：</div><div class="line"></div><div class="line">```xml</div><div class="line"></div><div class="line">&lt;configuration&gt;</div><div class="line">    &lt;property&gt;</div><div class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;</div><div class="line">        &lt;value&gt;1&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line"></div><div class="line">    &lt;property&gt;</div><div class="line">        &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;</div><div class="line">        &lt;value&gt;file:/usr/local/hadoop/tmp/dfs/name&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">    </div><div class="line">    &lt;property&gt;</div><div class="line">        &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;</div><div class="line">        &lt;value&gt;file:/usr/local/hadoop/tmp/dfs/data&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-d3bb6626500d065c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hdfs-site.xml配置"></p>
+<p>配置完成后，初始化Hadoop文件系统 hdfs：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bin/hdfs namenode -format</div></pre></td></tr></table></figure>
+<p>运行成功效果如图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-3863016cb756abe8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="hdfs格式化"></p>
+<p>启动 NameNode 和 DataNode：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./sbin/start-dfs.sh</div></pre></td></tr></table></figure>
+<p>运行成功效果如下图，可以通过 <figure class="highlight plain"><figcaption><span>命令查看 NameNode、DataNode 和 SecondNameNode 进程信息：</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">![启动 NameNode 和 DataNode](http://upload-images.jianshu.io/upload_images/137261-912a1d7285b229a4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line"></div><div class="line">还可以通过 Web 方式查看 Hadoop 相关信息：</div><div class="line"></div><div class="line">![Web 方式查看 Hadoop 相关信息](http://upload-images.jianshu.io/upload_images/137261-55c3161dffe70bb3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line"></div><div class="line">##### Hadoop伪分布式实例-WordCount</div><div class="line"></div><div class="line">首先创建所需的目录，并把 /etc/hadoop 下文件上传到 input 目录下：</div><div class="line"></div><div class="line">```shell</div><div class="line">bin/hdfs dfs -mkdir /user</div><div class="line">bin/hdfs dfs -mkdir /user/hadoop</div><div class="line">bin/hdfs dfs -put etc/hadoop input</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-bf6fc9e6ee002389.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="向hdfs上传文件"></p>
+<p>通过 web 方式可以看到文件已经上传成功：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-31e7db693f954734.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="web方式查看上传文件"></p>
+<p>同单机模式一样，运行 MapReduce 程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.5.jar grep input output &apos;dfs[a-z.]+&apos;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：运行前若 output 目录已存在则会报错，可执行 <figure class="highlight plain"><figcaption><span>dfs -rm -R</span><a href="/user/hadoop/output```">删除该目录再重新运行</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">程序运行结束后再执行 ```bin/hdfs dfs -cat output/*``` 查看上述程序的输出结果，效果如图：</div><div class="line"></div><div class="line">![程序输出结果](http://upload-images.jianshu.io/upload_images/137261-342e53f177650700.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div><div class="line"></div><div class="line">使用中可以体会到 ```bin/hdfs dfs``` -linux命令 就是分布式文件系统的命令，类似于在linux本机上操作，只不过前面加了 ```bin/hdfs dfs```，比如还有：</div><div class="line"></div><div class="line">```shell</div><div class="line">bin/hdfs dfs -ls /user/hadoop           # 查看 /user/hadoop 中的文件</div><div class="line">bin/hdfs dfs -rm -R /user/hadoop/input/*    # 删除 input 中的文件</div><div class="line">bin/hdfs dfs -rm -R /user/hadoop/output     # 删除 output 文件夹</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h4 id="停止-Hadoop"><a href="#停止-Hadoop" class="headerlink" title="停止 Hadoop"></a>停止 Hadoop</h4><p>执行如下命令即可停止 Hadoop：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sbin/stop-dfs.sh</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：下次再启动 Hadoop，无须再进行 hdfs 的初始化，只需要运行 <code>sbin/start-dfs.sh</code> 即可</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/" rel="next" title="Python数据分析、挖掘常用工具">
+                <i class="fa fa-chevron-left"></i> Python数据分析、挖掘常用工具
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="uyan_frame"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">学习 | 分享 | 交流 | 进步</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/fighterhit" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/fighterhit" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Hadoop用户"><span class="nav-number">2.</span> <span class="nav-text">创建Hadoop用户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建用户"><span class="nav-number">2.0.1.</span> <span class="nav-text">创建用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为新用户设置密码"><span class="nav-number">2.0.2.</span> <span class="nav-text">为新用户设置密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为新用户添加权限"><span class="nav-number">2.0.3.</span> <span class="nav-text">为新用户添加权限</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装SSH-Server、配置SSH免密钥登录"><span class="nav-number">3.</span> <span class="nav-text">安装SSH Server、配置SSH免密钥登录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设置登录到本机"><span class="nav-number">3.0.1.</span> <span class="nav-text">设置登录到本机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置免密钥登录"><span class="nav-number">3.0.2.</span> <span class="nav-text">配置免密钥登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hadoop单机配置"><span class="nav-number">3.0.3.</span> <span class="nav-text">Hadoop单机配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#修改配置文件etc-hadoop-hdfs-site-xml"><span class="nav-number">3.0.3.1.</span> <span class="nav-text">修改配置文件etc/hadoop/hdfs-site.xml</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#停止-Hadoop"><span class="nav-number">3.0.4.</span> <span class="nav-text">停止 Hadoop</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2152395"></script>
+      <!-- UY END --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

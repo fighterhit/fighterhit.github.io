@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/avatar.jpg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据挖掘 Python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：
+
+列表（可以被修改），元组（不可以被修改）
+字典（结构）
+集合（同数学概念上的集合）
+函数式编程（主要由lambda()、map()、reduce()、filter()构成）
+
+Python数据分析常用库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python数据分析、挖掘常用工具">
+<meta property="og:url" content="http://fighterhit.github.io/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/index.html">
+<meta property="og:site_name" content="Fighter's Blog">
+<meta property="og:description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：
+
+列表（可以被修改），元组（不可以被修改）
+字典（结构）
+集合（同数学概念上的集合）
+函数式编程（主要由lambda()、map()、reduce()、filter()构成）
+
+Python数据分析常用库">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-7405db8f00f43a8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-4cd3cf64c8485848.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-12-23T14:40:45.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python数据分析、挖掘常用工具">
+<meta name="twitter:description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：
+
+列表（可以被修改），元组（不可以被修改）
+字典（结构）
+集合（同数学概念上的集合）
+函数式编程（主要由lambda()、map()、reduce()、filter()构成）
+
+Python数据分析常用库">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/137261-7405db8f00f43a8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fighterhit.github.io/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/"/>
+
+
+
+
+
+  <title>Python数据分析、挖掘常用工具 | Fighter's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fighter's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">深度沉迷学习</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python数据分析、挖掘常用工具</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-24T19:34:00+08:00">
+                2017-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据挖掘笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">数据挖掘笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Python语言"><a href="#Python语言" class="headerlink" title="Python语言"></a>Python语言</h3><p>简要概括一下Python语言在数据分析、挖掘场景中常用特性：</p>
+<ol>
+<li>列表（可以被修改），元组（不可以被修改）</li>
+<li>字典（<k,v>结构）</k,v></li>
+<li>集合（同数学概念上的集合）</li>
+<li>函数式编程（主要由lambda()、map()、reduce()、filter()构成）</li>
+</ol>
+<h3 id="Python数据分析常用库"><a href="#Python数据分析常用库" class="headerlink" title="Python数据分析常用库"></a>Python数据分析常用库</h3><p><img src="http://upload-images.jianshu.io/upload_images/137261-7405db8f00f43a8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Python数据挖掘相关扩展库"></p>
+<a id="more"></a>
+<h4 id="NumPy"><a href="#NumPy" class="headerlink" title="NumPy"></a>NumPy</h4><p>提供真正的数组，相比Python内置列表来说速度更快，NumPy也是Scipy、Matplotlib、Pandas等库的依赖库，内置函数处理数据速度是C语言级别的，因此使用中应尽量使用内置函数。   </p>
+<p>示例：NumPy基本操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np  <span class="comment"># 一般以np为别名</span></div><div class="line"></div><div class="line">a = np.array([<span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>])</div><div class="line">print(a)</div><div class="line">print(a[:<span class="number">3</span>])</div><div class="line">print(a.min())</div><div class="line">a.sort()  <span class="comment"># a被覆盖</span></div><div class="line">print(a)</div><div class="line">b = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</div><div class="line">print(b*b)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[<span class="number">2</span> <span class="number">0</span> <span class="number">1</span> <span class="number">5</span>]</div><div class="line">[<span class="number">2</span> <span class="number">0</span> <span class="number">1</span>]</div><div class="line"><span class="number">0</span></div><div class="line">[<span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">5</span>]</div><div class="line">[[ <span class="number">1</span>  <span class="number">4</span>  <span class="number">9</span>]</div><div class="line"> [<span class="number">16</span> <span class="number">25</span> <span class="number">36</span>]]</div></pre></td></tr></table></figure>
+<h4 id="Scipy"><a href="#Scipy" class="headerlink" title="Scipy"></a>Scipy</h4><p>NumPy和Scipy让Python有了MATLAB味道。Scipy依赖于NumPy，NumPy提供了多维数组功能，但只是一般的数组并不是矩阵。比如两个数组相乘时，只是对应元素相乘。Scipy提供了真正的矩阵，以及大量基于矩阵运算的对象与函数。   </p>
+<p>Scipy包含功能有最优化、线性代数、积分、插值、拟合、特殊函数、快速傅里叶变换、信号处理、图像处理、常微分方程求解等常用计算。   </p>
+<p>示例：Scipy求解非线性方程组和数值积分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 求解方程组</span></div><div class="line"><span class="keyword">from</span> scipy.optimize <span class="keyword">import</span> fsolve</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></div><div class="line">    x1 = x[<span class="number">0</span>]</div><div class="line">    x2 = x[<span class="number">1</span>]</div><div class="line">    <span class="keyword">return</span> [<span class="number">2</span> * x1 - x2 ** <span class="number">2</span> - <span class="number">1</span>, x1 ** <span class="number">2</span> - x2 - <span class="number">2</span>]</div><div class="line"></div><div class="line"></div><div class="line">result = fsolve(f, [<span class="number">1</span>, <span class="number">1</span>])</div><div class="line">print(result)</div><div class="line"></div><div class="line"><span class="comment"># 积分</span></div><div class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> integrate</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">g</span><span class="params">(x)</span>:</span>  <span class="comment"># 定义被积函数</span></div><div class="line">    <span class="keyword">return</span> (<span class="number">1</span> - x ** <span class="number">2</span>) ** <span class="number">0.5</span></div><div class="line"></div><div class="line">pi_2, err = integrate.quad(g, <span class="number">-1</span>, <span class="number">1</span>)  <span class="comment"># 输出积分结果和误差</span></div><div class="line">print(pi_2 * <span class="number">2</span>, err)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[ <span class="number">1.91963957</span>  <span class="number">1.68501606</span>]</div><div class="line"><span class="number">3.141592653589797</span> <span class="number">1.0002356720661965e-09</span></div></pre></td></tr></table></figure>
+<h4 id="Matplotlib"><a href="#Matplotlib" class="headerlink" title="Matplotlib"></a>Matplotlib</h4><p>Python中著名的绘图库，主要用于二维绘图，也可以进行简单的三维绘图。</p>
+<p>示例：Matplotlib绘图基本操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">x = np.linspace(<span class="number">0</span>, <span class="number">10</span>, <span class="number">10000</span>)  <span class="comment"># 自变量x，10000为点的个数</span></div><div class="line">y = np.sin(x) + <span class="number">1</span>  <span class="comment"># 因变量y</span></div><div class="line">z = np.cos(x ** <span class="number">2</span>) + <span class="number">1</span>  <span class="comment"># 因变量z</span></div><div class="line"></div><div class="line">plt.figure(figsize=(<span class="number">8</span>, <span class="number">4</span>))  <span class="comment"># 设置图像大小</span></div><div class="line"><span class="comment"># plt.rcParams['font.sans-serif'] = 'SimHei'  # 标签若有中文，则需设置字体</span></div><div class="line"><span class="comment"># plt.rcParams['axes.unicode_minus'] = False  # 保存图像时若负号显示不正常，则添加该句</span></div><div class="line"></div><div class="line"><span class="comment"># 两条曲线</span></div><div class="line">plt.plot(x, y, label=<span class="string">'$\sin (x+1)$'</span>, color=<span class="string">'red'</span>, linewidth=<span class="number">2</span>)  <span class="comment"># 设置标签，线条颜色，线条大小</span></div><div class="line">plt.plot(x, z, <span class="string">'b--'</span>, label=<span class="string">'$\cos x^2+1$'</span>)</div><div class="line"></div><div class="line">plt.xlim(<span class="number">0</span>, <span class="number">10</span>)  <span class="comment"># x坐标范围</span></div><div class="line">plt.ylim(<span class="number">0</span>, <span class="number">2.5</span>)  <span class="comment"># y坐标范围</span></div><div class="line"></div><div class="line">plt.xlabel(<span class="string">"Time(s)"</span>)  <span class="comment"># x轴名称</span></div><div class="line">plt.ylabel(<span class="string">"Volt"</span>)  <span class="comment"># y轴名称</span></div><div class="line">plt.title(<span class="string">"Matplotlib Sample"</span>)  <span class="comment"># 图的标题</span></div><div class="line"></div><div class="line">plt.legend()  <span class="comment"># 显示图例</span></div><div class="line">plt.show()  <span class="comment"># 显示作图结果</span></div></pre></td></tr></table></figure>
+<p>输出：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-4cd3cf64c8485848.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="matplotlib sample"></p>
+<h4 id="Pandas"><a href="#Pandas" class="headerlink" title="Pandas"></a>Pandas</h4><p>Pandas是Python下非常强大的数据分析工具。它建立在NumPy之上，功能很强大，支持类似SQL的增删改查，并具有丰富的数据处理函数，支持时间序列分析功能，支持灵活处理缺失数据等。   </p>
+<p>Pandas基本数据结构是Series和DataFrame。Series就是序列，类似一维数组，DataFrame则相当于一张二维表格，类似二维数组，它每一列都是一个Series。为定位Series中的元素，Pandas提供了Index对象，类似主键。DataFrame本质上是Series的容器。</p>
+<p>示例：Pandas简单操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"></div><div class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], index=[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>])</div><div class="line">d = pd.DataFrame([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>], [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>], [<span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>], [<span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>]], columns=[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>])</div><div class="line">d2 = pd.DataFrame(s)</div><div class="line"></div><div class="line">print(s)</div><div class="line">print(d.head())  <span class="comment"># 预览前5行</span></div><div class="line">print(d.describe())</div><div class="line"></div><div class="line"><span class="comment"># 读取文件(路径最好别带中文)</span></div><div class="line">df=pd.read_csv(<span class="string">"G:\\data.csv"</span>, encoding=<span class="string">"utf-8"</span>)</div><div class="line">print(df)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">a    <span class="number">1</span></div><div class="line">b    <span class="number">2</span></div><div class="line">c    <span class="number">3</span></div><div class="line">dtype: int64</div><div class="line">    a   b   c</div><div class="line"><span class="number">0</span>   <span class="number">1</span>   <span class="number">2</span>   <span class="number">3</span></div><div class="line"><span class="number">1</span>   <span class="number">4</span>   <span class="number">5</span>   <span class="number">6</span></div><div class="line"><span class="number">2</span>   <span class="number">7</span>   <span class="number">8</span>   <span class="number">9</span></div><div class="line"><span class="number">3</span>  <span class="number">10</span>  <span class="number">11</span>  <span class="number">12</span></div><div class="line"><span class="number">4</span>  <span class="number">13</span>  <span class="number">14</span>  <span class="number">15</span></div><div class="line">               a          b          c</div><div class="line">count   <span class="number">6.000000</span>   <span class="number">6.000000</span>   <span class="number">6.000000</span></div><div class="line">mean    <span class="number">8.500000</span>   <span class="number">9.500000</span>  <span class="number">10.500000</span></div><div class="line">std     <span class="number">5.612486</span>   <span class="number">5.612486</span>   <span class="number">5.612486</span></div><div class="line">min     <span class="number">1.000000</span>   <span class="number">2.000000</span>   <span class="number">3.000000</span></div><div class="line"><span class="number">25</span>%     <span class="number">4.750000</span>   <span class="number">5.750000</span>   <span class="number">6.750000</span></div><div class="line"><span class="number">50</span>%     <span class="number">8.500000</span>   <span class="number">9.500000</span>  <span class="number">10.500000</span></div><div class="line"><span class="number">75</span>%    <span class="number">12.250000</span>  <span class="number">13.250000</span>  <span class="number">14.250000</span></div><div class="line">max    <span class="number">16.000000</span>  <span class="number">17.000000</span>  <span class="number">18.000000</span></div><div class="line">Empty DataFrame</div><div class="line">Columns: [<span class="number">1068</span>, <span class="number">12</span>, 蔬果, <span class="number">1201</span>, 蔬菜, <span class="number">120104</span>, 花果, <span class="number">20150430</span>, <span class="number">201504</span>, DW<span class="number">-1201040010</span>, 散称, 生鲜, 千克, <span class="number">0.973</span>, <span class="number">5.43</span>, <span class="number">2.58</span>, 否]</div><div class="line">Index: []</div></pre></td></tr></table></figure>
+<h4 id="Scikit-Learn"><a href="#Scikit-Learn" class="headerlink" title="Scikit-Learn"></a>Scikit-Learn</h4><p>Scikit-Learn依赖NumPy、Scipy和Matplotlib，是Python中强大的机器学习库，提供了诸如数据预处理、分类、回归、聚类、预测和模型分析等功能。</p>
+<p>示例：创建线性回归模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</div><div class="line">model= LinearRegression()</div><div class="line">print(model)</div></pre></td></tr></table></figure>
+<ol>
+<li><p>所有模型都提供的接口：</p>
+<blockquote>
+<p>model.fit()：训练模型，监督模型是fit(X,y)，无监督模型是fit(X)</p>
+</blockquote>
+</li>
+<li><p>监督模型提供的接口：</p>
+<blockquote>
+<p>model.predict(X_new)：预测新样本<br>model.predict_proba(X_new)：预测概率，仅对某些模型有用（LR）</p>
+</blockquote>
+</li>
+<li><p>无监督模型提供的接口：</p>
+<blockquote>
+<p>model.ransform()：从数据中学到新的“基空间”<br>model.fit_transform()：从数据中学到的新的基，并将这个数据按照这组“基”进行转换</p>
+</blockquote>
+</li>
+</ol>
+<p>Scikit-Learn本身自带了一些数据集，如花卉和手写图像数据集等，下面以花卉数据集举个栗子，训练集包含4个维度——萼片长度、宽度，花瓣长度和宽度，以及四个亚属分类结果。</p>
+<p>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets  <span class="comment"># 导入数据集</span></div><div class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</div><div class="line"></div><div class="line">iris = datasets.load_iris()  <span class="comment"># 加载数据集</span></div><div class="line">clf = svm.LinearSVC()  <span class="comment"># 建立线性SVM分类器</span></div><div class="line">clf.fit(iris.data, iris.target)  <span class="comment"># 用数据训练模型</span></div><div class="line">print(clf.predict([[<span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">0.2</span>], [<span class="number">5.0</span>, <span class="number">3.6</span>, <span class="number">1.3</span>, <span class="number">0.25</span>]]))</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="number">0</span> <span class="number">0</span>]</div></pre></td></tr></table></figure>
+<h4 id="Keras"><a href="#Keras" class="headerlink" title="Keras"></a>Keras</h4><p>Keras是基于Theano的深度学习库，它不仅可以搭建普通神经网络，还可以搭建各种深度学习模型，如自编码器、循环神经网络、递归神经网络、卷积神经网络等，运行速度也很快，简化了搭建各种神经网络模型的步骤，允许普通用户轻松搭建几百个输入节点的深层神经网络，定制度也很高。</p>
+<p>示例：简单的MLP（多层感知器）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</div><div class="line"><span class="keyword">from</span> keras.layers.core <span class="keyword">import</span> Dense, Dropout, Activation</div><div class="line"><span class="keyword">from</span> keras.optimizers <span class="keyword">import</span> SGD</div><div class="line"></div><div class="line">model = Sequential()  <span class="comment"># 模型初始化</span></div><div class="line">model.add(Dense(<span class="number">20</span>, <span class="number">64</span>))  <span class="comment"># 添加输入层（20节点）、第一隐藏层（64节点）的连接</span></div><div class="line">model.add(Activation(<span class="string">'tanh'</span>))  <span class="comment"># 第一隐藏层用tanh作为激活函数</span></div><div class="line">model.add(Dropout(<span class="number">0.5</span>))  <span class="comment"># 使用Dropout防止过拟合</span></div><div class="line">model.add(Dense(<span class="number">64</span>, <span class="number">64</span>))  <span class="comment"># 添加第一隐藏层（64节点）、第二隐藏层（64节点）的连接</span></div><div class="line">model.add(Activation(<span class="string">'tanh'</span>))  <span class="comment"># 第二隐藏层用tanh作为激活函数</span></div><div class="line">model.add(Dense(<span class="number">64</span>, <span class="number">1</span>))  <span class="comment"># 添加第二隐藏层（64节点）、输出层（1节点）的连接</span></div><div class="line">model.add(Activation(<span class="string">'sigmod'</span>))  <span class="comment"># 第二隐藏层用sigmod作为激活函数</span></div><div class="line"></div><div class="line">sgd=SGD(lr=<span class="number">0.1</span>,decay=<span class="number">1e-6</span>,momentum=<span class="number">0.9</span>,nesterov=<span class="keyword">True</span>)  <span class="comment"># 定义求解算法</span></div><div class="line">model.compile(loss=<span class="string">'mean_squared_error'</span>,optimizer=sgd)  <span class="comment"># 编译生成模型，损失函数为平均误差平方和</span></div><div class="line">model.fit(x_train,y_train,nb_epoch=<span class="number">20</span>,batch_size=<span class="number">16</span>)  <span class="comment"># 训练模型</span></div><div class="line">score = model.evaluate(X_test,y_test,batch_size=<span class="number">16</span>)  <span class="comment"># 测试模型</span></div></pre></td></tr></table></figure>
+<p>参考：   </p>
+<ul>
+<li><a href="http://keras-cn.readthedocs.io/en/latest/" target="_blank" rel="external">Keras中文文档</a></li>
+<li><a href="http://www.52nlp.cn/%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E6%96%87%E6%A1%A3%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6%E4%BA%8C" target="_blank" rel="external">如何计算两个文档的相似度（二）</a></li>
+</ul>
+<h4 id="Genism"><a href="#Genism" class="headerlink" title="Genism"></a>Genism</h4><p>Genism主要用来处理语言方面的任务，如文本相似度计算、LDA、Word2Vec等。</p>
+<p>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> logging</div><div class="line"><span class="keyword">from</span> gensim <span class="keyword">import</span> models</div><div class="line"></div><div class="line">logging.basicConfig(format=<span class="string">'%(asctime)s : %(levelname)s : %(message)s'</span>,</div><div class="line">                    level=logging.INFO)</div><div class="line"></div><div class="line">sentences = [[<span class="string">'first'</span>, <span class="string">'sentence'</span>], [<span class="string">'second'</span>, <span class="string">'sentence'</span>]]  <span class="comment"># 将分好词的句子按列表形式输入</span></div><div class="line">model = models.Word2Vec(sentences, min_count=<span class="number">1</span>)  <span class="comment"># 用以上句子训练词向量模型</span></div><div class="line">print(model[<span class="string">'sentence'</span>])  <span class="comment"># 输出单词sentence的词向量</span></div></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">2017-10-24 19:02:40,785 : INFO : collecting all words and their counts</div><div class="line">2017-10-24 19:02:40,785 : INFO : PROGRESS: at sentence #0, processed 0 words, keeping 0 word types</div><div class="line">2017-10-24 19:02:40,785 : INFO : collected 3 word types from a corpus of 4 raw words and 2 sentences</div><div class="line">2017-10-24 19:02:40,785 : INFO : Loading a fresh vocabulary</div><div class="line">2017-10-24 19:02:40,785 : INFO : min_count=1 retains 3 unique words (100% of original 3, drops 0)</div><div class="line">2017-10-24 19:02:40,785 : INFO : min_count=1 leaves 4 word corpus (100% of original 4, drops 0)</div><div class="line">2017-10-24 19:02:40,786 : INFO : deleting the raw counts dictionary of 3 items</div><div class="line">2017-10-24 19:02:40,786 : INFO : sample=0.001 downsamples 3 most-common words</div><div class="line">2017-10-24 19:02:40,786 : INFO : downsampling leaves estimated 0 word corpus (5.7% of prior 4)</div><div class="line">2017-10-24 19:02:40,786 : INFO : estimated required memory for 3 words and 100 dimensions: 3900 bytes</div><div class="line">2017-10-24 19:02:40,786 : INFO : resetting layer weights</div><div class="line">2017-10-24 19:02:40,786 : INFO : training model with 3 workers on 3 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5</div><div class="line">2017-10-24 19:02:40,788 : INFO : worker thread finished; awaiting finish of 2 more threads</div><div class="line">2017-10-24 19:02:40,788 : INFO : worker thread finished; awaiting finish of 1 more threads</div><div class="line">2017-10-24 19:02:40,788 : INFO : worker thread finished; awaiting finish of 0 more threads</div><div class="line">2017-10-24 19:02:40,789 : INFO : training on 20 raw words (0 effective words) took 0.0s, 0 effective words/s</div><div class="line">2017-10-24 19:02:40,789 : WARNING : under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay</div><div class="line">[ -1.54225400e-03  -2.45212857e-03  -2.20486755e-03  -3.64410551e-03</div><div class="line">  -2.28137174e-03  -1.70348200e-03  -1.05830852e-03  -4.37875278e-03</div><div class="line">  -4.97106137e-03   3.93485563e-04  -1.97932171e-03  -3.40653211e-03</div><div class="line">   1.54990738e-03   8.97102174e-04   2.94041773e-03   3.45200230e-03</div><div class="line">  -4.60584508e-03   3.81468004e-03   3.07120802e-03   2.85422982e-04</div><div class="line">   7.01598416e-04   2.69670971e-03   4.17246483e-03  -6.48593705e-04</div><div class="line">   1.11404411e-03   4.02203249e-03  -2.34672683e-03   2.35153269e-03</div><div class="line">   2.32632101e-05   3.76200466e-03  -3.95653257e-03   3.77303245e-03</div><div class="line">   8.48884694e-04   1.61545759e-03   2.53374409e-03  -4.25464474e-03</div><div class="line">  -2.06338940e-03  -6.84972096e-04  -6.92955102e-04  -2.27969326e-03</div><div class="line">  -2.13766913e-03   3.95324081e-03   3.52649018e-03   1.29243149e-03</div><div class="line">   4.29229392e-03  -4.34781052e-03   2.42843386e-03   3.12117115e-03</div><div class="line">  -2.99768522e-03  -1.17538485e-03   6.67148328e-04  -6.86432002e-04</div><div class="line">  -3.58940102e-03   2.40547652e-03  -4.18888079e-03  -3.12567432e-03</div><div class="line">  -2.51603196e-03   2.53451476e-03   3.65199335e-03   3.35336081e-03</div><div class="line">  -2.50071986e-04   4.15537134e-03  -3.89242987e-03   4.88173496e-03</div><div class="line">  -3.34603712e-03   3.18462006e-03   1.57053335e-04   3.51517834e-03</div><div class="line">  -1.20337342e-03  -1.81524854e-04   3.57784083e-05  -2.36600707e-03</div><div class="line">  -3.77405947e-03  -1.70441647e-03  -4.51521482e-03  -9.47134569e-04</div><div class="line">   4.53894213e-03   1.55767589e-03   8.57840874e-04  -1.12304837e-03</div><div class="line">  -3.95945460e-03   5.37869288e-04  -2.04461766e-03   5.24829782e-04</div><div class="line">   3.76719423e-03  -4.38512256e-03   4.81262803e-03  -4.20147832e-03</div><div class="line">  -3.87057988e-03   1.67581497e-03   1.51928759e-03  -1.31744961e-03</div><div class="line">   3.28474329e-03  -3.28777428e-03  -9.67226923e-04   4.62622894e-03</div><div class="line">   1.34165725e-03   3.60148447e-03   4.80416557e-03  -1.98963983e-03]</div></pre></td></tr></table></figure>
+<p>参考：</p>
+<ul>
+<li><a href="http://www.52nlp.cn/%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E6%96%87%E6%A1%A3%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6%E4%BA%8C" target="_blank" rel="external">如何计算两个文档的相似度（二）</a>   </li>
+</ul>
+<p>本次笔记是对数据分析和挖掘中常用工具的简要介绍，详细使用会在以后笔记中进行介绍。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据挖掘-Python/" rel="tag"># 数据挖掘 Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/08/learning_summary/linux下普通用户安装mysql/" rel="next" title="linux下普通用户安装mysql">
+                <i class="fa fa-chevron-left"></i> linux下普通用户安装mysql
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/12/learning_summary/Hadoop-安装和使用/" rel="prev" title="Hadoop 安装和使用">
+                Hadoop 安装和使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="uyan_frame"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description">学习 | 分享 | 交流 | 进步</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/fighterhit" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/fighterhit" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python语言"><span class="nav-number">1.</span> <span class="nav-text">Python语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python数据分析常用库"><span class="nav-number">2.</span> <span class="nav-text">Python数据分析常用库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NumPy"><span class="nav-number">2.1.</span> <span class="nav-text">NumPy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scipy"><span class="nav-number">2.2.</span> <span class="nav-text">Scipy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Matplotlib"><span class="nav-number">2.3.</span> <span class="nav-text">Matplotlib</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pandas"><span class="nav-number">2.4.</span> <span class="nav-text">Pandas</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scikit-Learn"><span class="nav-number">2.5.</span> <span class="nav-text">Scikit-Learn</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Keras"><span class="nav-number">2.6.</span> <span class="nav-text">Keras</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Genism"><span class="nav-number">2.7.</span> <span class="nav-text">Genism</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2152395"></script>
+      <!-- UY END --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
