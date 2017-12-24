@@ -79,34 +79,37 @@
 
 
 
-<meta name="description" content="持久化选项
+<meta name="description" content="¶持久化选项
+
 
 快照持久化：获得存储在内存里面的数据在某个时间点上的副本。
 AOF持久化（只追加文件append-only file）：会在执行命令时，将被执行的写命令写到硬盘里。
 
 
-两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。">
+¶两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis-AOF">
 <meta property="og:url" content="http://fighterhit.github.io/2017/01/09/learning_summary/Redis-AOF/index.html">
 <meta property="og:site_name" content="Fighter's Blog">
-<meta property="og:description" content="持久化选项
+<meta property="og:description" content="¶持久化选项
+
 
 快照持久化：获得存储在内存里面的数据在某个时间点上的副本。
 AOF持久化（只追加文件append-only file）：会在执行命令时，将被执行的写命令写到硬盘里。
 
 
-两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。">
+¶两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。">
 <meta property="og:updated_time" content="2017-12-24T02:51:49.128Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis-AOF">
-<meta name="twitter:description" content="持久化选项
+<meta name="twitter:description" content="¶持久化选项
+
 
 快照持久化：获得存储在内存里面的数据在某个时间点上的副本。
 AOF持久化（只追加文件append-only file）：会在执行命令时，将被执行的写命令写到硬盘里。
 
 
-两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。">
+¶两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。">
 
 
 
@@ -373,17 +376,21 @@ AOF持久化（只追加文件append-only file）：会在执行命令时，将�
       
 
       
-        <h3 id="持久化选项"><a href="#持久化选项" class="headerlink" title="持久化选项"></a>持久化选项</h3><blockquote>
+        <h3 id="持久化选项"><a class="header-anchor" href="#持久化选项">¶</a>持久化选项</h3>
+<blockquote>
 <ul>
 <li>快照持久化：获得存储在内存里面的数据在某个时间点上的副本。</li>
 <li>AOF持久化（只追加文件append-only file）：会在执行命令时，将被执行的写命令写到硬盘里。</li>
 </ul>
 </blockquote>
-<h4 id="两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。"><a href="#两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。" class="headerlink" title="两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。"></a>两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。</h4><a id="more"></a>
+<h4 id="两种方案既可同时使用-也可单独使用-或都不使用-具体结合数据及应用决定"><a class="header-anchor" href="#两种方案既可同时使用-也可单独使用-或都不使用-具体结合数据及应用决定">¶</a>两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。</h4>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"># 快照持久化选项</div><div class="line">#save 900 1</div><div class="line">#save 300 10</div><div class="line">save 60 10000</div><div class="line"></div><div class="line">stop-writes-on-bgsave-error yes</div><div class="line">rdbcompression yes</div><div class="line">rdbchecksum yes</div><div class="line">dbfilename &quot;dump.rdb&quot;</div><div class="line">dir &quot;/home/ycl/install/redis&quot;</div><div class="line"></div><div class="line"># AOF持久化选项</div><div class="line">appendonly no</div><div class="line">appendfilename &quot;appendonly.aof&quot;</div><div class="line"></div><div class="line"># appendfsync always</div><div class="line">appendfsync everysec</div><div class="line"># appendfsync no</div><div class="line"></div><div class="line">no-appendfsync-on-rewrite no</div><div class="line">auto-aof-rewrite-percentage 100</div><div class="line">auto-aof-rewrite-min-size 64mb</div><div class="line">aof-load-truncated yes</div><div class="line">dir &quot;/home/ycl/install/redis&quot; #共享选项：决定快照文件和AOF文件保存位置</div></pre></td></tr></table></figure>
-<p><br></p>
-<h3 id="快照持久化"><a href="#快照持久化" class="headerlink" title="快照持久化"></a>快照持久化</h3><p>在新的快照文件创建完毕之前，Redis、系统或硬件三者之中任意一个崩溃，那么Redis将丢失最近一次快照后的所有数据。</p>
-<h3 id="创建快照方法："><a href="#创建快照方法：" class="headerlink" title="创建快照方法："></a>创建快照方法：</h3><blockquote>
+<br>
+### 快照持久化
+在新的快照文件创建完毕之前，Redis、系统或硬件三者之中任意一个崩溃，那么Redis将丢失最近一次快照后的所有数据。
+<h3 id="创建快照方法："><a class="header-anchor" href="#创建快照方法：">¶</a>创建快照方法：</h3>
+<blockquote>
 <ol>
 <li>客户端向Redis发BGSAVE命令（除windows平台）。Redis调用fork创建一个子进程，然后子进程负责将快照写入硬盘，父进程继续处理命令请求。</li>
 <li>客户端向Redis发SAVE命令。SAVE命令在快照创建完成前不再响应任何其他命令。SAVE命令不常用，除非没有足够内存执行BGSAVE命令。</li>
@@ -392,18 +399,26 @@ AOF持久化（只追加文件append-only file）：会在执行命令时，将�
 <li>一个Redis向另一个Redis发送SYNC命令进行复制操作，若服务器没执行BGSAVE则主服务器进行BGSAVE。</li>
 </ol>
 </blockquote>
-<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><blockquote>
+<h3 id="使用场景"><a class="header-anchor" href="#使用场景">¶</a>使用场景</h3>
+<blockquote>
 <ol>
 <li>个人开发：尽可能降低快照带来的资源消耗。如 save 900 1</li>
 <li>日志聚合计算：将日志的处理进度记录到Redis里，程序在系统崩溃后根据进度记录继续执行之前未完成工作。</li>
-<li><strong>大数据</strong>：几G的数据量Redis创建子进程将数据保存到硬盘没问题，但Redis所占内存增大时，BGSAVE创建子进程耗时也会增加。若Redis占几十G且剩余内存不多时，或Redis跑在虚拟机上时，<strong>BGSAVE将使系统长时间停顿、引发系统大量使用虚拟内存</strong>，使Redis性能降低。为此，需关闭自动保存。但手动BGSAVE也会有同样问题，只是人为控制了出现停顿的时间而已。另一方面，SAVE因不用创建子进程，没有进程间争夺资源等创建快照更快一些。  </li>
+<li><strong>大数据</strong>：几G的数据量Redis创建子进程将数据保存到硬盘没问题，但Redis所占内存增大时，BGSAVE创建子进程耗时也会增加。若Redis占几十G且剩余内存不多时，或Redis跑在虚拟机上时，<strong>BGSAVE将使系统长时间停顿、引发系统大量使用虚拟内存</strong>，使Redis性能降低。为此，需关闭自动保存。但手动BGSAVE也会有同样问题，只是人为控制了出现停顿的时间而已。另一方面，SAVE因不用创建子进程，没有进程间争夺资源等创建快照更快一些。</li>
 </ol>
 </blockquote>
-<p><br></p>
-<h3 id="AOF持久化"><a href="#AOF持久化" class="headerlink" title="AOF持久化"></a>AOF持久化</h3><p>建议使用appendfsync everysec选项，AOF文件每秒同步一次，可以将丢失数据时间窗口降低至1s，性能和不使用任何持久化性能相差无几。问题是AOF文件体积会不断增大——①占用过多硬盘空间 ②还原数据慢</p>
-<h4 id="BGREWRITEAOF"><a href="#BGREWRITEAOF" class="headerlink" title="BGREWRITEAOF"></a>BGREWRITEAOF</h4><p>该命令会移除AOF文件中冗余命令来重写AOF文件。<br>具体过程如下</p>
+<br>
+### AOF持久化
+建议使用appendfsync everysec选项，AOF文件每秒同步一次，可以将丢失数据时间窗口降低至1s，性能和不使用任何持久化性能相差无几。问题是AOF文件体积会不断增大——①占用过多硬盘空间 ②还原数据慢
+<h4 id="bgrewriteaof"><a class="header-anchor" href="#bgrewriteaof">¶</a>BGREWRITEAOF</h4>
+<p>该命令会移除AOF文件中冗余命令来重写AOF文件。<br>
+具体过程如下</p>
 <blockquote>
-<p>1、redis 调用 fork ，现在有父子两个进程<br>2、子进程根据内存中的数据库快照，往临时文件中写入重建数据库状态的命令<br>3、父进程继续处理 client 请求，除了把写命令写入到原来的 aof 文件中。同时把收到的写命令缓存起来。这样就能保证如果子进程重写失败的话并不会出问题。<br>4、当子进程把快照内容写入已命令方式写到临时文件中后，子进程发信号通知父进程。然后父进程把缓存的写命令也写入到临时文件。<br>5、现在父进程可以使用临时文件替换老的 aof 文件，并重命名，后面收到的写命令也开始往新的 aof 文件中追加。</p>
+<p>1、redis 调用 fork ，现在有父子两个进程<br>
+2、子进程根据内存中的数据库快照，往临时文件中写入重建数据库状态的命令<br>
+3、父进程继续处理 client 请求，除了把写命令写入到原来的 aof 文件中。同时把收到的写命令缓存起来。这样就能保证如果子进程重写失败的话并不会出问题。<br>
+4、当子进程把快照内容写入已命令方式写到临时文件中后，子进程发信号通知父进程。然后父进程把缓存的写命令也写入到临时文件。<br>
+5、现在父进程可以使用临时文件替换老的 aof 文件，并重命名，后面收到的写命令也开始往新的 aof 文件中追加。</p>
 </blockquote>
 
       
@@ -414,6 +429,35 @@ AOF持久化（只追加文件append-only file）：会在执行命令时，将�
 
     
 
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我喝杯咖啡吧~</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
     
 
     
@@ -536,10 +580,10 @@ AOF持久化（只追加文件append-only file）：会在执行命令时，将�
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
-                
+                </a>
               </div>
             
 
@@ -597,7 +641,7 @@ AOF持久化（只追加文件append-only file）：会在执行命令时，将�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化选项"><span class="nav-number">1.</span> <span class="nav-text">持久化选项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。"><span class="nav-number">1.1.</span> <span class="nav-text">两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快照持久化"><span class="nav-number">2.</span> <span class="nav-text">快照持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建快照方法："><span class="nav-number">3.</span> <span class="nav-text">创建快照方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">4.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF持久化"><span class="nav-number">5.</span> <span class="nav-text">AOF持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BGREWRITEAOF"><span class="nav-number">5.1.</span> <span class="nav-text">BGREWRITEAOF</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化选项"><span class="nav-number">1.</span> <span class="nav-text">¶持久化选项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#两种方案既可同时使用-也可单独使用-或都不使用-具体结合数据及应用决定"><span class="nav-number">1.1.</span> <span class="nav-text">¶两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建快照方法："><span class="nav-number">2.</span> <span class="nav-text">¶创建快照方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">3.</span> <span class="nav-text">¶使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bgrewriteaof"><span class="nav-number">3.1.</span> <span class="nav-text">¶BGREWRITEAOF</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -606,7 +650,7 @@ AOF持久化（只追加文件append-only file）：会在执行命令时，将�
       
 
       
-
+      
     </div>
   </aside>
 

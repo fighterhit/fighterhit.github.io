@@ -79,22 +79,37 @@
 
 
 
-<meta name="description" content="本文主要针对使用编译好的二进制文件安装mysql如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz
-检测当前机器上是否已经安装mysql：1、检测：1rpm -qa|grep -i mysql
-2、卸载：123rpm -e mysql-li">
+<meta name="description" content="本文主要针对使用编译好的二进制文件安装mysql
+如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：
+mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz
+检测当前机器上是否已经安装mysql：
+1、检测：
+1rpm -qa|grep -i mysql
+2、卸载：
+123rpm -e mys">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux下普通用户安装Mysql">
 <meta property="og:url" content="http://fighterhit.github.io/2017/02/08/learning_summary/linux下普通用户安装mysql/index.html">
 <meta property="og:site_name" content="Fighter's Blog">
-<meta property="og:description" content="本文主要针对使用编译好的二进制文件安装mysql如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz
-检测当前机器上是否已经安装mysql：1、检测：1rpm -qa|grep -i mysql
-2、卸载：123rpm -e mysql-li">
+<meta property="og:description" content="本文主要针对使用编译好的二进制文件安装mysql
+如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：
+mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz
+检测当前机器上是否已经安装mysql：
+1、检测：
+1rpm -qa|grep -i mysql
+2、卸载：
+123rpm -e mys">
 <meta property="og:updated_time" content="2017-12-24T02:51:19.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下普通用户安装Mysql">
-<meta name="twitter:description" content="本文主要针对使用编译好的二进制文件安装mysql如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz
-检测当前机器上是否已经安装mysql：1、检测：1rpm -qa|grep -i mysql
-2、卸载：123rpm -e mysql-li">
+<meta name="twitter:description" content="本文主要针对使用编译好的二进制文件安装mysql
+如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：
+mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz
+检测当前机器上是否已经安装mysql：
+1、检测：
+1rpm -qa|grep -i mysql
+2、卸载：
+123rpm -e mys">
 
 
 
@@ -361,10 +376,16 @@
       
 
       
-        <p>本文主要针对使用编译好的二进制文件安装mysql<br>如在mysql官网 (<a href="https://dev.mysql.com/downloads/file/?id=467234" target="_blank" rel="external">https://dev.mysql.com/downloads/file/?id=467234</a>) 下载的：<br>mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz</p>
-<p>检测当前机器上是否已经安装mysql：<br>1、检测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep -i mysql</div></pre></td></tr></table></figure></p>
-<p>2、卸载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -e mysql-libs-5.1.61-4.el6.x86_64 --nodeps</div><div class="line">-e:--erase=&lt;package&gt;+   erase (uninstall) package</div><div class="line">--nodeps:忽略依赖关系</div></pre></td></tr></table></figure></p>
-<p>3、开始安装mysql：<br>当前我使用的用户是 <strong>fighter</strong></p>
+        <p>本文主要针对使用编译好的二进制文件安装mysql<br>
+如在mysql官网 (<a href="https://dev.mysql.com/downloads/file/?id=467234" target="_blank" rel="external">https://dev.mysql.com/downloads/file/?id=467234</a>) 下载的：<br>
+mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz</p>
+<p>检测当前机器上是否已经安装mysql：<br>
+1、检测：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep -i mysql</div></pre></td></tr></table></figure>
+<p>2、卸载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -e mysql-libs-5.1.61-4.el6.x86_64 --nodeps</div><div class="line">-e:--erase=&lt;package&gt;+   erase (uninstall) package</div><div class="line">--nodeps:忽略依赖关系</div></pre></td></tr></table></figure>
+<p>3、开始安装mysql：<br>
+当前我使用的用户是 <strong>fighter</strong></p>
 
       
     </div>
@@ -374,6 +395,35 @@
 
     
 
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我喝杯咖啡吧~</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
     
 
     
@@ -493,10 +543,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
-                
+                </a>
               </div>
             
 
@@ -547,7 +597,7 @@
       
 
       
-
+      
     </div>
   </aside>
 

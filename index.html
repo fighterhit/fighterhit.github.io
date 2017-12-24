@@ -353,14 +353,19 @@
 
       
         
-          <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+          <h2 id="环境"><a class="header-anchor" href="#环境">¶</a>环境</h2>
+<ul>
 <li>操作系统：Ubuntu 14.04</li>
 <li>Hadoop版本：Hadoop 2.6.5</li>
 <li>JDK版本：OpenJDK 1.7</li>
 </ul>
-<h2 id="创建Hadoop用户"><a href="#创建Hadoop用户" class="headerlink" title="创建Hadoop用户"></a>创建Hadoop用户</h2><h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo useradd -m hadoop</div></pre></td></tr></table></figure>
-<h4 id="为新用户设置密码"><a href="#为新用户设置密码" class="headerlink" title="为新用户设置密码"></a>为新用户设置密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo passwd hadoop</div></pre></td></tr></table></figure>
-<h4 id="为新用户添加权限"><a href="#为新用户添加权限" class="headerlink" title="为新用户添加权限"></a>为新用户添加权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo adduser hadoop sudo</div></pre></td></tr></table></figure>
+<h2 id="创建hadoop用户"><a class="header-anchor" href="#创建hadoop用户">¶</a>创建Hadoop用户</h2>
+<h4 id="创建用户"><a class="header-anchor" href="#创建用户">¶</a>创建用户</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo useradd -m hadoop</div></pre></td></tr></table></figure>
+<h4 id="为新用户设置密码"><a class="header-anchor" href="#为新用户设置密码">¶</a>为新用户设置密码</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo passwd hadoop</div></pre></td></tr></table></figure>
+<h4 id="为新用户添加权限"><a class="header-anchor" href="#为新用户添加权限">¶</a>为新用户添加权限</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo adduser hadoop sudo</div></pre></td></tr></table></figure>
 <blockquote>
 <p>如果失败，则切换到root用户下，修改/etc/sudoers文件，将hadoop用户添加进去。</p>
 </blockquote>
@@ -509,14 +514,16 @@
 
       
         
-          <h3 id="Python语言"><a href="#Python语言" class="headerlink" title="Python语言"></a>Python语言</h3><p>简要概括一下Python语言在数据分析、挖掘场景中常用特性：</p>
+          <h3 id="python语言"><a class="header-anchor" href="#python语言">¶</a>Python语言</h3>
+<p>简要概括一下Python语言在数据分析、挖掘场景中常用特性：</p>
 <ol>
 <li>列表（可以被修改），元组（不可以被修改）</li>
-<li>字典（<k,v>结构）</li>
+<li>字典（&lt;k,v&gt;结构）</li>
 <li>集合（同数学概念上的集合）</li>
 <li>函数式编程（主要由lambda()、map()、reduce()、filter()构成）</li>
 </ol>
-<h3 id="Python数据分析常用库"><a href="#Python数据分析常用库" class="headerlink" title="Python数据分析常用库"></a>Python数据分析常用库</h3><p><img src="http://upload-images.jianshu.io/upload_images/137261-7405db8f00f43a8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Python数据挖掘相关扩展库"></p>
+<h3 id="python数据分析常用库"><a class="header-anchor" href="#python数据分析常用库">¶</a>Python数据分析常用库</h3>
+<p><img src="http://upload-images.jianshu.io/upload_images/137261-7405db8f00f43a8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Python数据挖掘相关扩展库"></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/#more" rel="contents">
@@ -663,10 +670,16 @@
       
         
           
-            <p>本文主要针对使用编译好的二进制文件安装mysql<br>如在mysql官网 (<a href="https://dev.mysql.com/downloads/file/?id=467234" target="_blank" rel="external">https://dev.mysql.com/downloads/file/?id=467234</a>) 下载的：<br>mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz</p>
-<p>检测当前机器上是否已经安装mysql：<br>1、检测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep -i mysql</div></pre></td></tr></table></figure></p>
-<p>2、卸载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -e mysql-libs-5.1.61-4.el6.x86_64 --nodeps</div><div class="line">-e:--erase=&lt;package&gt;+   erase (uninstall) package</div><div class="line">--nodeps:忽略依赖关系</div></pre></td></tr></table></figure></p>
-<p>3、开始安装mysql：<br>当前我使用的用户是 <strong>fighter</strong></p>
+            <p>本文主要针对使用编译好的二进制文件安装mysql<br>
+如在mysql官网 (<a href="https://dev.mysql.com/downloads/file/?id=467234" target="_blank" rel="external">https://dev.mysql.com/downloads/file/?id=467234</a>) 下载的：<br>
+mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz</p>
+<p>检测当前机器上是否已经安装mysql：<br>
+1、检测：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep -i mysql</div></pre></td></tr></table></figure>
+<p>2、卸载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -e mysql-libs-5.1.61-4.el6.x86_64 --nodeps</div><div class="line">-e:--erase=&lt;package&gt;+   erase (uninstall) package</div><div class="line">--nodeps:忽略依赖关系</div></pre></td></tr></table></figure>
+<p>3、开始安装mysql：<br>
+当前我使用的用户是 <strong>fighter</strong></p>
 
           
         
@@ -807,13 +820,14 @@
 
       
         
-          <h3 id="持久化选项"><a href="#持久化选项" class="headerlink" title="持久化选项"></a>持久化选项</h3><blockquote>
+          <h3 id="持久化选项"><a class="header-anchor" href="#持久化选项">¶</a>持久化选项</h3>
+<blockquote>
 <ul>
 <li>快照持久化：获得存储在内存里面的数据在某个时间点上的副本。</li>
 <li>AOF持久化（只追加文件append-only file）：会在执行命令时，将被执行的写命令写到硬盘里。</li>
 </ul>
 </blockquote>
-<h4 id="两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。"><a href="#两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。" class="headerlink" title="两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。"></a>两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。</h4>
+<h4 id="两种方案既可同时使用-也可单独使用-或都不使用-具体结合数据及应用决定"><a class="header-anchor" href="#两种方案既可同时使用-也可单独使用-或都不使用-具体结合数据及应用决定">¶</a>两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。</h4>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/01/09/learning_summary/Redis-AOF/#more" rel="contents">
@@ -914,10 +928,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
-                
+                </a>
               </div>
             
 
@@ -968,7 +982,7 @@
       
 
       
-
+      
     </div>
   </aside>
 
