@@ -353,8 +353,7 @@
 
       
         
-          
-            <h2 id="1-问题来源"><a href="#1-问题来源" class="headerlink" title="1 问题来源"></a>1 问题来源</h2><p>记得一开始学逻辑回归时候也不知道当时怎么想得，很自然就接受了逻辑回归的决策函数——sigmod函数:</p>
+          <h2 id="1-问题来源"><a href="#1-问题来源" class="headerlink" title="1 问题来源"></a>1 问题来源</h2><p>记得一开始学逻辑回归时候也不知道当时怎么想得，很自然就接受了逻辑回归的决策函数——sigmod函数:</p>
 <script type="math/tex; mode=display">h_{\theta}(x)=\frac {1}{1+e^{-\theta^Tx}}</script><p>与此同时，有些书上直接给出了该函数与将 $y$ 视为类后验概率估计 $p(y=1|x)$ 等价，即</p>
 <script type="math/tex; mode=display">
 \begin{array}{lcr}
@@ -365,72 +364,14 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
 \begin{array}{lcl}
 1                            &    &  {h_{\theta}(x) \geq 0.5}\\
 0.5                         &    &  {h_{\theta}(x) < 0}
-\end{array} \right.</script><p>但今天再回过头看的时候，突然就不理解了，一个函数值是怎么和一个概率联系起来了呢？有些人解释说因为 $h_{\theta}(x)$ 范围在0~1之间啊，可是数值在此之间还是没说明白和概率究竟有什么关系。所以，前几天看了一些资料，对个人而言比较好理解的还是从广义线性模型（Generalized Linear Models, GLM）来解释，至少这种方法能从概率出发直接推出 sigmod 函数。实际上，线性回归和逻辑回归都是广义线性模型的特例，从此出发，得到对应的决策函数就比较自然了。</p>
-<h2 id="2-指数分布族"><a href="#2-指数分布族" class="headerlink" title="2 指数分布族"></a>2 指数分布族</h2><p>在介绍广义线性模型之前不得不先说一下“指数分布族”，因为指数分布族是广义线性模型所提出的假设之一。<br>指数分布族中的一类分布都可以用下述公式描述：</p>
-<script type="math/tex; mode=display">p(y;\eta) = b(y)\ exp(\eta^T T(y)-a(\eta))</script><p>下面是公式中的参数：（可以通过后面具体例子的推导来理解）</p>
-<ul>
-<li>η：分布的自然参数（也就是说跟分布有关）</li>
-<li>T(y)：充分统计量（通常 T(y)=y）</li>
-<li>a(η)：log partition function，$e^{-a(\eta)}$ 本质上起着规范化常数的作用，保证概率分布 $\sum p(y;\eta)$ 为1</li>
-</ul>
-<p>当T、a、b固定之后实际上就确定了指数分布族中的一种分布模型，就得到了以$\eta$为参数的模型。</p>
-<p>其实，大多数的概率分布都属于指数分布族：</p>
-<ul>
-<li>伯努利分布（Bernoulli）：对 0、1 问题进行建模；</li>
-<li>二项分布（Multinomial）：对 K 个离散结果的事件建模；</li>
-<li>泊松分布（Poisson）：对计数过程进行建模，比如网站访问量的计数问题，放射性衰变的数目，商店顾客数量等问题；</li>
-<li>伽马分布（gamma）与指数分布（exponential）：对有间隔的正数进行建模，比如公交车的到站时间问题；</li>
-<li>β 分布：对小数建模；</li>
-<li>Dirichlet 分布：对概率分布进建模；</li>
-<li>Wishart 分布：协方差矩阵的分布；</li>
-<li>高斯分布（Gaussian）</li>
-</ul>
-<p>知道了这么多的指数分布族之后其实我们已经能够求解一些问题了，求解的方法就是将<strong>概率分布符合上述指数分布族</strong>的转换成它对应的指数分布族的形式，求出指数分布族对应位置上的参数即可求出原模型的参数。</p>
-<h2 id="3-广义线性模型"><a href="#3-广义线性模型" class="headerlink" title="3 广义线性模型"></a>3 广义线性模型</h2><p>为了给问题构造GLM模型，必须首先知道GLM为作出的三个假设：</p>
-<blockquote>
-<ol>
-<li>$y|x;θ \sim ExponentialFamily(\eta)$。比如，给定样本$x$与参数$\theta$，样本的分类$y$服从以 $\eta$ 为参数的指数分布族中的某个分布</li>
-<li>给定$x$，广义线性模型的目标是求解 $T(y)|x$，不过由于很多情况下 $T(y) = y$ 所以我们的目标变成了求 $h(x) = E[y|x]$</li>
-<li>$\eta=\theta^Tx$</li>
-</ol>
-</blockquote>
-<p>这些假设看起来似乎很神奇，比如第三条，但这就是GLM的假设（说成“设计”更合理），从这三个假设出发能得到一类很好的学习算法。下面就来展示一下如何从GLM推导出逻辑回归和线性回归。</p>
-<h3 id="3-1-GLM与逻辑回归"><a href="#3-1-GLM与逻辑回归" class="headerlink" title="3.1 GLM与逻辑回归"></a>3.1 GLM与逻辑回归</h3><p>接下来按照上面GLM作出的假设条件来推导逻辑回归。</p>
-<ul>
-<li>对于二分类问题，很自然想到$y$服从伯努利分布，满足第一个假设，即$y|x;\theta \sim Bernoulli(\phi)$</li>
-<li>第二个假设很重要，是求决策函数的。因此我们要求$E[y|x;\theta]$。对于伯努利分布来说，$p(y=1|x;\theta)=\phi$，$p(y=0|x;\theta))=1-\phi$。因此有：</li>
-</ul>
-<script type="math/tex; mode=display">\begin{equation}\begin{split}
-p(y;\phi)&=\phi^y(1-\phi)^{1-y}\\
-&=exp(log\phi^y(1-\phi)^{1-y})\\
-&=exp(ylog\phi+(1-y)log(1-\phi))\\
-&=exp(log(\frac{\phi}{1-\phi})y+log(1-\phi))
-\end{split}\end{equation}</script><p>参照指数分布族的标准形式，可以得到：</p>
-<blockquote>
-<p>$b(y)=1$<br>$T(y)=y$<br>$\eta=log(\frac{\phi}{1-\phi})y$，进而得到$\phi=\frac{1}{1+e^{-\eta}}$<br>$a(\eta)=-log(1-\phi)=log(1+e^\eta)$</p>
-</blockquote>
-<p>再根据第三个假设条件$\eta=\theta^Tx$，得到 $\phi=\frac{1}{1+e^{-\eta}}=\frac{1}{1+e^{-\theta^Tx}}$，即 $p(y=1|x;\theta)=\frac{1}{1+e^{-\theta^Tx}}$，这样就将概率和 sigmod 函数联系起来了。</p>
-<p>到这里，GLM已经解决了概率和sigmod函数之间关系的疑惑了。</p>
-<h3 id="3-2-GLM与线性回归"><a href="#3-2-GLM与线性回归" class="headerlink" title="3.2 GLM与线性回归"></a>3.2 GLM与线性回归</h3><ul>
-<li>在线性回归中，我们对概率分布作出的假设是 $y|x;\theta \sim N(\mu,\sigma^2)$</li>
-<li>接下来求 $h_{\theta}(x)=E[y|x;\theta]$。对于高斯分布，从概率角度是通过极大似然法来求，可以发现最后的结果是不受$\sigma$影响的，因此可以将$\sigma$设为1。（原因如下所示）</li>
-</ul>
-<img src="/2017/12/24/machine_learning_notes/从广义线性模型理解逻辑回归/高斯分布对数似然.png" alt="对数极大似然" title="对数极大似然">
-<p>等价于：</p>
-<script type="math/tex; mode=display">min \ \ \frac{1}{2}\sum_{1}^{m}(y^{(i)}-\theta^Tx^{(i)})^2</script><p>所以我们从 $y|x;\theta \sim N(\mu,1)$ 出发来推导:</p>
-<script type="math/tex; mode=display">
-\begin{equation}\begin{split}
-p(y;\mu)&=\frac{1}{\sqrt{2\pi}}exp(-\frac{1}{2}(y-\mu)^2)\\
-&=\frac{1}{\sqrt{2\pi}}exp(-\frac{1}{2}y^2)exp(\mu y-\frac{1}{2}\mu^2)
-\end{split}\end{equation}</script><p>通刚才一样，参照指数分布族的标准形式，可以得到：</p>
-<blockquote>
-<p>$b(y)=\frac{1}{\sqrt{2\pi}}exp(-\frac{y^2}{2})$<br>$T(y)=y$<br>$\eta=\mu$<br>$a(\eta)=\frac{\mu^2}{2}=\frac{\eta^2}{2}$</p>
-</blockquote>
-<p>再根据第三个假设条件，即可得到线性回归模型 $h_{\theta}(x)=E[y|x;\theta]=\mu=\eta=\theta^Tx$</p>
-<p>综上所述，广义线性模型GLM是通过假设一个概率分布并将其化成指数分布族形式，从而得到不同的模型，这对理解模型的由来很有帮助。</p>
-<p>参考：<br>CS229 Andrew Ng</p>
-
-          
+\end{array} \right.</script><p>但今天再回过头看的时候，突然就不理解了，一个函数值是怎么和一个概率联系起来了呢？有些人解释说因为 $h_{\theta}(x)$ 范围在0~1之间啊，可是数值在此之间还是没说明白和概率究竟有什么关系。所以，前几天看了一些资料，对个人而言比较好理解的还是从广义线性模型（Generalized Linear Models, GLM）来解释，至少这种方法能从概率出发直接推出 sigmod 函数。实际上，线性回归和逻辑回归都是广义线性模型的特例，从此出发，得到对应的决策函数就比较自然了。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/24/machine_learning_notes/从广义线性模型理解逻辑回归/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1142,7 +1083,7 @@ p(y;\mu)&=\frac{1}{\sqrt{2\pi}}exp(-\frac{1}{2}(y-\mu)^2)\\
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

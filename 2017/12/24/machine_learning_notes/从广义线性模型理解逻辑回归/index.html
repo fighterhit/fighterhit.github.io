@@ -94,7 +94,7 @@ h_{\theta}(x)=\frac {1}{1+e^{-\theta^Tx}}与此同时，有些书上直接给出
 \begin{array}{lcr}
 p(y=1|x)=\frac {e^{\theta^T x}}{">
 <meta property="og:image" content="http://fighterhit.oschina.io/2017/12/24/machine_learning_notes/从广义线性模型理解逻辑回归/高斯分布对数似然.png">
-<meta property="og:updated_time" content="2017-12-25T12:42:39.539Z">
+<meta property="og:updated_time" content="2017-12-25T12:51:36.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从广义线性模型(GLM)理解逻辑回归">
 <meta name="twitter:description" content="1 问题来源记得一开始学逻辑回归时候也不知道当时怎么想得，很自然就接受了逻辑回归的决策函数——sigmod函数:
@@ -380,7 +380,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
 \begin{array}{lcl}
 1                            &    &  {h_{\theta}(x) \geq 0.5}\\
 0.5                         &    &  {h_{\theta}(x) < 0}
-\end{array} \right.</script><p>但今天再回过头看的时候，突然就不理解了，一个函数值是怎么和一个概率联系起来了呢？有些人解释说因为 $h_{\theta}(x)$ 范围在0~1之间啊，可是数值在此之间还是没说明白和概率究竟有什么关系。所以，前几天看了一些资料，对个人而言比较好理解的还是从广义线性模型（Generalized Linear Models, GLM）来解释，至少这种方法能从概率出发直接推出 sigmod 函数。实际上，线性回归和逻辑回归都是广义线性模型的特例，从此出发，得到对应的决策函数就比较自然了。</p>
+\end{array} \right.</script><p>但今天再回过头看的时候，突然就不理解了，一个函数值是怎么和一个概率联系起来了呢？有些人解释说因为 $h_{\theta}(x)$ 范围在0~1之间啊，可是数值在此之间还是没说明白和概率究竟有什么关系。所以，前几天看了一些资料，对个人而言比较好理解的还是从广义线性模型（Generalized Linear Models, GLM）来解释，至少这种方法能从概率出发直接推出 sigmod 函数。实际上，线性回归和逻辑回归都是广义线性模型的特例，从此出发，得到对应的决策函数就比较自然了。<br><a id="more"></a></p>
 <h2 id="2-指数分布族"><a href="#2-指数分布族" class="headerlink" title="2 指数分布族"></a>2 指数分布族</h2><p>在介绍广义线性模型之前不得不先说一下“指数分布族”，因为指数分布族是广义线性模型所提出的假设之一。<br>指数分布族中的一类分布都可以用下述公式描述：</p>
 <script type="math/tex; mode=display">p(y;\eta) = b(y)\ exp(\eta^T T(y)-a(\eta))</script><p>下面是公式中的参数：（可以通过后面具体例子的推导来理解）</p>
 <ul>
@@ -663,7 +663,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
