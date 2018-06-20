@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/avatar.jpg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java,Jvm,垃圾回收," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="垃圾回收概述 如何判定对象为垃圾对象 引用计数法 可达性分析   如何回收 回收策略 标记-清除算法 复制算法 标记-整理算法 分代收集算法   常见垃圾回收器 Serial Parnew Cms G1     何时回收  如何判定对象为垃圾对象引用计数法在对象中添加一个引用计数器，当有地方引用这个对象的时候，引用计数器的值就+1，当引用失效的时候，计数器的值就+1  打印 GC 日志 jvm 参">
+<meta name="keywords" content="Java,Jvm,垃圾回收">
+<meta property="og:type" content="article">
+<meta property="og:title" content="垃圾回收与内存分配">
+<meta property="og:url" content="http://fighterhit.github.io/2018/02/12/Java_Notes/Jvm/垃圾回收与内存分配/index.html">
+<meta property="og:site_name" content="Fighter&#39;s Blog">
+<meta property="og:description" content="垃圾回收概述 如何判定对象为垃圾对象 引用计数法 可达性分析   如何回收 回收策略 标记-清除算法 复制算法 标记-整理算法 分代收集算法   常见垃圾回收器 Serial Parnew Cms G1     何时回收  如何判定对象为垃圾对象引用计数法在对象中添加一个引用计数器，当有地方引用这个对象的时候，引用计数器的值就+1，当引用失效的时候，计数器的值就+1  打印 GC 日志 jvm 参">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/12/Java_Notes/Jvm/垃圾回收与内存分配/SurvivorRatio参数含义.png">
+<meta property="og:updated_time" content="2018-02-13T08:38:41.076Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="垃圾回收与内存分配">
+<meta name="twitter:description" content="垃圾回收概述 如何判定对象为垃圾对象 引用计数法 可达性分析   如何回收 回收策略 标记-清除算法 复制算法 标记-整理算法 分代收集算法   常见垃圾回收器 Serial Parnew Cms G1     何时回收  如何判定对象为垃圾对象引用计数法在对象中添加一个引用计数器，当有地方引用这个对象的时候，引用计数器的值就+1，当引用失效的时候，计数器的值就+1  打印 GC 日志 jvm 参">
+<meta name="twitter:image" content="http://fighterhit.github.io/2018/02/12/Java_Notes/Jvm/垃圾回收与内存分配/SurvivorRatio参数含义.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fighterhit.github.io/2018/02/12/Java_Notes/Jvm/垃圾回收与内存分配/"/>
+
+
+
+
+
+  <title>垃圾回收与内存分配 | Fighter's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fighter's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">深度沉迷学习</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/02/12/Java_Notes/Jvm/垃圾回收与内存分配/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">垃圾回收与内存分配</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-12T11:04:06+08:00">
+                2018-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>如何判定对象为垃圾对象<ul>
+<li>引用计数法</li>
+<li>可达性分析</li>
+</ul>
+</li>
+<li>如何回收<ul>
+<li>回收策略<ul>
+<li>标记-清除算法</li>
+<li>复制算法</li>
+<li>标记-整理算法</li>
+<li>分代收集算法</li>
+</ul>
+</li>
+<li>常见垃圾回收器<ul>
+<li>Serial</li>
+<li>Parnew</li>
+<li>Cms</li>
+<li>G1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>何时回收</li>
+</ul>
+<h3 id="如何判定对象为垃圾对象"><a href="#如何判定对象为垃圾对象" class="headerlink" title="如何判定对象为垃圾对象"></a>如何判定对象为垃圾对象</h3><h4 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a>引用计数法</h4><p>在对象中添加一个引用计数器，当有地方引用这个对象的时候，引用计数器的值就+1，当引用失效的时候，计数器的值就+1</p>
+<blockquote>
+<p>打印 GC 日志 jvm 参数：-verbose:gc -XX:+PrintGCDetails</p>
+</blockquote>
+<h4 id="可达性分析法"><a href="#可达性分析法" class="headerlink" title="可达性分析法"></a>可达性分析法</h4><ul>
+<li>作为 GCRoots 的对象<ul>
+<li>虚拟机栈（虚拟机栈中的局部变量表）</li>
+<li>方法区类属性所引用的对象</li>
+<li>方法区常量所引用的对象</li>
+<li>本地方法栈中所引用的对象</li>
+</ul>
+</li>
+</ul>
+<h3 id="回收策略"><a href="#回收策略" class="headerlink" title="回收策略"></a>回收策略</h3><h4 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h4><ul>
+<li>效率问题<ul>
+<li>申请内存时找不到可用空间会再触发一次 GC</li>
+</ul>
+</li>
+<li>空间问题<ul>
+<li>回收空间不连续</li>
+</ul>
+</li>
+</ul>
+<h4 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h4><p>解决<code>标记-清除算法</code>的效率问题</p>
+<h5 id="回顾内存结构："><a href="#回顾内存结构：" class="headerlink" title="回顾内存结构："></a>回顾内存结构：</h5><ul>
+<li>堆<ul>
+<li>新生代<ul>
+<li>Eden 伊甸园</li>
+<li>Survivor 存货区</li>
+<li>Tenured Gen</li>
+</ul>
+</li>
+<li>老年代</li>
+</ul>
+</li>
+<li>方法区</li>
+<li>栈 本地方法栈 程序计数器</li>
+</ul>
+<h4 id="标记-整理-清除算法"><a href="#标记-整理-清除算法" class="headerlink" title="标记-整理-清除算法"></a>标记-整理-清除算法</h4><p>主要为了回收老年代</p>
+<h4 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h4><p>针对新生代、老年代分别采用不同的垃圾回收算法，如<br>新生代：复制算法（回收率高）<br>老年代：标记-整理算法（回收率低）</p>
+<h3 id="常见垃圾回收器"><a href="#常见垃圾回收器" class="headerlink" title="常见垃圾回收器"></a>常见垃圾回收器</h3><p>不同垃圾回收器适用的场景和区域不同</p>
+<h4 id="Serial（串行）收集器"><a href="#Serial（串行）收集器" class="headerlink" title="Serial（串行）收集器"></a>Serial（串行）收集器</h4><ul>
+<li>最基本，发展最悠久</li>
+<li>单线程垃圾收集器</li>
+<li>主要针对新生代内存</li>
+<li>桌面应用</li>
+</ul>
+<h4 id="ParNew-收集器"><a href="#ParNew-收集器" class="headerlink" title="ParNew 收集器"></a>ParNew 收集器</h4><ul>
+<li>多线程垃圾收集器</li>
+<li>若用 CMS 收集老年代内存，则要用 Serial 或 ParNew 收集新生代内存</li>
+</ul>
+<h4 id="Parallel-Scavenge-收集器"><a href="#Parallel-Scavenge-收集器" class="headerlink" title="Parallel Scavenge 收集器"></a>Parallel Scavenge 收集器</h4><p>与 ParNew 收集器的异同：</p>
+<ul>
+<li>复制算法（同，新生代收集器）</li>
+<li>多线程收集器（同）</li>
+<li><strong>达到可控制的吞吐量</strong>（CPU 运行用户代码的时间与 CPU 消耗总时间的比值，不同），此处 <code>吞吐量 = （执行用户代码时间）/ （执行用户代码时间 + 垃圾回收所占时间）</code></li>
+<li>服务端一般更注重吞吐量，而客户端对响应时间要求更高，因此更适合交互较少的服务端</li>
+</ul>
+<blockquote>
+<p>-XX:MaxGCPauseMillis 垃圾收集器停顿时间<br>-XX:GCTimeRatio 吞吐量大小 (0, 100)</p>
+</blockquote>
+<h4 id="CMS（Concurrent-Mark-Sweep，并发-标记-清除）收集器"><a href="#CMS（Concurrent-Mark-Sweep，并发-标记-清除）收集器" class="headerlink" title="CMS（Concurrent Mark Sweep，并发-标记-清除）收集器"></a>CMS（Concurrent Mark Sweep，并发-标记-清除）收集器</h4><p>用在老年代，减少延迟</p>
+<ul>
+<li>工作过程<ul>
+<li>初始标记</li>
+<li>并发标记</li>
+<li>重新标记</li>
+<li>并发清理</li>
+</ul>
+</li>
+<li>优点<ul>
+<li>并发收集</li>
+<li>低停顿</li>
+</ul>
+</li>
+<li>缺点<ul>
+<li>占用大量 CPU 资源</li>
+<li>无法处理浮动垃圾</li>
+<li>出现 Concurrent Mode Failure（如在清除时再创建对象但申请内存失败）</li>
+<li>空闲碎片（标记-清除算法导致的）</li>
+</ul>
+</li>
+</ul>
+<h4 id="G1-收集器"><a href="#G1-收集器" class="headerlink" title="G1 收集器"></a>G1 收集器</h4><h5 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h5><h5 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h5><ul>
+<li>并行与并发</li>
+<li>分代收集</li>
+<li>空间整合</li>
+<li>可预测的停顿</li>
+</ul>
+<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><ul>
+<li>初始标记</li>
+<li>并发标记</li>
+<li>最终标记</li>
+<li>筛选回收</li>
+</ul>
+<blockquote>
+<p>RememberSet 表记录对外引用，再加上单独一块区域（region）来进行垃圾回收</p>
+</blockquote>
+<h5 id="与-CMS-比较"><a href="#与-CMS-比较" class="headerlink" title="与 CMS 比较"></a>与 CMS 比较</h5><h2 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h2><ul>
+<li>优先分配到 eden</li>
+<li>大对象直接分配到老年代</li>
+<li>长期存活的对象分配到老年代</li>
+<li>空间分配担保</li>
+<li>动态对象年龄判断</li>
+</ul>
+<h3 id="对象优先在-Eden-上分配"><a href="#对象优先在-Eden-上分配" class="headerlink" title="对象优先在 Eden 上分配"></a>对象优先在 Eden 上分配</h3><p><code>java -version</code> 查看 jdk 所处运行环境为 <code>Server VM</code>（多核、内存 &gt; 2G）</p>
+<ul>
+<li>添加虚拟机参数 <code>-verbose:gc -XX:+PrintGCDetails</code> 可看到默认为 <code>Parallel</code> 垃圾收集器，看到其新生代为 <code>PSYoungGen</code></li>
+<li>添加虚拟机参数 <code>-XX:+UseSerialGC</code> 启用 <code>Serial</code> 垃圾收集器，看到其新生代为 <code>def new generation</code></li>
+</ul>
+<blockquote>
+<p><code>GC</code>：主要回收新生代，执行很频繁，耗时短<br><code>Full GC</code>：主要回收老年代，可以人为触发或自动触发，耗时很长</p>
+</blockquote>
+<img src="/2018/02/12/Java_Notes/Jvm/垃圾回收与内存分配/SurvivorRatio参数含义.png" title="SurvivorRatio参数含义">
+<h3 id="大对象直接进入老年代"><a href="#大对象直接进入老年代" class="headerlink" title="大对象直接进入老年代"></a>大对象直接进入老年代</h3><p>大对象一般是大字符串、大数组等，Eden 区域 GC 频率很高，所以每次 GC 移动大对象很耗时，故将其直接分配在老年代，老年代回收频率低</p>
+<blockquote>
+<p>-XX:PretenureSizeThreshold</p>
+</blockquote>
+<h3 id="长期存活的对象进入老年代"><a href="#长期存活的对象进入老年代" class="headerlink" title="长期存活的对象进入老年代"></a>长期存活的对象进入老年代</h3><p>一般采用复制算法，当对象被移到 Survivor 区域，对象年龄+1，达到下面设定的阈值后，则将对象移动到老年代</p>
+<blockquote>
+<p>-XX:MaxTenuringThreshold=15</p>
+</blockquote>
+<h3 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h3><p>默认启用了空间分配担保，新生代内存不够向老年代借用内存</p>
+<blockquote>
+<p>-XX:+HandlePromotionFailure</p>
+</blockquote>
+<h3 id="逃逸分析与栈上分配"><a href="#逃逸分析与栈上分配" class="headerlink" title="逃逸分析与栈上分配"></a>逃逸分析与栈上分配</h3><p>方法的栈帧随方法结束而出栈被销毁，那么方法体内对象的内存就自然而然被回收，因此若对象没有逃逸，则可随方法结束而被回收。<br>逃逸分析：分析对象作用域。<br>只要对象在方法作用域内就没逃逸。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StackAllocation</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> StackAllocation obj;</div><div class="line">    <span class="comment">//方法返回 StackAllocation 对象，发生逃逸</span></div><div class="line">    <span class="function"><span class="keyword">public</span> StackAllocation <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> obj == <span class="keyword">null</span> ? <span class="keyword">new</span> StackAllocation() : obj;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//为成员属性赋值，发生逃逸</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setObj</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.obj = <span class="keyword">new</span> StackAllocation();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//对象作用域尽在当前方法中有效，没有发生逃逸</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useStackAllocation</span><span class="params">()</span> </span>&#123;</div><div class="line">        StackAllocation s = <span class="keyword">new</span> StackAllocation();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 引用成员变量的值，发生逃逸</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useStackAllocation2</span><span class="params">()</span> </span>&#123;</div><div class="line">        StackAllocation s = getInstance();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我喝杯咖啡吧☕~</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Fighter. 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Fighter. 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Fighter.
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://fighterhit.github.io/2018/02/12/Java_Notes/Jvm/垃圾回收与内存分配/" title="垃圾回收与内存分配">http://fighterhit.github.io/2018/02/12/Java_Notes/Jvm/垃圾回收与内存分配/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Jvm/" rel="tag"># Jvm</a>
+          
+            <a href="/tags/垃圾回收/" rel="tag"># 垃圾回收</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/11/Java_Notes/Jvm/Java内存区域/" rel="next" title="Java内存区域">
+                <i class="fa fa-chevron-left"></i> Java内存区域
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/13/Java_Notes/Jvm/虚拟机工具/" rel="prev" title="虚拟机工具">
+                虚拟机工具 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_tsina">新浪微博</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_cqq">腾讯QQ</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjY0Ni85MjA3"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Fighter." />
+            
+              <p class="site-author-name" itemprop="name">Fighter.</p>
+              <p class="site-description motion-element" itemprop="description">学习 | 分享 | 交流 | 进步</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/fighterhit" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/fighterhit" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾回收"><span class="nav-number">1.</span> <span class="nav-text">垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何判定对象为垃圾对象"><span class="nav-number">1.2.</span> <span class="nav-text">如何判定对象为垃圾对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引用计数法"><span class="nav-number">1.2.1.</span> <span class="nav-text">引用计数法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可达性分析法"><span class="nav-number">1.2.2.</span> <span class="nav-text">可达性分析法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回收策略"><span class="nav-number">1.3.</span> <span class="nav-text">回收策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标记-清除算法"><span class="nav-number">1.3.1.</span> <span class="nav-text">标记-清除算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复制算法"><span class="nav-number">1.3.2.</span> <span class="nav-text">复制算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#回顾内存结构："><span class="nav-number">1.3.2.1.</span> <span class="nav-text">回顾内存结构：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标记-整理-清除算法"><span class="nav-number">1.3.3.</span> <span class="nav-text">标记-整理-清除算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分代收集算法"><span class="nav-number">1.3.4.</span> <span class="nav-text">分代收集算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见垃圾回收器"><span class="nav-number">1.4.</span> <span class="nav-text">常见垃圾回收器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Serial（串行）收集器"><span class="nav-number">1.4.1.</span> <span class="nav-text">Serial（串行）收集器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ParNew-收集器"><span class="nav-number">1.4.2.</span> <span class="nav-text">ParNew 收集器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Parallel-Scavenge-收集器"><span class="nav-number">1.4.3.</span> <span class="nav-text">Parallel Scavenge 收集器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CMS（Concurrent-Mark-Sweep，并发-标记-清除）收集器"><span class="nav-number">1.4.4.</span> <span class="nav-text">CMS（Concurrent Mark Sweep，并发-标记-清除）收集器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#G1-收集器"><span class="nav-number">1.4.5.</span> <span class="nav-text">G1 收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#历史"><span class="nav-number">1.4.5.1.</span> <span class="nav-text">历史</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#优势"><span class="nav-number">1.4.5.2.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#步骤"><span class="nav-number">1.4.5.3.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#与-CMS-比较"><span class="nav-number">1.4.5.4.</span> <span class="nav-text">与 CMS 比较</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存分配"><span class="nav-number">2.</span> <span class="nav-text">内存分配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象优先在-Eden-上分配"><span class="nav-number">2.1.</span> <span class="nav-text">对象优先在 Eden 上分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大对象直接进入老年代"><span class="nav-number">2.2.</span> <span class="nav-text">大对象直接进入老年代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长期存活的对象进入老年代"><span class="nav-number">2.3.</span> <span class="nav-text">长期存活的对象进入老年代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空间分配担保"><span class="nav-number">2.4.</span> <span class="nav-text">空间分配担保</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逃逸分析与栈上分配"><span class="nav-number">2.5.</span> <span class="nav-text">逃逸分析与栈上分配</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+      
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-home"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fighter.</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+
+    <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    </span>
+
+</div>
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

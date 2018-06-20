@@ -79,39 +79,20 @@
 
 
 
-<meta name="description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：
-
-列表（可以被修改），元组（不可以被修改）
-字典（结构）
-集合（同数学概念上的集合）
-函数式编程（主要由lambda()、map()、reduce()、filter()构成）
-
-Python数据分析常用库">
+<meta name="description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：  列表（可以被修改），元组（不可以被修改） 字典（结构） 集合（同数学概念上的集合） 函数式编程（主要由lambda()、map()、reduce()、filter()构成）  Python数据分析常用库">
+<meta name="keywords" content="数据挖掘,Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python数据分析、挖掘常用工具">
 <meta property="og:url" content="http://fighterhit.github.io/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/index.html">
-<meta property="og:site_name" content="Fighter's Blog">
-<meta property="og:description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：
-
-列表（可以被修改），元组（不可以被修改）
-字典（结构）
-集合（同数学概念上的集合）
-函数式编程（主要由lambda()、map()、reduce()、filter()构成）
-
-Python数据分析常用库">
+<meta property="og:site_name" content="Fighter&#39;s Blog">
+<meta property="og:description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：  列表（可以被修改），元组（不可以被修改） 字典（结构） 集合（同数学概念上的集合） 函数式编程（主要由lambda()、map()、reduce()、filter()构成）  Python数据分析常用库">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-7405db8f00f43a8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/137261-4cd3cf64c8485848.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:updated_time" content="2017-12-24T02:50:07.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python数据分析、挖掘常用工具">
-<meta name="twitter:description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：
-
-列表（可以被修改），元组（不可以被修改）
-字典（结构）
-集合（同数学概念上的集合）
-函数式编程（主要由lambda()、map()、reduce()、filter()构成）
-
-Python数据分析常用库">
+<meta name="twitter:description" content="Python语言简要概括一下Python语言在数据分析、挖掘场景中常用特性：  列表（可以被修改），元组（不可以被修改） 字典（结构） 集合（同数学概念上的集合） 函数式编程（主要由lambda()、map()、reduce()、filter()构成）  Python数据分析常用库">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/137261-7405db8f00f43a8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -440,8 +421,8 @@ Python数据分析常用库">
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</div><div class="line"><span class="keyword">from</span> keras.layers.core <span class="keyword">import</span> Dense, Dropout, Activation</div><div class="line"><span class="keyword">from</span> keras.optimizers <span class="keyword">import</span> SGD</div><div class="line"></div><div class="line">model = Sequential()  <span class="comment"># 模型初始化</span></div><div class="line">model.add(Dense(<span class="number">20</span>, <span class="number">64</span>))  <span class="comment"># 添加输入层（20节点）、第一隐藏层（64节点）的连接</span></div><div class="line">model.add(Activation(<span class="string">'tanh'</span>))  <span class="comment"># 第一隐藏层用tanh作为激活函数</span></div><div class="line">model.add(Dropout(<span class="number">0.5</span>))  <span class="comment"># 使用Dropout防止过拟合</span></div><div class="line">model.add(Dense(<span class="number">64</span>, <span class="number">64</span>))  <span class="comment"># 添加第一隐藏层（64节点）、第二隐藏层（64节点）的连接</span></div><div class="line">model.add(Activation(<span class="string">'tanh'</span>))  <span class="comment"># 第二隐藏层用tanh作为激活函数</span></div><div class="line">model.add(Dense(<span class="number">64</span>, <span class="number">1</span>))  <span class="comment"># 添加第二隐藏层（64节点）、输出层（1节点）的连接</span></div><div class="line">model.add(Activation(<span class="string">'sigmod'</span>))  <span class="comment"># 第二隐藏层用sigmod作为激活函数</span></div><div class="line"></div><div class="line">sgd=SGD(lr=<span class="number">0.1</span>,decay=<span class="number">1e-6</span>,momentum=<span class="number">0.9</span>,nesterov=<span class="keyword">True</span>)  <span class="comment"># 定义求解算法</span></div><div class="line">model.compile(loss=<span class="string">'mean_squared_error'</span>,optimizer=sgd)  <span class="comment"># 编译生成模型，损失函数为平均误差平方和</span></div><div class="line">model.fit(x_train,y_train,nb_epoch=<span class="number">20</span>,batch_size=<span class="number">16</span>)  <span class="comment"># 训练模型</span></div><div class="line">score = model.evaluate(X_test,y_test,batch_size=<span class="number">16</span>)  <span class="comment"># 测试模型</span></div></pre></td></tr></table></figure>
 <p>参考：   </p>
 <ul>
-<li><a href="http://keras-cn.readthedocs.io/en/latest/" target="_blank" rel="external">Keras中文文档</a></li>
-<li><a href="http://www.52nlp.cn/%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E6%96%87%E6%A1%A3%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6%E4%BA%8C" target="_blank" rel="external">如何计算两个文档的相似度（二）</a></li>
+<li><a href="http://keras-cn.readthedocs.io/en/latest/" target="_blank" rel="noopener">Keras中文文档</a></li>
+<li><a href="http://www.52nlp.cn/%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E6%96%87%E6%A1%A3%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6%E4%BA%8C" target="_blank" rel="noopener">如何计算两个文档的相似度（二）</a></li>
 </ul>
 <h4 id="Genism"><a href="#Genism" class="headerlink" title="Genism"></a>Genism</h4><p>Genism主要用来处理语言方面的任务，如文本相似度计算、LDA、Word2Vec等。</p>
 <p>示例：</p>
@@ -450,7 +431,7 @@ Python数据分析常用库">
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">2017-10-24 19:02:40,785 : INFO : collecting all words and their counts</div><div class="line">2017-10-24 19:02:40,785 : INFO : PROGRESS: at sentence #0, processed 0 words, keeping 0 word types</div><div class="line">2017-10-24 19:02:40,785 : INFO : collected 3 word types from a corpus of 4 raw words and 2 sentences</div><div class="line">2017-10-24 19:02:40,785 : INFO : Loading a fresh vocabulary</div><div class="line">2017-10-24 19:02:40,785 : INFO : min_count=1 retains 3 unique words (100% of original 3, drops 0)</div><div class="line">2017-10-24 19:02:40,785 : INFO : min_count=1 leaves 4 word corpus (100% of original 4, drops 0)</div><div class="line">2017-10-24 19:02:40,786 : INFO : deleting the raw counts dictionary of 3 items</div><div class="line">2017-10-24 19:02:40,786 : INFO : sample=0.001 downsamples 3 most-common words</div><div class="line">2017-10-24 19:02:40,786 : INFO : downsampling leaves estimated 0 word corpus (5.7% of prior 4)</div><div class="line">2017-10-24 19:02:40,786 : INFO : estimated required memory for 3 words and 100 dimensions: 3900 bytes</div><div class="line">2017-10-24 19:02:40,786 : INFO : resetting layer weights</div><div class="line">2017-10-24 19:02:40,786 : INFO : training model with 3 workers on 3 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5</div><div class="line">2017-10-24 19:02:40,788 : INFO : worker thread finished; awaiting finish of 2 more threads</div><div class="line">2017-10-24 19:02:40,788 : INFO : worker thread finished; awaiting finish of 1 more threads</div><div class="line">2017-10-24 19:02:40,788 : INFO : worker thread finished; awaiting finish of 0 more threads</div><div class="line">2017-10-24 19:02:40,789 : INFO : training on 20 raw words (0 effective words) took 0.0s, 0 effective words/s</div><div class="line">2017-10-24 19:02:40,789 : WARNING : under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay</div><div class="line">[ -1.54225400e-03  -2.45212857e-03  -2.20486755e-03  -3.64410551e-03</div><div class="line">  -2.28137174e-03  -1.70348200e-03  -1.05830852e-03  -4.37875278e-03</div><div class="line">  -4.97106137e-03   3.93485563e-04  -1.97932171e-03  -3.40653211e-03</div><div class="line">   1.54990738e-03   8.97102174e-04   2.94041773e-03   3.45200230e-03</div><div class="line">  -4.60584508e-03   3.81468004e-03   3.07120802e-03   2.85422982e-04</div><div class="line">   7.01598416e-04   2.69670971e-03   4.17246483e-03  -6.48593705e-04</div><div class="line">   1.11404411e-03   4.02203249e-03  -2.34672683e-03   2.35153269e-03</div><div class="line">   2.32632101e-05   3.76200466e-03  -3.95653257e-03   3.77303245e-03</div><div class="line">   8.48884694e-04   1.61545759e-03   2.53374409e-03  -4.25464474e-03</div><div class="line">  -2.06338940e-03  -6.84972096e-04  -6.92955102e-04  -2.27969326e-03</div><div class="line">  -2.13766913e-03   3.95324081e-03   3.52649018e-03   1.29243149e-03</div><div class="line">   4.29229392e-03  -4.34781052e-03   2.42843386e-03   3.12117115e-03</div><div class="line">  -2.99768522e-03  -1.17538485e-03   6.67148328e-04  -6.86432002e-04</div><div class="line">  -3.58940102e-03   2.40547652e-03  -4.18888079e-03  -3.12567432e-03</div><div class="line">  -2.51603196e-03   2.53451476e-03   3.65199335e-03   3.35336081e-03</div><div class="line">  -2.50071986e-04   4.15537134e-03  -3.89242987e-03   4.88173496e-03</div><div class="line">  -3.34603712e-03   3.18462006e-03   1.57053335e-04   3.51517834e-03</div><div class="line">  -1.20337342e-03  -1.81524854e-04   3.57784083e-05  -2.36600707e-03</div><div class="line">  -3.77405947e-03  -1.70441647e-03  -4.51521482e-03  -9.47134569e-04</div><div class="line">   4.53894213e-03   1.55767589e-03   8.57840874e-04  -1.12304837e-03</div><div class="line">  -3.95945460e-03   5.37869288e-04  -2.04461766e-03   5.24829782e-04</div><div class="line">   3.76719423e-03  -4.38512256e-03   4.81262803e-03  -4.20147832e-03</div><div class="line">  -3.87057988e-03   1.67581497e-03   1.51928759e-03  -1.31744961e-03</div><div class="line">   3.28474329e-03  -3.28777428e-03  -9.67226923e-04   4.62622894e-03</div><div class="line">   1.34165725e-03   3.60148447e-03   4.80416557e-03  -1.98963983e-03]</div></pre></td></tr></table></figure>
 <p>参考：</p>
 <ul>
-<li><a href="http://www.52nlp.cn/%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E6%96%87%E6%A1%A3%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6%E4%BA%8C" target="_blank" rel="external">如何计算两个文档的相似度（二）</a>   </li>
+<li><a href="http://www.52nlp.cn/%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E4%B8%A4%E4%B8%AA%E6%96%87%E6%A1%A3%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6%E4%BA%8C" target="_blank" rel="noopener">如何计算两个文档的相似度（二）</a>   </li>
 </ul>
 <p>本次笔记是对数据分析和挖掘中常用工具的简要介绍，详细使用会在以后笔记中进行介绍。</p>
 
@@ -652,7 +633,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -663,7 +644,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -674,7 +655,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/avatar.jpg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="算法,查找,Algorithms Notes," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="符号表符号表最主要目的就是将一个键和一个值联系起来。用例能将一个键值对插入符号表并之后能从符号表的所有键值对中按键直接找到对应的值。  符号表是一种存储键值对的数据结构，支持两种操作：插入（put），即将一组新的键值对存入表中；查找（get），即根据给定的键得到对应的值。">
+<meta name="keywords" content="算法,查找,Algorithms Notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（三）查找">
+<meta property="og:url" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/index.html">
+<meta property="og:site_name" content="Fighter&#39;s Blog">
+<meta property="og:description" content="符号表符号表最主要目的就是将一个键和一个值联系起来。用例能将一个键值对插入符号表并之后能从符号表的所有键值对中按键直接找到对应的值。  符号表是一种存储键值对的数据结构，支持两种操作：插入（put），即将一组新的键值对存入表中；查找（get），即根据给定的键得到对应的值。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/二叉查找树的插入操作.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/二叉查找树删除操作.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/简单的符号表实现的成本总结.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/2-3树的查找命中与不命中.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向只含一个3-结点树中插入新键.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向父结点为2-结点的3-结点中插入新键.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向父结点为3-结点的3-结点中插入新键.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/分解根节点.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/在一棵2-3树中分解一个4-结点情况汇总.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/4-结点分解是局部变换，不影响树的有序性和平衡性.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/将红链接画平则红黑树就是一颗2-3树.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/红黑树和2-3树一一对应关系.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/红黑树左旋转.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/红黑树右旋转.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向单个2-结点插入一个新键.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向树底部2-结点插入一个新键.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向一棵双键树（即3-结点）插入新键.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/分解4-结点同时转换链接颜色.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向树底部3-结点插入新键.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/红黑树中红链接向上传递.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/删除最小键的变换.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/各种符号表实现的性能总结.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/各种符号表实现的渐进性能总结.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/矩阵和向量乘法.png">
+<meta property="og:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/稀疏矩阵的表示.png">
+<meta property="og:updated_time" content="2018-03-30T15:36:20.596Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（三）查找">
+<meta name="twitter:description" content="符号表符号表最主要目的就是将一个键和一个值联系起来。用例能将一个键值对插入符号表并之后能从符号表的所有键值对中按键直接找到对应的值。  符号表是一种存储键值对的数据结构，支持两种操作：插入（put），即将一组新的键值对存入表中；查找（get），即根据给定的键得到对应的值。">
+<meta name="twitter:image" content="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/二叉查找树的插入操作.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/"/>
+
+
+
+
+
+  <title>（三）查找 | Fighter's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fighter's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">深度沉迷学习</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">（三）查找</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T21:39:21+08:00">
+                2018-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">算法与数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h2><p>符号表最主要目的就是将一个<strong>键</strong>和一个<strong>值</strong>联系起来。用例能将一个键值对<strong>插入</strong>符号表并之后能从符号表的所有键值对中按键直接找到对应的值。</p>
+<blockquote>
+<p>符号表是一种存储键值对的数据结构，支持两种操作：<strong>插入（put）</strong>，即将一组新的键值对存入表中；<strong>查找（get）</strong>，即根据给定的键得到对应的值。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> class ST&lt;Key, Value&gt;</span></div><div class="line">                    <span class="title">ST</span><span class="params">()</span></div><div class="line">            <span class="keyword">void</span>    <span class="title">put</span><span class="params">(Key key,Value val)</span>  <span class="comment">//将键值对存入表中（若值为空则将键 key 从表中删除）</span></div><div class="line">            Value   <span class="title">get</span><span class="params">(Key key)</span>            <span class="comment">//获取键 key 对应的值</span></div><div class="line">             <span class="keyword">void</span>   <span class="title">delete</span><span class="params">(Key key)</span>         <span class="comment">//从表中删去键 key （及其对应的值）</span></div><div class="line">          <span class="keyword">boolean</span>   <span class="title">contains</span><span class="params">(Key key)</span>       <span class="comment">//键 key 在表中是否有对应的值</span></div><div class="line">          <span class="keyword">boolean</span>   <span class="title">isEmpty</span><span class="params">()</span>               <span class="comment">//表是否为空</span></div><div class="line">              <span class="keyword">int</span>   <span class="title">size</span><span class="params">()</span>                  <span class="comment">//表中的键值对数量</span></div><div class="line">    Iterable&lt;Key&gt;   <span class="title">keys</span><span class="params">()</span>                  <span class="comment">//表中的所有键的集合</span></div></pre></td></tr></table></figure>
+<p>默认实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">   <span class="function"><span class="keyword">void</span>   <span class="title">delete</span><span class="params">(Key key)</span>        <span class="title">put</span><span class="params">(key, <span class="keyword">null</span>)</span></span></div><div class="line"><span class="keyword">boolean</span>   <span class="title">contains</span><span class="params">(key)</span>          return <span class="title">get</span><span class="params">(key)</span> != <span class="keyword">null</span>;</div><div class="line"><span class="function"><span class="keyword">boolean</span>   <span class="title">isEmpty</span><span class="params">()</span>              return <span class="title">size</span><span class="params">()</span> </span>== <span class="number">0</span></div></pre></td></tr></table></figure>
+<h4 id="设计决策"><a href="#设计决策" class="headerlink" title="设计决策"></a>设计决策</h4><ul>
+<li>泛型</li>
+<li>不含重复的键</li>
+<li>键不能为空（null）</li>
+<li>值不能为空</li>
+<li>删除操作：延时删除（put(key, null)是 delete(key) 的一种简单的延时型实现）或即时删除</li>
+<li>迭代：在 API 第一行加上 <code>implements Iterable&lt;Key&gt;</code> 这句话，强制所有实现都必须包含 <code>iterator()</code> 方法来返回一个实现了 <code>hasNext()</code> 和 <code>next()</code> 方法的迭代器。定义一个 <code>keys()</code> 方法来返回一个 <code>Iterable&lt;Key&gt;</code> 对象以便遍历所有的键。</li>
+<li>键的等价性</li>
+</ul>
+<h3 id="有序符号表"><a href="#有序符号表" class="headerlink" title="有序符号表"></a>有序符号表</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">public class ST&lt;Key extends Comparable&lt;Key&gt;, Value&gt;</div><div class="line">                    ST()                    //创建一张有序符号表</div><div class="line">            void    put(Key key,Value val)  //将键值对存入表中（若值为空则将键 key 从表中删除）</div><div class="line">            Value   get(Key key)            //获取键 key 对应的值</div><div class="line">             void   delete(Key key)         //从表中删去键 key （及其对应的值）</div><div class="line">          boolean   contains(Key key)       //键 key 在表中是否有对应的值</div><div class="line">          boolean   isEmpty()               //表是否为空</div><div class="line">              int   size()                  //表中的键值对数量</div><div class="line">              Key   min()                   //最小的键</div><div class="line">              Key   max()                   //最大的键</div><div class="line">              Key   floor(Key key)          //小于等于key的最大键</div><div class="line">              Key   ceiling(Key key)        //大于等于key的最小键</div><div class="line">              int   rank(Key key)           //小于key的键的数量</div><div class="line">              Key   select(int k)           //排名为k的键</div><div class="line">             void   deleteMin()             //删除最小的键</div><div class="line">             void   deleteMax()             //删除最大的键</div><div class="line">             int    size(Key lo, Key hi)    //[lo...hi]之间键的数量</div><div class="line">    Iterable&lt;Key&gt;   keys(Key lo, Key hi)    //[lo...hi]之间的所有键，已排序</div><div class="line">    Iterable&lt;Key&gt;   keys()                  //表中的所有键的集合</div></pre></td></tr></table></figure>
+<p>默认实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteMin</span><span class="params">()</span>            <span class="title">delete</span><span class="params">(min()</span>)</span></div><div class="line"><span class="keyword">void</span> <span class="title">deleteMax</span><span class="params">()</span>            <span class="title">delete</span><span class="params">(max()</span>)</div><div class="line"><span class="keyword">int</span> <span class="title">size</span><span class="params">(Key lo, Key hi)</span>    <span class="title">if</span><span class="params">(hi.compareTo(lo)</span> &lt; 0)</div><div class="line">                                return 0;</div><div class="line">                            <span class="keyword">else</span> <span class="keyword">if</span>(contains(hi))</div><div class="line">                                <span class="keyword">return</span> rank(hi) - rank(lo) + <span class="number">1</span>;</div><div class="line">                            <span class="keyword">else</span></div><div class="line">                                <span class="keyword">return</span> rank(hi) - rank(lo);</div><div class="line"><span class="function">Iterable&lt;Key&gt; <span class="title">keys</span><span class="params">()</span>        return <span class="title">keys</span><span class="params">(min()</span>, <span class="title">max</span><span class="params">()</span>)</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li>键的等价性：Java 的一条最佳实践就是维护所有的 Comparable 类型中的 compareTo() 方法和 equals() 方法的一致性。即任何一种 Comparable 类型的两个值 a 和 b 都要保证（a.compareTo(b) == 0 和 a.equals(b) 的返回值相同）。</li>
+</ul>
+<h2 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h2><blockquote>
+<p><strong>二叉查找树（BST）</strong>是一棵二叉树，其中每个节点都含有一个 Comparable 的键（以及相关联的值）且每个节点的键都大于其左子树中任意节点的键而小于右子树的任意节点的键。</p>
+</blockquote>
+<h3 id="数据表示"><a href="#数据表示" class="headerlink" title="数据表示"></a>数据表示</h3><p>和链表一样，嵌套定义一个私有类来表示二叉查找树的节点。每个节点包含键、值、左节点、右节点和以该节点为根的子树的节点总数。</p>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/二叉查找树的插入操作.png" title="二叉查找树的插入操作">
+<p>递归：递归调用沿着树向下走，递归调用返回沿着树向上爬。对于put方法，意味重置搜索路径上每个父节点指向子节点的链接，并增加路径上每个节点中的计数器的值。</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>假设键分布均匀（随机），二叉查找树和快排类似，查找命中平均所需比较次数为logN.</p>
+<h3 id="有序性相关的方法与删除操作"><a href="#有序性相关的方法与删除操作" class="headerlink" title="有序性相关的方法与删除操作"></a>有序性相关的方法与删除操作</h3><p>二叉查找树广泛应用的一个重要原因是它能够<strong>保持键的有序性</strong>，可以用来实现有序符号表。</p>
+<ul>
+<li>向上取整和向下取整<br>  若给定的键key小于二叉查找树根节点的键，则小于等于key的最大键（floor）一定在根节点的左子树中；<br>  <strong>若给定键key大于二叉查找树的根节点，则只有当根节点右子树中存在小于等于key的节点，小于等于key的最大键才会出现在右子树中，否则根节点就是小于等于key的最大键。</strong></li>
+<li>删除最大/最小键<br>  删除最小键<code>deleteMin()</code>只要不断深入根节点左子树直到遇到一个空链接，然后将指向该节点的链接指向该节点的右子树（递归调用返回其右链接）。</li>
+<li>删除操作<ol>
+<li>将指向即将被删除的节点链接保存为t</li>
+<li>将x指向它的后继节点min(t.right)</li>
+<li>将x右链接指向deleteMin(t.right)</li>
+<li>将x的左链接（本为空）设为t.left<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/二叉查找树删除操作.png" title="二叉查找树删除操作"></li>
+</ol>
+</li>
+<li>范围查找<br>  返回给定范围内键的keys()的方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BST</span>&lt;<span class="title">Key</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">Key</span>&gt;, <span class="title">Value</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> Node root;</div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</div><div class="line">        Key key;</div><div class="line">        Value val;</div><div class="line">        Node left, right;</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * 以该节点为根节点的子树中节点个数</div><div class="line">         */</div><div class="line">        <span class="keyword">int</span> N;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(Key key, Value val, <span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.key = key;</div><div class="line">            <span class="keyword">this</span>.val = val;</div><div class="line">            N = n;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> size(root);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">(Node x)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> x.N;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Value <span class="title">get</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> get(root, key);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Value <span class="title">get</span><span class="params">(Node x, Key key)</span> </span>&#123;</div><div class="line">        <span class="comment">//在以x为根节点的子树中查找并返回key所对应的值</span></div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> cmp = key.compareTo(x.key);</div><div class="line">        <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> get(x.left, key);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> get(x.right, key);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> x.val;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Key key, Value val)</span> </span>&#123;</div><div class="line">        <span class="comment">//查找key，找到则更新它的值，否则为它创建一个新节点</span></div><div class="line">        root = put(root, key, val);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">put</span><span class="params">(Node x, Key key, Value val)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Node(key, val, <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> cmp = key.compareTo(key);</div><div class="line">        <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) &#123;</div><div class="line">            x.left = put(x.left, key, val);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) &#123;</div><div class="line">            x.right = put(x.right, key, val);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            x.val = val;</div><div class="line">        &#125;</div><div class="line">        x.N = size(x.left) + size(x.right) + <span class="number">1</span>;</div><div class="line">        System.out.println(x.key);</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Key <span class="title">min</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> min(root).key;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">min</span><span class="params">(Node x)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x.left == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> x;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> min(x.left);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Key <span class="title">floor</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        Node x = floor(root, key);</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> x.key;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">floor</span><span class="params">(Node x, Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> cmp = key.compareTo(x.key);</div><div class="line">        <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) &#123;</div><div class="line">            Node tmp = floor(x.right, key);</div><div class="line">            <span class="keyword">if</span> (tmp != <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">return</span> tmp;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">return</span> x;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> floor(x.left, key);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Key <span class="title">select</span><span class="params">(<span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> select(root, k).key;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">select</span><span class="params">(Node x, <span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">if</span> (size(x.left) &gt; k) &#123;</div><div class="line">                <span class="keyword">return</span> select(x.left, k);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (size(x.left) + <span class="number">1</span> == k) &#123;</div><div class="line">                <span class="keyword">return</span> x;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">return</span> select(x.right, k - <span class="number">1</span> - size(x.left));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rank</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> rank(root, key);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">rank</span><span class="params">(Node x, Key key)</span> </span>&#123;</div><div class="line">        <span class="comment">//返回以x为根节点的子树中小于x.key的键的数量</span></div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> cmp = key.compareTo(x.key);</div><div class="line">        <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> size(x.left) + <span class="number">1</span> + rank(x.right, key);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> rank(x.left, key);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> size(x.left);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteMin</span><span class="params">()</span> </span>&#123;</div><div class="line">        root = deleteMin(root);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">deleteMin</span><span class="params">(Node x)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x.left == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> x.right;</div><div class="line">        &#125;</div><div class="line">        x.left = deleteMin(x.left);</div><div class="line">        x.N = size(x.left) + size(x.right) + <span class="number">1</span>;</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        root = delete(root, key);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">delete</span><span class="params">(Node x, Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> cmp = key.compareTo(x.key);</div><div class="line">        <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) &#123;</div><div class="line">            x.right = delete(x.right, key);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) &#123;</div><div class="line">            x.left = delete(x.left, key);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">if</span> (x.right == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">return</span> x.left;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (x.left == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">return</span> x.right;</div><div class="line">            &#125;</div><div class="line">            Node t = x;</div><div class="line">            x = min(t.right);</div><div class="line">            x.right = deleteMin(t.right);</div><div class="line">            x.left = t.left;</div><div class="line">        &#125;</div><div class="line">        x.N = size(x.left) + size(x.right) + <span class="number">1</span>;</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Iterable&lt;Key&gt; <span class="title">keys</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> keys(min(), max());</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Iterable&lt;Key&gt; <span class="title">keys</span><span class="params">(Key lo, Key hi)</span> </span>&#123;</div><div class="line">        Queue&lt;Key&gt; queue = <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;();</div><div class="line">        keys(root, queue, lo, hi);</div><div class="line">        <span class="keyword">return</span> queue;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//类似中序遍历</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">keys</span><span class="params">(Node x, Queue&lt;Key&gt; queue, Key lo, Key hi)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> cmplo = lo.compareTo(x.key);</div><div class="line">        <span class="keyword">int</span> cmphi = lo.compareTo(x.key);</div><div class="line">        <span class="comment">//如果下界小于当前节点key，则先在左子树中进行范围查找合适节点</span></div><div class="line">        <span class="keyword">if</span> (cmplo &lt; <span class="number">0</span>) &#123;</div><div class="line">            keys(x.left, queue, lo, hi);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//如果当前节点在范围内，则加入队列</span></div><div class="line">        <span class="keyword">if</span> (cmplo &lt;= <span class="number">0</span> &amp;&amp; cmphi &gt;= <span class="number">0</span>) &#123;</div><div class="line">            queue.add(x.key);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//如果上界大于当前节点key，则在右子树中进行范围查找合适节点</span></div><div class="line">        <span class="keyword">if</span> (cmphi &gt; <span class="number">0</span>)&#123;</div><div class="line">            keys(x.right,queue,lo,hi);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Key <span class="title">max</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/简单的符号表实现的成本总结.png" title="简单的符号表实现的成本总结">
+<h3 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h3><blockquote>
+<p>在一棵二叉查找树中，所有操作最坏情况下所需时间都和树的高度（树中任意节点最大深度）成正比。<br>基本的二叉查找树的实现常常是非递归的。</p>
+</blockquote>
+<h2 id="平衡查找树"><a href="#平衡查找树" class="headerlink" title="平衡查找树"></a>平衡查找树</h2><p>无论怎样构造，运行时间都是对数级别的。。。。。。。。。。。。。。。。。。。。。。。。。。。。</p>
+<h3 id="2-3查找树"><a href="#2-3查找树" class="headerlink" title="2-3查找树"></a>2-3查找树</h3><p>标准二叉树中的结点称为2-结点（含有一个键和两条链接），引入3-结点，含有两个键和三条链接，2-结点和3-结点的每条链接都对应着保存键所分割产生的一个区间。</p>
+<ul>
+<li>定义：一棵2-3查找树或为一棵空树，或由以下结点组成：<ul>
+<li>2-结点，含有一个键（及其对应的值）和两条链接，左链接指向的2-3树的键都小于该节点，右链接指向的2-3树中的键都大于该节点。</li>
+<li>3-节点，含有两个键（及其对应的值）和三条链接，左链接指向的2-3树的键都小于该节点，中链接指向的2-3树中的键都位于该节点两个键之间，右链接指向的2-3树中的键都大于该节点。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>一棵<strong>完美平衡的2-3查找树</strong>中的所有空连接到根节点的距离都应该是相同的</p>
+</blockquote>
+<h4 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h4><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/2-3树的查找命中与不命中.png" title="2-3树的查找命中与不命中">
+<h4 id="向2-结点插入新键"><a href="#向2-结点插入新键" class="headerlink" title="向2-结点插入新键"></a>向2-结点插入新键</h4><p>要在2-3树中插入结点，可以和二叉查找树一样先进行一次未命中查找，但新节点直接挂在树底部不能保持树的平衡，但使用2-3树目的就是为了保持平衡，当未命中查找结束于一个2-结点的解决办法是——<strong>把这个2结点替换为一个3-结点</strong>；若结束于3-结点则稍麻烦。</p>
+
+<h4 id="向只含一个3-结点树中插入新键"><a href="#向只含一个3-结点树中插入新键" class="headerlink" title="向只含一个3-结点树中插入新键"></a>向只含一个3-结点树中插入新键</h4><p>先临时将新键存入该节点，使之成为4-结点，再将其转换为一棵由3个2-结点组成的2-3树。插入前树的高度为0，插入后树的高度为1。<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向只含一个3-结点树中插入新键.png" title="向只含一个3-结点树中插入新键"></p>
+<h4 id="向父结点为2-结点的3-结点中插入新键"><a href="#向父结点为2-结点的3-结点中插入新键" class="headerlink" title="向父结点为2-结点的3-结点中插入新键"></a>向父结点为2-结点的3-结点中插入新键</h4><blockquote>
+<p>转换可看成将指向3-结点的的一条链接替换为父结点中的原中键左右两边的两条链接，并分别指向两个新的2-结点。<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向父结点为2-结点的3-结点中插入新键.png" title="向父结点为2-结点的3-结点中插入新键"></p>
+</blockquote>
+<h4 id="向父结点为3-结点的3-结点中插入新键"><a href="#向父结点为3-结点的3-结点中插入新键" class="headerlink" title="向父结点为3-结点的3-结点中插入新键"></a>向父结点为3-结点的3-结点中插入新键</h4><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向父结点为3-结点的3-结点中插入新键.png" title="向父结点为3-结点的3-结点中插入新键">
+<h4 id="分解根节点"><a href="#分解根节点" class="headerlink" title="分解根节点"></a>分解根节点</h4><p>若从插入结点到根节点的路径上都是3-结点，则将根节点变成一个临时4-结点，变换根节点，将其分解为3个2-结点，使得树高加1。<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/分解根节点.png" title="分解根节点"></p>
+<h4 id="局部变换"><a href="#局部变换" class="headerlink" title="局部变换"></a>局部变换</h4><p>将4-结点分解为一棵2-3树有6种可能：<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/在一棵2-3树中分解一个4-结点情况汇总.png" title="在一棵2-3树中分解一个4-结点情况汇总"></p>
+<blockquote>
+<p>2-3树插入算法根本在于这些变换都是局部的：除了相关结点和链接外不必修改或检查树其它部分。</p>
+</blockquote>
+<h4 id="全局性质"><a href="#全局性质" class="headerlink" title="全局性质"></a>全局性质</h4><p>局部变换不会影响树的全局有序性和平衡性：任意空链接到根结点的路径的长度都相等。<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/4-结点分解是局部变换，不影响树的有序性和平衡性.png" title="4-结点分解是局部变换，不影响树的有序性和平衡性"></p>
+<blockquote>
+<ul>
+<li>标准二叉树是由上向下生长，2-3树是由下向上生长</li>
+<li>在一棵大小为N的2-3树中，查找和插入操作访问结点不超过lgN个。</li>
+</ul>
+</blockquote>
+<h3 id="红黑二叉查找树"><a href="#红黑二叉查找树" class="headerlink" title="红黑二叉查找树"></a>红黑二叉查找树</h3><p>接下来利用红黑二叉查找树的简单数据结构来表达并实现上文2-3树。</p>
+<h4 id="替换3-结点"><a href="#替换3-结点" class="headerlink" title="替换3-结点"></a>替换3-结点</h4><p>红黑二叉查找树基本思想是<strong>用标准二叉查找树（完全由2-结点构成）和一些额外信息（替换3-结点）</strong>来表示2-3树。</p>
+<p>2-3查找树需要用到2-结点和3-结点，红黑树使用红链接来实现3-结点。指向一个节点的链接颜色如果为红色，那么这个节点和上层节点表示的是一个3-结点，而黑色则是普通链接。这样无须修改就可直接使用标准二叉查找树的get()方法。</p>
+
+<h4 id="红黑树等价定义"><a href="#红黑树等价定义" class="headerlink" title="红黑树等价定义"></a>红黑树等价定义</h4><p>红黑树另一种定义是含有红黑链接且满足下列条件的二叉查找树：</p>
+<ul>
+<li>红链接均为左链接</li>
+<li>没有任何一个结点同时和两条红链接相连</li>
+<li>该树是<strong>完美黑色平衡的，即任意空链接到根节点的路径上的黑链接数量相同</strong></li>
+</ul>
+<p>满足这样定义的红黑树和相应的2-3树一一对应。</p>
+<h4 id="一一对应"><a href="#一一对应" class="headerlink" title="一一对应"></a>一一对应</h4><ul>
+<li>若将红黑树中红链接画平，那么所有空链接到根节点距离都相同</li>
+<li>红黑树既是二叉查找树也是2-3树</li>
+</ul>
+<p>若能在保持一一对应基础上实现2-3树的插入算法，就能将两个算法有点结合起来：</p>
+<ul>
+<li>二叉查找树简洁高效的查找方法</li>
+<li>2-3树中高效的平衡插入算法</li>
+</ul>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/将红链接画平则红黑树就是一颗2-3树.png" title="将红链接画平则红黑树就是一颗2-3树">
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/红黑树和2-3树一一对应关系.png" title="红黑树和2-3树一一对应关系">
+<h4 id="颜色表示"><a href="#颜色表示" class="headerlink" title="颜色表示"></a>颜色表示</h4><p>每个结点都有一条指向自己的链接，若此链接为红，则令变量<code>color</code>为true，黑色则为false。约定空链接为黑色。代码见<a href="#实现">实现</a>。</p>
+<h4 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h4><p>合法的红链接都为左链接，如果出现右链接为红链接，那么就需要进行左旋转操作。实际只是将两个键中较小者作为根结点 变为 将较大者作为根结点。代码见<a href="#实现">实现</a>。<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/红黑树左旋转.png" title="红黑树左旋转"></p>
+<h4 id="旋转后重置父节点链接"><a href="#旋转后重置父节点链接" class="headerlink" title="旋转后重置父节点链接"></a>旋转后重置父节点链接</h4><p>旋转后可能会导致连续两条红色链接，进行右旋转就是为了转换两个连续的左红链接。代码见<a href="#实现">实现</a>。<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/红黑树右旋转.png" title="红黑树右旋转"></p>
+<p>在插入新键时可以通过旋转保证2-3树和红黑树一一对应和红黑树的重要性质：<strong>有序性和完美平衡性。</strong></p>
+<h4 id="向2-结点插入新键-1"><a href="#向2-结点插入新键-1" class="headerlink" title="向2-结点插入新键"></a>向2-结点插入新键</h4><p>左插和右插两种情况结果均为一棵和单个3-结点等价的红黑树，其中含有两个键，一条红链接，树的黑链接高度为1。</p>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向单个2-结点插入一个新键.png" title="向单个2-结点插入一个新键">
+<h4 id="向树底部2-结点插入新键"><a href="#向树底部2-结点插入新键" class="headerlink" title="向树底部2-结点插入新键"></a>向树底部2-结点插入新键</h4><p>向红黑树插入一个新键会在树底部新增一个结点，但总是用红链接将新结点和它的父节点相连。<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向树底部2-结点插入一个新键.png" title="向树底部2-结点插入一个新键"></p>
+<h4 id="向一棵双键树（即3-结点）插入新键"><a href="#向一棵双键树（即3-结点）插入新键" class="headerlink" title="向一棵双键树（即3-结点）插入新键"></a>向一棵双键树（即3-结点）插入新键</h4><p>3种情况（通过0次，1次和2次旋转）：</p>
+<ul>
+<li>新键大于原树两个键<ul>
+<li>将两条连接较大和较小结点的红链接都变黑即可</li>
+</ul>
+</li>
+<li>新键小于原树两个键<ul>
+<li>产生两条连续左红链接，只需将上层红链接右旋转即可得到第一种情况</li>
+</ul>
+</li>
+<li>新键介于原树两键之间<ul>
+<li>会产生两条连续红链接（一条左红链接连接一条右红链接），此时只需将下层红链接右旋即可得到第二种情况</li>
+</ul>
+</li>
+</ul>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向一棵双键树（即3-结点）插入新键.png" title="向一棵双键树（即3-结点）插入新键">
+<h4 id="颜色变换"><a href="#颜色变换" class="headerlink" title="颜色变换"></a>颜色变换</h4><p>一个 4-节点在红黑树中表现为一个节点的左右子节点都是红色的。分裂 4- 节点除了需要将子节点的颜色由红变黑之外，同时需要将父节点的颜色由黑变红，从 2-3 树的角度看就是将中间节点移到上层节点。</p>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/分解4-结点同时转换链接颜色.png" title="分解4-结点同时转换链接颜色">
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/向树底部3-结点插入新键.png" title="向树底部3-结点插入新键">
+<h4 id="根结点总是黑色"><a href="#根结点总是黑色" class="headerlink" title="根结点总是黑色"></a>根结点总是黑色</h4><p>每次插入后都将根结点设为黑色，每当根结点由红变黑时树的黑链接高度加1。</p>
+<h4 id="将红链接在树中向上传递"><a href="#将红链接在树中向上传递" class="headerlink" title="将红链接在树中向上传递"></a>将红链接在树中向上传递</h4><p>红黑树中实现2-3树插入算法关键：在3-结点下插入新键，先创建一个临时4-结点，将其分解并将红链接由中间键传递给它的父结点，重复该过程直到遇到一个2-结点或根节点。<br><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/红黑树中红链接向上传递.png" title="红黑树中红链接向上传递"></p>
+<ol>
+<li>若右子结点是红色而左子结点是黑色，进行左旋转</li>
+<li>若左子结点是红色且它的左子结点也是红色，进行右旋转</li>
+<li>若左右子结点均红色，进行颜色变换</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedBlackBST</span>&lt;<span class="title">Key</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">Key</span>&gt;, <span class="title">Value</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> RED = <span class="keyword">true</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">boolean</span> BLACK = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">private</span> Node root;</div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</div><div class="line">        Key key;</div><div class="line">        Value value;</div><div class="line">        Node left, right;</div><div class="line">        <span class="comment">//这课子树中结点总数</span></div><div class="line">        <span class="keyword">int</span> N;</div><div class="line">        <span class="comment">//由其父节点指向它的链接的颜色</span></div><div class="line">        <span class="keyword">boolean</span> color;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(Key key, Value value, <span class="keyword">int</span> n, <span class="keyword">boolean</span> color)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.key = key;</div><div class="line">            <span class="keyword">this</span>.value = value;</div><div class="line">            N = n;</div><div class="line">            <span class="keyword">this</span>.color = color;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//结点和其父节点之间链接的颜色</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isRed</span><span class="params">(Node x)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> x.color == RED;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">(Node x)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (x == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> x.N;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//左旋转</span></div><div class="line">    <span class="function">Node <span class="title">rotateLeft</span><span class="params">(Node h)</span> </span>&#123;</div><div class="line">        Node x = h.right;</div><div class="line">        h.right = x.left;</div><div class="line">        x.left = h;</div><div class="line">        x.color = h.color;</div><div class="line">        h.color = RED;</div><div class="line">        x.N = h.N;</div><div class="line">        h.N = <span class="number">1</span> + size(h.left) + size(h.right);</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line">    <span class="function">Node <span class="title">rotateRight</span><span class="params">(Node h)</span> </span>&#123;</div><div class="line">        Node x = h.left;</div><div class="line">        h.left = x.right;</div><div class="line">        x.right = h;</div><div class="line">        x.color = h.color;</div><div class="line">        h.color = RED;</div><div class="line">        x.N = h.N;</div><div class="line">        h.N = <span class="number">1</span> + size(h.left) + size(h.right);</div><div class="line">        <span class="keyword">return</span> x;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">flipColors</span><span class="params">(Node x)</span> </span>&#123;</div><div class="line">        x.left.color = x.right.color = BLACK;</div><div class="line">        x.color = RED;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Node <span class="title">put</span><span class="params">(Key key, Value val)</span> </span>&#123;</div><div class="line">        root = put(root, key, val);</div><div class="line">        root.color = BLACK;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Node <span class="title">put</span><span class="params">(Node root, Key key, Value val)</span> </span>&#123;</div><div class="line">        <span class="comment">//标准插入，和父节点用红链接相连</span></div><div class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Node(key, val, <span class="number">1</span>, RED);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> cmp = key.compareTo(root.key);</div><div class="line">        <span class="keyword">if</span> (cmp &lt; <span class="number">0</span>) &#123;</div><div class="line">            root.left = put(root.left, key, val);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) &#123;</div><div class="line">            root.right = put(root.right, key, val);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            root.value = val;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//左黑右红，左旋</span></div><div class="line">        <span class="keyword">if</span> (isRed(root.right) &amp;&amp; !isRed(root.left)) &#123;</div><div class="line">            root = rotateLeft(root);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (isRed(root.left) &amp;&amp; isRed(root.left.left)) &#123;</div><div class="line">            root = rotateRight(root);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (isRed(root.left) &amp;&amp; isRed(root.right)) &#123;</div><div class="line">            flipColors(root);</div><div class="line">        &#125;</div><div class="line">        root.N = <span class="number">1</span> + size(root.left) + size(root.right);</div><div class="line">        <span class="keyword">return</span> root;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>插入操作和二叉查找树的插入操作一致，只是在最后加入了旋转和颜色变换操作即可。<br>根节点一定为黑色，因为根节点没有上层节点，也就没有上层节点的左链接指向根节点。flipColors() 有可能会使得根节点的颜色变为红色，每当根节点由红色变成黑色时树的黑链接高度加 1.</p>
+<h3 id="删除最小键"><a href="#删除最小键" class="headerlink" title="删除最小键"></a>删除最小键</h3><p>如果最小键在一个 2- 节点中，那么删除该键会留下一个空链接，就破坏了平衡性，因此要确保最小键不在 2-节点中。为保证不会删除一个2-结点，沿着左链接向下变换，确保当前结点不是2-结点（可能是3-结点，也可能是4-结点）。</p>
+<p>将 2- 节点转换成 3- 节点或者 4- 节点有两种方法，一种是向上层节点拿一个 key，一种是向兄弟节点拿一个 key。如果上层节点是 2- 节点，那么就没办法从上层节点拿 key 了，因此要保证删除路径上的所有节点都不是 2- 节点。在向下删除的过程中，保证以下情况之一发生：</p>
+<ul>
+<li>如果当前节点的左子节点不是 2- 节点，完成；</li>
+<li>如果当前节点的左子节点是 2- 节点而它的兄弟节点不是 2- 节点，向兄弟节点拿一个 key 过来；</li>
+<li>如果当前节点的左子节点和它的兄弟节点都是 2- 节点，将左子节点、父节点中的最小键和最近的兄弟节点合并为一个 4- 节点</li>
+</ul>
+<p>最后得到一个含有最小键的 3-节点或者 4-节点，直接从中删除。然后再从头分解所有临时的 4-节点。</p>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/删除最小键的变换.png" title="删除最小键的变换">
+<h3 id="红黑树性质"><a href="#红黑树性质" class="headerlink" title="红黑树性质"></a>红黑树性质</h3><ul>
+<li>一颗大小为 N 的红黑树的高度不会超过 2logN。最坏的情况下是它所对应的 2-3 树中构成最左边的路径节点全部都是 3- 节点而其余都是 2- 节点。</li>
+<li>红黑树大多数的操作所需要的时间都是对数级别的。</li>
+<li>一棵大小为N的红黑树中，根结点到任意结点的平均路径长度为 logN</li>
+</ul>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/各种符号表实现的性能总结.png" title="各种符号表实现的性能总结">
+<p>参考：<br><a href="https://github.com/CyC2018/Interview-Notebook/blob/master/notes/%E7%AE%97%E6%B3%95.md#%E7%BA%A2%E9%BB%91%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91" target="_blank" rel="noopener">技术面试需要掌握的基础知识整理</a></p>
+<h2 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h2><h3 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h3><p>对于一个大小为 M 的散列表，散列函数能够把任意键转换为 [0, M-1] 内的正整数，该正整数即为 hash 值。</p>
+<p>散列表有冲突的存在，也就是两个不同的键可能有相同的 hash 值。</p>
+<p>散列函数应该满足以下三个条件：</p>
+<ul>
+<li>一致性：相等的键应当有相等的 hash 值，两个键相等表示调用 equals() 返回的值相等。</li>
+<li>高效性：计算应当简便，有必要的话可以把 hash 值缓存起来，在调用 hash 函数时直接返回。</li>
+<li>均匀性：所有键的 hash 值应当均匀地分布到 [0, M-1] 之间，这个条件至关重要，直接影响到散列表的性能。</li>
+</ul>
+<p>除留余数法可以将整数散列到 [0, M-1] 之间，例如一个正整数 k，计算 k%M 既可得到一个 [0, M-1] 之间的 hash 值。注意 <strong>M 必须是一个素数，否则无法利用键包含的所有信息。例如 M 为 10k，那么只能利用键的后 k 位。</strong></p>
+<p>对于其它数，可以将其转换成整数的形式，然后利用除留余数法。例如对于浮点数，可以将其表示成二进制形式，然后使用二进制形式的整数值进行除留余数法。</p>
+<blockquote>
+<p>对于有多部分组合的键，每部分都需要计算 hash 值，并且最后合并时需要让每部分 hash 值都具有同等重要的地位。可以将该键看成 R 进制的整数，键中每部分都具有不同的权值。</p>
+</blockquote>
+<p>例如，字符串的散列函数实现如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> hash = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++)</div><div class="line">    hash = (R * hash + s.charAt(i)) % M;</div></pre></td></tr></table></figure>
+<p>再比如，拥有多个成员的自定义类的哈希函数如下，R 的值不是很重要，通常取 31。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> hash = (((day * R + month) % M) * R + year) % M;</div></pre></td></tr></table></figure>
+<h4 id="hashCode-和-equals"><a href="#hashCode-和-equals" class="headerlink" title="hashCode() 和 equals()"></a>hashCode() 和 equals()</h4><p>每种数据类型都需要相应散列函数，Java令所有数据类型都继承了一个能返回32位整数的hashCode()方法。每种数据类型hashCode()方法都必须和equals()一致。</p>
+<blockquote>
+<p>等价的（调用equals返回true）对象必须产生相同的散列码。不等价的对象，不要求产生的散列码不相同。</p>
+</blockquote>
+<h4 id="将hashCode-返回值转化为一个数组索引"><a href="#将hashCode-返回值转化为一个数组索引" class="headerlink" title="将hashCode()返回值转化为一个数组索引"></a>将hashCode()返回值转化为一个数组索引</h4><p>我们需要的是数组索引而不是一个32位整数，Java 中的 hashCode() 实现了 hash 函数，但默认使用对象的内存地址值。在使用 hashCode() 函数时，应当结合除留余数法来使用。因为内存地址是 32 位整数，我们只需要 31 位的非负整数，因此应当屏蔽符号位之后再使用除留余数法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Key x)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> hash = (x.hashCode() &amp; <span class="number">0x7fffffff</span>) % M;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="自定义hashCode-方法"><a href="#自定义hashCode-方法" class="headerlink" title="自定义hashCode()方法"></a>自定义hashCode()方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Transaction</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String who;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Date when;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> amount;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> hash = <span class="number">17</span>;</div><div class="line">        hash = <span class="number">31</span> * hash + who.hashCode();</div><div class="line">        hash = <span class="number">31</span> * hash + when.hashCode();</div><div class="line">        hash = <span class="number">31</span> * hash + ((Double) amount).hashCode();</div><div class="line">        <span class="keyword">return</span> hash;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="软缓存"><a href="#软缓存" class="headerlink" title="软缓存"></a>软缓存</h4><p>散列值计算很耗时，可以将每个键的散列值缓存起来，即在每个键中使用一个hash变量来保存它的hashCode()返回值。String 对象的 hashCode() 方法就使用了该方法。</p>
+<h3 id="基于拉链法的散列表"><a href="#基于拉链法的散列表" class="headerlink" title="基于拉链法的散列表"></a>基于拉链法的散列表</h3><p>拉链法使用链表来存储 hash 值相同的键，从而解决冲突。此时查找需要分两步，首先查找 Key 所在的链表，然后在链表中顺序查找。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SeparateChainHashST</span>&lt;<span class="title">Key</span>, <span class="title">Value</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">//键值对总数</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> N;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> M;</div><div class="line">    <span class="keyword">private</span> SequentialSearchST&lt;Key, Value&gt;[] st;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SeparateChainHashST</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(<span class="number">997</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SeparateChainHashST</span><span class="params">(<span class="keyword">int</span> M)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.M = M;</div><div class="line">        st = (SequentialSearchST&lt;Key, Value&gt;[]) <span class="keyword">new</span> SequentialSearchST[M];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; i++) &#123;</div><div class="line">            st[i] = <span class="keyword">new</span> SequentialSearchST&lt;&gt;();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (key.hashCode() &amp; <span class="number">0x7fffffff</span>) % M;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Value <span class="title">get</span><span class="params">(Key key)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> st[hash(key)].get(key);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Key key,Value val)</span></span>&#123;</div><div class="line">        st[hash(key)].put(key,val);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="基于线性探测法的散列表"><a href="#基于线性探测法的散列表" class="headerlink" title="基于线性探测法的散列表"></a>基于线性探测法的散列表</h3><p>用大小为M的数组保存N个键值对，其中M&gt;N，依靠数组中的空位解决碰撞冲突，基于这种策略的所有方法统称为<strong>开放地址散列表</strong>。</p>
+<blockquote>
+<p>线性探测法：当碰撞发生时，直接检查散列表下一个位置（将索引值加1）。</p>
+</blockquote>
+<ul>
+<li>删除时直接置null会使此位置后的元素无法被查找，因此需要将被删除键后的所有键都重新插入。</li>
+<li>开放地址类的散列表性能依赖于 <code>a=N/M</code>，称 <code>a</code> 为散列表使用率。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinearProbingHashST</span>&lt;<span class="title">Key</span>, <span class="title">Value</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> N;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> M = <span class="number">16</span>;</div><div class="line">    <span class="keyword">private</span> Key[] keys;</div><div class="line">    <span class="keyword">private</span> Value[] vals;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinearProbingHashST</span><span class="params">()</span> </span>&#123;</div><div class="line">        keys = (Key[]) <span class="keyword">new</span> Object[M];</div><div class="line">        vals = (Value[]) <span class="keyword">new</span> Object[M];</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinearProbingHashST</span><span class="params">(<span class="keyword">int</span> M)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.M = M;</div><div class="line">        init(M);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> M)</span> </span>&#123;</div><div class="line">        keys = (Key[]) <span class="keyword">new</span> Object[M];</div><div class="line">        vals = (Value[]) <span class="keyword">new</span> Object[M];</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        LinearProbingHashST&lt;Key, Value&gt; t = <span class="keyword">new</span> LinearProbingHashST&lt;&gt;(n);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; M; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (keys[i] != <span class="keyword">null</span>) &#123;</div><div class="line">                t.put(keys[i], vals[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        keys = t.keys;</div><div class="line">        vals = t.vals;</div><div class="line">        M = t.M;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Key key, Value val)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (N &gt;= M / <span class="number">2</span>) &#123;</div><div class="line">            resize(<span class="number">2</span> * M);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> i;</div><div class="line">        <span class="keyword">for</span> (i = hash(key); keys[i] != <span class="keyword">null</span>; i = (i + <span class="number">1</span>) % M) &#123;</div><div class="line">            <span class="keyword">if</span> (keys[i].equals(key)) &#123;</div><div class="line">                vals[i] = val;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        keys[i] = key;</div><div class="line">        vals[i] = val;</div><div class="line">        N++;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (key.hashCode() &amp; <span class="number">0x7fffffff</span>) % M;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> Value <span class="title">get</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = hash(key); keys[i] != <span class="keyword">null</span>; i = (i + <span class="number">1</span>) % M) &#123;</div><div class="line">            <span class="keyword">if</span> (keys[i].equals(key)) &#123;</div><div class="line">                <span class="keyword">return</span> vals[i];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!contains(key)) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> i;</div><div class="line">        <span class="keyword">for</span> (i = hash(key); !key.equals(keys[i]); i = (i + <span class="number">1</span>) % M) &#123;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        keys[i] = <span class="keyword">null</span>;</div><div class="line">        vals[i] = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        i = (i + <span class="number">1</span>) % M;</div><div class="line">        <span class="keyword">while</span> (keys[i] != <span class="keyword">null</span>) &#123;</div><div class="line">            Key tmpKey = keys[i];</div><div class="line">            Value tmpVal = vals[i];</div><div class="line">            keys[i] = <span class="keyword">null</span>;</div><div class="line">            vals[i] = <span class="keyword">null</span>;</div><div class="line">            N--;</div><div class="line">            put(tmpKey, tmpVal);</div><div class="line">            i = (i + <span class="number">1</span>) % M;</div><div class="line">        &#125;</div><div class="line">        N--;</div><div class="line">        <span class="keyword">if</span> (N &gt;= <span class="number">0</span> &amp;&amp; N &lt;= M / <span class="number">8</span>) &#123;</div><div class="line">            resize(M / <span class="number">2</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(Key key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>两种方法性能差别主要是因为拉链法为每个键值对都分配了一小块内存而线性探测则为整张表使用了两个很大的数组。</p>
+</blockquote>
+<h3 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h3><ol>
+<li>Java 的Integer/Double/Long类型的hashCode()如何实现？<br> Integer 类型会直接返回该整数32位值。对于Double和Long类型，Java会返回值的机器表示的前32位和后32位的异或结果。</li>
+<li><p>当动态调整数组大小时，散列表大小总是2的幂，这样hash()方法就只用了hashCode()的低位。</p>
+</li>
+<li><p>为什么不将hash(x)实现为x.hashCode() % M？<br> 散列值必须在0到M-1之间，而Java中取余（%）结果可能为负数。</p>
+</li>
+<li>散列表查找比红黑树更快吗？<br> 取决于键的类型，这决定了hashCode()计算成本是否大于compareTo()比较成本。对于常见键类型以及Java的默认实现，两者成本近似，因此散列表会比红黑树快很多。</li>
+</ol>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/各种符号表实现的渐进性能总结.png" title="各种符号表实现的渐进性能总结">
+<ul>
+<li><p>Java 的 java.util.TreeMap 和 java.util.HashMap 分别是基于红黑树和拉链法的散列表的符号表实现。</p>
+</li>
+<li><p>文件索引（倒排索引）</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileIndex</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        ST&lt;String, SET&lt;File&gt;&gt; st = <span class="keyword">new</span> ST&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (String filename : args) &#123;</div><div class="line">            File file = <span class="keyword">new</span> File(filename);</div><div class="line">            In in = <span class="keyword">new</span> In();</div><div class="line">            <span class="keyword">while</span> (!in.isEmpty()) &#123;</div><div class="line">                String word = in.readString();</div><div class="line">                <span class="keyword">if</span> (!st.contains(word)) &#123;</div><div class="line">                    st.put(word, <span class="keyword">new</span> SET&lt;File&gt;());</div><div class="line">                &#125;</div><div class="line">                SET&lt;File&gt; set = st.get(word);</div><div class="line">                set.add(file);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> (!StdIn.isEmpty()) &#123;</div><div class="line">            String query = StdIn.readString();</div><div class="line">            <span class="keyword">if</span> (st.contains(query)) &#123;</div><div class="line">                <span class="keyword">for</span> (File file : st.get(query)) &#123;</div><div class="line">                    System.out.println(<span class="string">"   "</span> + file.getName());</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>稀疏向量乘法</li>
+</ul>
+<p>当向量为稀疏向量时，可以使用符号表来存储向量中的非 0 索引和值，使得乘法运算只需要对那些非 0 元素进行即可。</p>
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/矩阵和向量乘法.png" title="矩阵和向量乘法">
+<img src="/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/稀疏矩阵的表示.png" title="稀疏矩阵的表示">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SparseVector</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> HashMap&lt;Integer, Double&gt; hashMap;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SparseVector</span><span class="params">(<span class="keyword">double</span>[] vector)</span> </span>&#123;</div><div class="line">        hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; vector.length; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (vector[i] != <span class="number">0</span>) &#123;</div><div class="line">                hashMap.put(i, vector[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> hashMap.getOrDefault(i, <span class="number">0.0</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">dot</span><span class="params">(SparseVector other)</span> </span>&#123;</div><div class="line">        <span class="keyword">double</span> sum = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i : hashMap.keySet()) &#123;</div><div class="line">            sum += <span class="keyword">this</span>.get(i) * other.get(i);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> sum;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>本篇介绍的算法的完整代码地址：</strong><br><a href="https://github.com/fighterhit/algorithms/tree/master/src/main/java/algorithms/chapter3" target="_blank" rel="noopener">代码地址</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我喝杯咖啡吧☕~</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Fighter. 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Fighter. 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Fighter.
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/" title="（三）查找">http://fighterhit.github.io/2018/02/08/algorithm_and_datastructure/Algorithms4/Ch3-Search/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/查找/" rel="tag"># 查找</a>
+          
+            <a href="/tags/Algorithms-Notes/" rel="tag"># Algorithms Notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/08/Java_Notes/Java/JDK8-新特性/" rel="next" title="JDK8-新特性">
+                <i class="fa fa-chevron-left"></i> JDK8-新特性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/11/Java_Notes/Jvm/Java内存区域/" rel="prev" title="Java内存区域">
+                Java内存区域 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_tsina">新浪微博</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_cqq">腾讯QQ</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjY0Ni85MjA3"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Fighter." />
+            
+              <p class="site-author-name" itemprop="name">Fighter.</p>
+              <p class="site-description motion-element" itemprop="description">学习 | 分享 | 交流 | 进步</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/fighterhit" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/fighterhit" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#符号表"><span class="nav-number">1.</span> <span class="nav-text">符号表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API"><span class="nav-number">1.1.</span> <span class="nav-text">API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计决策"><span class="nav-number">1.1.1.</span> <span class="nav-text">设计决策</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有序符号表"><span class="nav-number">1.2.</span> <span class="nav-text">有序符号表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉查找树"><span class="nav-number">2.</span> <span class="nav-text">二叉查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据表示"><span class="nav-number">2.1.</span> <span class="nav-text">数据表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">2.2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有序性相关的方法与删除操作"><span class="nav-number">2.3.</span> <span class="nav-text">有序性相关的方法与删除操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能分析"><span class="nav-number">2.4.</span> <span class="nav-text">性能分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平衡查找树"><span class="nav-number">3.</span> <span class="nav-text">平衡查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3查找树"><span class="nav-number">3.1.</span> <span class="nav-text">2-3查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查找"><span class="nav-number">3.1.1.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#向2-结点插入新键"><span class="nav-number">3.1.2.</span> <span class="nav-text">向2-结点插入新键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#向只含一个3-结点树中插入新键"><span class="nav-number">3.1.3.</span> <span class="nav-text">向只含一个3-结点树中插入新键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#向父结点为2-结点的3-结点中插入新键"><span class="nav-number">3.1.4.</span> <span class="nav-text">向父结点为2-结点的3-结点中插入新键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#向父结点为3-结点的3-结点中插入新键"><span class="nav-number">3.1.5.</span> <span class="nav-text">向父结点为3-结点的3-结点中插入新键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分解根节点"><span class="nav-number">3.1.6.</span> <span class="nav-text">分解根节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部变换"><span class="nav-number">3.1.7.</span> <span class="nav-text">局部变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全局性质"><span class="nav-number">3.1.8.</span> <span class="nav-text">全局性质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#红黑二叉查找树"><span class="nav-number">3.2.</span> <span class="nav-text">红黑二叉查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#替换3-结点"><span class="nav-number">3.2.1.</span> <span class="nav-text">替换3-结点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#红黑树等价定义"><span class="nav-number">3.2.2.</span> <span class="nav-text">红黑树等价定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一一对应"><span class="nav-number">3.2.3.</span> <span class="nav-text">一一对应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#颜色表示"><span class="nav-number">3.2.4.</span> <span class="nav-text">颜色表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转"><span class="nav-number">3.2.5.</span> <span class="nav-text">旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转后重置父节点链接"><span class="nav-number">3.2.6.</span> <span class="nav-text">旋转后重置父节点链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#向2-结点插入新键-1"><span class="nav-number">3.2.7.</span> <span class="nav-text">向2-结点插入新键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#向树底部2-结点插入新键"><span class="nav-number">3.2.8.</span> <span class="nav-text">向树底部2-结点插入新键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#向一棵双键树（即3-结点）插入新键"><span class="nav-number">3.2.9.</span> <span class="nav-text">向一棵双键树（即3-结点）插入新键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#颜色变换"><span class="nav-number">3.2.10.</span> <span class="nav-text">颜色变换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根结点总是黑色"><span class="nav-number">3.2.11.</span> <span class="nav-text">根结点总是黑色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将红链接在树中向上传递"><span class="nav-number">3.2.12.</span> <span class="nav-text">将红链接在树中向上传递</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">3.3.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除最小键"><span class="nav-number">3.4.</span> <span class="nav-text">删除最小键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#红黑树性质"><span class="nav-number">3.5.</span> <span class="nav-text">红黑树性质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#散列表"><span class="nav-number">4.</span> <span class="nav-text">散列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#散列函数"><span class="nav-number">4.1.</span> <span class="nav-text">散列函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hashCode-和-equals"><span class="nav-number">4.1.1.</span> <span class="nav-text">hashCode() 和 equals()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将hashCode-返回值转化为一个数组索引"><span class="nav-number">4.1.2.</span> <span class="nav-text">将hashCode()返回值转化为一个数组索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义hashCode-方法"><span class="nav-number">4.1.3.</span> <span class="nav-text">自定义hashCode()方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#软缓存"><span class="nav-number">4.1.4.</span> <span class="nav-text">软缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于拉链法的散列表"><span class="nav-number">4.2.</span> <span class="nav-text">基于拉链法的散列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于线性探测法的散列表"><span class="nav-number">4.3.</span> <span class="nav-text">基于线性探测法的散列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">4.4.</span> <span class="nav-text">Q&amp;A</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">5.</span> <span class="nav-text">应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+      
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-home"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fighter.</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+
+    <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    </span>
+
+</div>
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

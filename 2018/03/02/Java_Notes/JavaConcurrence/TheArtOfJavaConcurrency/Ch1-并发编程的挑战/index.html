@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/avatar.jpg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java,并发," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="上下文切换单核处理器也支持多线程执行代码，CPU通过给每个线程分配CPU时间片来实现这个机制。时间片是CPU分配给各个线程的时间，因为时间片非常短，所以CPU通过不停地切换线程执行，让我们感觉多个线程是同时执行的，时间片一般是几十毫秒（ms）。  上下文切换：任务从保存到再加载的过程就是一次上下文切换。  多线程一定快吗？不一定，因为线程有创建和上下文切换开销。 减少上下文切换方法：  无锁并发编">
+<meta name="keywords" content="Java,并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（一）并发编程的挑战">
+<meta property="og:url" content="http://fighterhit.github.io/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch1-并发编程的挑战/index.html">
+<meta property="og:site_name" content="Fighter&#39;s Blog">
+<meta property="og:description" content="上下文切换单核处理器也支持多线程执行代码，CPU通过给每个线程分配CPU时间片来实现这个机制。时间片是CPU分配给各个线程的时间，因为时间片非常短，所以CPU通过不停地切换线程执行，让我们感觉多个线程是同时执行的，时间片一般是几十毫秒（ms）。  上下文切换：任务从保存到再加载的过程就是一次上下文切换。  多线程一定快吗？不一定，因为线程有创建和上下文切换开销。 减少上下文切换方法：  无锁并发编">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-11T07:51:27.992Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（一）并发编程的挑战">
+<meta name="twitter:description" content="上下文切换单核处理器也支持多线程执行代码，CPU通过给每个线程分配CPU时间片来实现这个机制。时间片是CPU分配给各个线程的时间，因为时间片非常短，所以CPU通过不停地切换线程执行，让我们感觉多个线程是同时执行的，时间片一般是几十毫秒（ms）。  上下文切换：任务从保存到再加载的过程就是一次上下文切换。  多线程一定快吗？不一定，因为线程有创建和上下文切换开销。 减少上下文切换方法：  无锁并发编">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fighterhit.github.io/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch1-并发编程的挑战/"/>
+
+
+
+
+
+  <title>（一）并发编程的挑战 | Fighter's Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fighter's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">深度沉迷学习</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch1-并发编程的挑战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">（一）并发编程的挑战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T12:12:44+08:00">
+                2018-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h2><p>单核处理器也支持多线程执行代码，CPU通过给每个线程分配CPU时间片来实现这个机制。时间片是CPU分配给各个线程的时间，因为时间片非常短，所以CPU通过不停地切换线程执行，让我们感觉多个线程是同时执行的，时间片一般是几十毫秒（ms）。</p>
+<blockquote>
+<p>上下文切换：<strong>任务从保存到再加载</strong>的过程就是一次上下文切换。</p>
+</blockquote>
+<h3 id="多线程一定快吗？"><a href="#多线程一定快吗？" class="headerlink" title="多线程一定快吗？"></a>多线程一定快吗？</h3><p>不一定，因为线程有创建和上下文切换开销。</p>
+<h3 id="减少上下文切换"><a href="#减少上下文切换" class="headerlink" title="减少上下文切换"></a>减少上下文切换</h3><p>方法：</p>
+<ul>
+<li>无锁并发编程<br>  多线程竞争锁时，会引起上下文切换，所以多线程处理数据时，可以用一些方法来避免使用锁，如将数据的 ID 按 Hash 算法取模分段，不同线程处理不同段数据。</li>
+<li>CAS 算法<br>  Java 的 Atomic 包使用 CAS 算法来更新数据，而不需要加锁。</li>
+<li>使用最少线程和使用协程<ul>
+<li>避免创建不需要的线程，比如任务很少，但创建了很多线程来处理，这会造成大量线程都处于等待状态</li>
+<li>协程：在单线程里实现多任务的调度，并在单线程里维持多任务间的切换<a id="more"></a>
+<h3 id="减少上下文切换实战"><a href="#减少上下文切换实战" class="headerlink" title="减少上下文切换实战"></a>减少上下文切换实战</h3></li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p>用 <code>jstack</code> 命令 dump 线程信息，查看 pid 为 3117 进程里的线程在做什么:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jstack 31177 &gt; dump17</div></pre></td></tr></table></figure>
+</li>
+<li><p>统计所有线程分别处于什么状态，发现300多个线程处于 WAITING（onobject-monitor）状态:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">grep java.lang.Thread.State dump17 | awk &apos;&#123;print $2$3$4$5&#125;&apos; | sort | uniq -c</div><div class="line">39 RUNNABLE</div><div class="line">21 TIMED_WAITING(onobjectmonitor)</div><div class="line">6 TIMED_WAITING(parking)</div><div class="line">51 TIMED_WAITING(sleeping)</div><div class="line">305 WAITING(onobjectmonitor)</div><div class="line">3 WAITING(parking)</div></pre></td></tr></table></figure>
+</li>
+<li><p>打开dump文件查看处于WAITING（onobjectmonitor）的线程在做什么。发现这些线程基本全是JBOSS的工作线程，在await。说明JBOSS线程池里线程接收到的任务太少，大量线程都闲着。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&quot;http-0.0.0.0-7001-97&quot; daemon prio=10 tid=0x000000004f6a8000 nid=0x555e in</div><div class="line">Object.wait() [0x0000000052423000]</div><div class="line">java.lang.Thread.State: WAITING (on object monitor)</div><div class="line">at java.lang.Object.wait(Native Method)</div><div class="line">- waiting on &lt;0x00000007969b2280&gt; (a org.apache.tomcat.util.net.AprEndpoint$Worker)</div><div class="line">at java.lang.Object.wait(Object.java:485)</div><div class="line">at org.apache.tomcat.util.net.AprEndpoint$Worker.await(AprEndpoint.java:1464)</div><div class="line">- locked &lt;0x00000007969b2280&gt; (a org.apache.tomcat.util.net.AprEndpoint$Worker)</div><div class="line">at org.apache.tomcat.util.net.AprEndpoint$Worker.run(AprEndpoint.java:1489)</div><div class="line">at java.lang.Thread.run(Thread.java:662)</div></pre></td></tr></table></figure>
+</li>
+<li><p>减少 JBOSS 的工作线程数，找到 JBOSS 的线程池配置信息，将 maxThreads 降到 100。</p>
+</li>
+<li>重启JBOSS，再dump线程信息，然后统计 WAITING（onobjectmonitor）的线程，发现减少了175个。WAITING的线程少了，系统上下文切换的次数就会少，因为<strong>每一次从WAITTING到RUNNABLE都会进行一次上下文的切换</strong>。可以使用vmstat命令测试一下。</li>
+</ol>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>比如一个线程拿到了一个数据库锁，释放锁的时候抛出了异常，没释放掉。一旦出现死锁，业务是可感知的，因为不能继续提供服务了，那么只能通过 dump 线程查看是哪个线程出现了问题。下面线程信息说明是DeadLockDemo类的第42行和第31行引起的死锁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="string">"Thread-2"</span> prio=<span class="number">5</span> tid=<span class="number">7f</span>c0458d1000 nid=<span class="number">0x116c1c000</span> waiting <span class="keyword">for</span> monitor entry [<span class="number">116</span>c1b000]</div><div class="line">java.lang.Thread.State: BLOCKED (on object monitor)</div><div class="line">at com.ifeve.book.forkjoin.DeadLockDemo$<span class="number">2</span>.run(DeadLockDemo.java:<span class="number">42</span>)</div><div class="line">- waiting to lock &lt;<span class="number">7f</span>b2f3ec0&gt; (a java.lang.String)</div><div class="line">- locked &lt;<span class="number">7f</span>b2f3ef8&gt; (a java.lang.String)</div><div class="line">at java.lang.Thread.run(Thread.java:<span class="number">695</span>)</div><div class="line"><span class="string">"Thread-1"</span> prio=<span class="number">5</span> tid=<span class="number">7f</span>c0430f6800 nid=<span class="number">0x116b19000</span> waiting <span class="keyword">for</span> monitor entry [<span class="number">116</span>b18000]</div><div class="line">java.lang.Thread.State: BLOCKED (on object monitor)</div><div class="line">at com.ifeve.book.forkjoin.DeadLockDemo$<span class="number">1</span>.run(DeadLockDemo.java:<span class="number">31</span>)</div><div class="line">- waiting to lock &lt;<span class="number">7f</span>b2f3ef8&gt; (a java.lang.String)</div><div class="line">- locked &lt;<span class="number">7f</span>b2f3ec0&gt; (a java.lang.String)</div><div class="line">at java.lang.Thread.run(Thread.java:<span class="number">695</span>)</div></pre></td></tr></table></figure>
+<p><strong>避免死锁常见方法：</strong></p>
+<ul>
+<li>避免一个线程同时获取多个锁</li>
+<li>避免一个线程在锁内同时占用多个资源，<strong>尽量保证每个锁只占用一个资源</strong></li>
+<li>尝试<strong>使用定时锁</strong>，使用 lock.tryLock(timeout) 来替代使用内部锁机制</li>
+<li>对于数据库锁，<strong>加锁和解锁必须在一个数据库连接里</strong>，否则会出现解锁失败的情况</li>
+</ul>
+<h2 id="资源限制的挑战"><a href="#资源限制的挑战" class="headerlink" title="资源限制的挑战"></a>资源限制的挑战</h2><p>资源限制：进行并发编程时，程序的执行速度受限于计算机硬件资源或软件资源。例如，服务器的带宽只有2Mb/s，某个资源的下载速度是1 Mb/s每秒，系统启动10个线程下载资源，下载速度不会变成10Mb/s。</p>
+<h3 id="资源限制"><a href="#资源限制" class="headerlink" title="资源限制"></a>资源限制</h3><ul>
+<li>硬件资源限制<ul>
+<li>带宽的上传/下载速度</li>
+<li>硬盘读写速度</li>
+<li>CPU的处理速度</li>
+</ul>
+</li>
+<li>软件资源限制<ul>
+<li>数据库的连接数</li>
+<li>socket连接数等</li>
+</ul>
+</li>
+</ul>
+<h3 id="资源限制引发的问题"><a href="#资源限制引发的问题" class="headerlink" title="资源限制引发的问题"></a>资源限制引发的问题</h3><p>在并发编程中，将代码执行速度加快的原则是<strong>将代码中串行执行的部分变成并发执行</strong>，但是如果将某段串行的代码并发执行，因为<strong>受限于资源</strong>，仍然在串行执行，这时候程序不仅不会加快执行，反而会更慢，因为<strong>增加了上下文切换和资源调度的时间</strong>。</p>
+<h3 id="资源限制解决方案"><a href="#资源限制解决方案" class="headerlink" title="资源限制解决方案"></a>资源限制解决方案</h3><ul>
+<li>硬件资源限制<ul>
+<li>使用集群，不同机器处理不同数据（如：数据ID % 机器数）</li>
+</ul>
+</li>
+<li>软件资源限制<ul>
+<li>使用资源池将资源复用。使用连接池将数据库和socket连接复用，或者在调用对方webservice接口获取数据时，只建立一个连接</li>
+</ul>
+</li>
+</ul>
+<h3 id="在资源限制情况下进行并发编程"><a href="#在资源限制情况下进行并发编程" class="headerlink" title="在资源限制情况下进行并发编程"></a>在资源限制情况下进行并发编程</h3><p>根据不同的资源限制调整程序的并发度，比如下载文件程序依赖于两个资源——带宽和硬盘读写速度。有数据库操作时，涉及数据库连接数，如果SQL语句执行非常快，而线程的数量比数据库连接数大很多，则某些线程会被阻塞，等待数据库连接。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>请我喝杯咖啡吧☕~</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Fighter. 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Fighter. 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Fighter.
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://fighterhit.github.io/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch1-并发编程的挑战/" title="（一）并发编程的挑战">http://fighterhit.github.io/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch1-并发编程的挑战/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/并发/" rel="tag"># 并发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/24/Java_Notes/Jvm/类加载/" rel="next" title="类加载">
+                <i class="fa fa-chevron-left"></i> 类加载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch2-Java并发机制的底层实现原理/" rel="prev" title="（二）Java并发机制的底层实现原理">
+                （二）Java并发机制的底层实现原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_tsina">新浪微博</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_cqq">腾讯QQ</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjY0Ni85MjA3"></div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Fighter." />
+            
+              <p class="site-author-name" itemprop="name">Fighter.</p>
+              <p class="site-description motion-element" itemprop="description">学习 | 分享 | 交流 | 进步</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/fighterhit" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/fighterhit" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#上下文切换"><span class="nav-number">1.</span> <span class="nav-text">上下文切换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程一定快吗？"><span class="nav-number">1.1.</span> <span class="nav-text">多线程一定快吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减少上下文切换"><span class="nav-number">1.2.</span> <span class="nav-text">减少上下文切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减少上下文切换实战"><span class="nav-number">1.3.</span> <span class="nav-text">减少上下文切换实战</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁"><span class="nav-number">2.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源限制的挑战"><span class="nav-number">3.</span> <span class="nav-text">资源限制的挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源限制"><span class="nav-number">3.1.</span> <span class="nav-text">资源限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源限制引发的问题"><span class="nav-number">3.2.</span> <span class="nav-text">资源限制引发的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源限制解决方案"><span class="nav-number">3.3.</span> <span class="nav-text">资源限制解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在资源限制情况下进行并发编程"><span class="nav-number">3.4.</span> <span class="nav-text">在资源限制情况下进行并发编程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+      
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-home"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fighter.</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+
+    <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    </span>
+
+</div>
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

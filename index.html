@@ -81,12 +81,13 @@
 
 <meta name="description" content="学习 | 分享 | 交流 | 进步">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Fighter's Blog">
+<meta property="og:title" content="Fighter&#39;s Blog">
 <meta property="og:url" content="http://fighterhit.github.io/index.html">
-<meta property="og:site_name" content="Fighter's Blog">
+<meta property="og:site_name" content="Fighter&#39;s Blog">
 <meta property="og:description" content="学习 | 分享 | 交流 | 进步">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fighter's Blog">
+<meta name="twitter:title" content="Fighter&#39;s Blog">
 <meta name="twitter:description" content="学习 | 分享 | 交流 | 进步">
 
 
@@ -261,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/01/29/algorithm_and_datastructure/Algorithms4/Ch2-Sort/">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/06/20/other_notes/制作Docker镜像/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fighter.">
@@ -280,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/29/algorithm_and_datastructure/Algorithms4/Ch2-Sort/" itemprop="url">（三）排序</a></h1>
+                <a class="post-title-link" href="/2018/06/20/other_notes/制作Docker镜像/" itemprop="url">制作Docker镜像</a></h1>
         
 
         <div class="post-meta">
@@ -292,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T20:08:19+08:00">
-                2018-01-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-20T16:11:54+08:00">
+                2018-06-20
               </time>
             
 
@@ -315,8 +316,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">算法与数据结构</span>
+                  <a href="/categories/其它笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">其它笔记</span>
                   </a>
                 </span>
 
@@ -353,946 +354,806 @@
 
       
         
-          <h2 id="1-初级排序算法"><a href="#1-初级排序算法" class="headerlink" title="1 初级排序算法"></a>1 初级排序算法</h2><p>排序算法关注的主要是重新排列数组元素，其中每个元素都有一个主键。排序算法是将所有元素主键按某种方式排列（通常是按照大小或是字母顺序）。排序后索引较大的主键大于等于索引较小的主键。</p>
-<h3 id="排序算法类的模板"><a href="#排序算法类的模板" class="headerlink" title="排序算法类的模板"></a><span id="example"></span>排序算法类的模板</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Example</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable a[])</span></span>&#123;&#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(Comparable a, Comparable b)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> a.compareTo(b) &lt; <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(Comparable[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>&#123;</div><div class="line">        Comparable t = a[i];</div><div class="line">        a[i] = a[j];</div><div class="line">        a[j] = t;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(Comparable[] a)</span></span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;  i &lt; a.length; i++)&#123;</div><div class="line">            System.out.print(a[i] + <span class="string">" "</span>);</div><div class="line">        &#125;</div><div class="line">        System.out.println();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isSort</span><span class="params">(Comparable[] a)</span></span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++)&#123;</div><div class="line">            <span class="keyword">if</span>(less(a[i], a[i - <span class="number">1</span>]))</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="comment">//从标准输入读入字符串，排序后输出</span></div><div class="line">        Integer[] a = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>,<span class="number">34</span>,<span class="number">55</span>,<span class="number">66</span>,<span class="number">7</span>&#125;;</div><div class="line">        sort(a);</div><div class="line">        <span class="function"><span class="keyword">assert</span> <span class="title">isSort</span><span class="params">(a)</span></span>;</div><div class="line">        show(a);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为最近在做大数据分析大作业，要求将算法封装进 Docker ，因此临时学了一下 Docker 方面的知识，在这里简单记录一下。</p>
+<h3 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h3><p>Docker 安装比较简单，可以参考网上<a href="http://www.runoob.com/docker/ubuntu-docker-install.html" target="_blank" rel="noopener">教程</a></p>
+<h3 id="Docker-架构"><a href="#Docker-架构" class="headerlink" title="Docker 架构"></a>Docker 架构</h3><p>使用 Docker 前需要首先理解 Docker 的架构，因为以前自己只使用过 Vmware/VirtualBox 之类虚拟机，所以之前对 Docker 的理解也跟对 Vmware/VirtualBox 认识差不多，但学习之后发现他们还是有很大区别的， Docker 中融汇了面向对象的思想。网上有两张图对初学者很友好，让人很容易理解 Docker 架构思想：</p>
+<img src="/2018/06/20/other_notes/制作Docker镜像/docker架构.png" title="Docker 架构">
+<img src="/2018/06/20/other_notes/制作Docker镜像/docker架构图.png" title="Docker 架构">
 <ul>
-<li>排序成本模型：研究排序算法时，需要计算<strong>比较和交换</strong>的次数。对于不交换元素的算法，计算<strong>访问数组的次数</strong>。</li>
-<li>额外内存使用：排序算法的额外内存开销和运行时间同等重要。排序算法可分两类：除了函数调用所需的栈和固定数目的实例变量之外无需额外内存的<strong>原地排序算法</strong>，以及需要<strong>额外内存空间</strong>来存储另一份数组副本的其它排序算法。</li>
-<li>数据类型：上述排序算法模板适用于任何实现了Comparable接口的数据类型。例如，Java中封装的Integer和Double，以及String和其他许多高级数据类型（如File和URL）都实现了Comparable接口，因此可以直接调用这些类型的数组作为参数调用我们自己实现的排序方法。</li>
+<li>Docker 使用客户端-服务器 (C/S) 架构模式，使用远程 API 来管理和创建 Docker 容器。</li>
+<li>Docker 容器通过 Docker 镜像来创建。</li>
+<li><strong>容器与镜像的关系类似于面向对象编程中的对象与类。</strong></li>
 </ul>
-</blockquote>
-<p>例如——用快排对N个随机的Double数据进行排序：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Doulbe[] a = <span class="keyword">new</span> Double[N];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)&#123;</div><div class="line">    a[i] = StdRandom.uniform();</div><div class="line">    Quick.sort(a);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/29/algorithm_and_datastructure/Algorithms4/Ch2-Sort/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/12/30/algorithm_and_datastructure/Algorithms4/Ch1-Fundamentals-Time-Complexity/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fighter.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fighter's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/30/algorithm_and_datastructure/Algorithms4/Ch1-Fundamentals-Time-Complexity/" itemprop="url">（二）基础（Fundamentals）：算法分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-30T23:59:11+08:00">
-                2017-12-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">算法与数据结构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="观察"><a href="#观察" class="headerlink" title="观察"></a>观察</h2><p>运行时间和输入本身相对无关，主要取决于问题规模<br>例：统计文件中三个数和为0的数量</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreeSum</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">(<span class="keyword">int</span> a[])</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> N = a.length, cnt = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)&#123;</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)&#123;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = j + <span class="number">1</span>; k  &lt; N; k++)&#123;</div><div class="line">                    <span class="keyword">if</span>(a[i] + a[j] + a[k] == <span class="number">0</span>)</div><div class="line">                        cnt += <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>一种表示计时器的抽象数据类型：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StopWatch</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> start;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StopWatch</span><span class="params">()</span></span>&#123;</div><div class="line">        start = System.currentTimeMillis();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">elapsedTime</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">long</span> now = System.currentTimeMillis();</div><div class="line">        <span class="keyword">return</span> (now - start) / <span class="number">1000.0</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/30/algorithm_and_datastructure/Algorithms4/Ch1-Fundamentals-Time-Complexity/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/12/27/algorithm_and_datastructure/Algorithms4/Ch1-Fundamentals/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fighter.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fighter's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/27/algorithm_and_datastructure/Algorithms4/Ch1-Fundamentals/" itemprop="url">（一）基础（Fundamentals）：数据结构</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-27T14:21:56+08:00">
-                2017-12-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">算法与数据结构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1-基础编程模型"><a href="#1-基础编程模型" class="headerlink" title="1 基础编程模型"></a>1 基础编程模型</h2><h3 id="Java-四类八种类型"><a href="#Java-四类八种类型" class="headerlink" title="Java 四类八种类型"></a>Java 四类八种类型</h3><ul>
-<li>整型：byte, short, int, long</li>
-<li>浮点型：float, double</li>
-<li>布尔型：boolean</li>
-<li>字符型：char</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> key)</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> right = a.length - <span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</div><div class="line">        <span class="keyword">int</span> mid = left + ((right - left) &gt;&gt;<span class="number">1</span>);</div><div class="line">        <span class="keyword">if</span>(a[mid] &gt; key)&#123;</div><div class="line">            right = mid -<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(a[mid] &lt; key)&#123;</div><div class="line">            left = mid + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> mid;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><ol>
-<li><p>颠倒数组中元素顺序</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//注意 n 值、for 循环边界、以及循环体内 n - 1 - i</span></div><div class="line"><span class="keyword">int</span> n = a.length;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n/<span class="number">2</span>; i++)&#123;</div><div class="line">    <span class="keyword">int</span> temp = a[i];</div><div class="line">    a[i] = a[n - <span class="number">1</span> - i];</div><div class="line">    a[i - <span class="number">1</span> - i] = temp;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>矩阵相乘</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//假设a[n][n], b[n][n], c[n][n]</span></div><div class="line"><span class="keyword">int</span> n = a.length;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; n; k++)&#123;</div><div class="line">            c[i][j] += a[i][k] * b[k][j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/27/algorithm_and_datastructure/Algorithms4/Ch1-Fundamentals/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/12/26/algorithm_and_datastructure/二分查找/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fighter.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fighter's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/26/algorithm_and_datastructure/二分查找/" itemprop="url">你真的会二分查找吗？</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T17:00:55+08:00">
-                2017-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">算法与数据结构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>今天想来说说二分查找，因为最近笔者的同学在面试时正好遇到了，而自己以前还真没认真研究过。</p>
-<p>说起二分查找，对算法和数据结构比较熟悉的都知道这是一个复杂度为 <code>O(logN)</code> 的典型<strong>分治</strong>算法，它的用途是在<strong>有序数组</strong>中查找某个数是否存在。但就是这么听起来很普通的算法却常常很难完全写对。</p>
-<ul>
-<li>据D.Knuth在《计算机程序设计的艺术 第3卷：排序和查找》书中指出，虽然二分查找1946年就公诸于世，但1962年才有人写出没有 bug 的二分查找程序。</li>
-<li>除此之外，就连我们熟悉的 Java 语言里 JDK 的二分查找 <code>java.util.Arrays.binarySearch</code> 中也曾有一个隐藏了10年之久bug!（文末附bug链接）不过，这个bug已经不是什么新鲜事了，是 JDK5 时代的产物了，不过我们可以再来回顾一下，看看我们平常是不是就在写bug，是不是真应了那个表情包“哟，写bug呢”🙊</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/26/algorithm_and_datastructure/二分查找/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/12/24/machine_learning_notes/从广义线性模型理解逻辑回归/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fighter.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fighter's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/24/machine_learning_notes/从广义线性模型理解逻辑回归/" itemprop="url">从广义线性模型(GLM)理解逻辑回归</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-24T22:03:18+08:00">
-                2017-12-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1-问题来源"><a href="#1-问题来源" class="headerlink" title="1 问题来源"></a>1 问题来源</h2><p>记得一开始学逻辑回归时候也不知道当时怎么想得，很自然就接受了逻辑回归的决策函数——sigmod函数:</p>
-<script type="math/tex; mode=display">h_{\theta}(x)=\frac {1}{1+e^{-\theta^Tx}}</script><p>与此同时，有些书上直接给出了该函数与将 $y$ 视为类后验概率估计 $p(y=1|x)$ 等价，即</p>
-<script type="math/tex; mode=display">
-\begin{array}{lcr}
-p(y=1|x)=\frac {e^{\theta^T x}}{1+e^{\theta^T x}}\\ \\
-p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
-\end{array}</script><p>并给出了二分类(标签 $y\in(0,1)$)情况下的判别方式：</p>
-<script type="math/tex; mode=display">y=\left\{
-\begin{array}{lcl}
-1                            &    &  {h_{\theta}(x) \geq 0.5}\\
-0                         &    &  {h_{\theta}(x) < 0.5}
-\end{array} \right.</script><p>但今天再回过头看的时候，突然就不理解了，一个函数值是怎么和一个概率联系起来了呢？有些人解释说因为 $h_{\theta}(x)$ 范围在0~1之间啊，可是数值在此之间还是没说明白和概率究竟有什么关系。所以，前几天看了一些资料，对个人而言比较好理解的还是从广义线性模型（Generalized Linear Models, GLM）来解释，至少这种方法能从概率出发直接推出 sigmod 函数。实际上，线性回归和逻辑回归都是广义线性模型的特例，从此出发，得到对应的决策函数就比较自然了。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/24/machine_learning_notes/从广义线性模型理解逻辑回归/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/11/12/learning_summary/Hadoop-安装和使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fighter.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fighter's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/12/learning_summary/Hadoop-安装和使用/" itemprop="url">Hadoop 安装和使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T12:07:00+08:00">
-                2017-11-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习总结/" itemprop="url" rel="index">
-                    <span itemprop="name">学习总结</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
-<li>操作系统：Ubuntu 14.04</li>
-<li>Hadoop版本：Hadoop 2.6.5</li>
-<li>JDK版本：OpenJDK 1.7</li>
-</ul>
-<h2 id="创建Hadoop用户"><a href="#创建Hadoop用户" class="headerlink" title="创建Hadoop用户"></a>创建Hadoop用户</h2><h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo useradd -m hadoop</div></pre></td></tr></table></figure>
-<h4 id="为新用户设置密码"><a href="#为新用户设置密码" class="headerlink" title="为新用户设置密码"></a>为新用户设置密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo passwd hadoop</div></pre></td></tr></table></figure>
-<h4 id="为新用户添加权限"><a href="#为新用户添加权限" class="headerlink" title="为新用户添加权限"></a>为新用户添加权限</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo adduser hadoop sudo</div></pre></td></tr></table></figure>
-<blockquote>
-<p>如果失败，则切换到root用户下，修改/etc/sudoers文件，将hadoop用户添加进去。</p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/12/learning_summary/Hadoop-安装和使用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fighter.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fighter's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/" itemprop="url">Python数据分析、挖掘常用工具</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-24T19:34:00+08:00">
-                2017-10-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据挖掘笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">数据挖掘笔记</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Python语言"><a href="#Python语言" class="headerlink" title="Python语言"></a>Python语言</h3><p>简要概括一下Python语言在数据分析、挖掘场景中常用特性：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Docker</th>
+<th style="text-align:center">面向对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">容器</td>
+<td style="text-align:center">对象</td>
+</tr>
+<tr>
+<td style="text-align:center">镜像</td>
+<td style="text-align:center">类</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>理解了上面几句话，大概就能跟我一样简单使用了，Docker hub 仓库其实就相当于打包了很多常用的 Docker 镜像，我们可以直接 pull 下来，启动成容器来在本地跑，省去了很多搭环境浪费的时间。</p>
+<h2 id="制作-Docker-镜像"><a href="#制作-Docker-镜像" class="headerlink" title="制作 Docker 镜像"></a>制作 Docker 镜像</h2><p>当然有时候我们还需要自己造轮子，按自己的需求、逻辑来封装一个镜像来给别人使用等，所以这时候就需要学会编写 Dockerfile 了，关于 Dockerfile 的编写这里有个<a href="https://blog.csdn.net/mozf881/article/details/55798811" target="_blank" rel="noopener">博客</a>简单介绍了一些语法规则，对于我这次的任务来说已经够用了，如果任务更复杂就需要参考官方文档来好好研究啦。下面是我为这次封装算法编写的 Dockerfile ：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> continuumio/anaconda3      <span class="comment"># 继承 continuumio/anaconda3 镜像</span></div><div class="line"><span class="keyword">MAINTAINER</span> fighter fighterhit@<span class="number">163</span>.com</div><div class="line"><span class="keyword">COPY</span> code  /root/             # 把 code 文件夹复制到镜像内部 /root 下</div><div class="line"><span class="keyword">WORKDIR</span> /root</div><div class="line"><span class="keyword">CMD</span> jupyter notebook --ip=0.0.0.0 --allow-root # docker run 时容器内执行的命令</div></pre></td></tr></table></figure>
+<p>写好 Dockerfile 后执行 build 命令生成镜像：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build . -t fighter:lastest</div></pre></td></tr></table></figure>
+<h3 id="导入-导出-Docker-镜像"><a href="#导入-导出-Docker-镜像" class="headerlink" title="导入/导出 Docker 镜像"></a>导入/导出 Docker 镜像</h3><p>将镜像导出为 tar 包：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker save -o BDProject.tar fighter:latest</div></pre></td></tr></table></figure>
+<p>导入 tar 包：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker load &lt; BDProject.tar</div></pre></td></tr></table></figure>
+<h2 id="给-Vmware-增加磁盘"><a href="#给-Vmware-增加磁盘" class="headerlink" title="给 Vmware 增加磁盘"></a>给 Vmware 增加磁盘</h2><p>因为自己是在 Vmware 虚拟机内做的，在导出制作的 docker 镜像时中途出错，显示磁盘空间不够，后来给 VMWare 加了一个磁盘执行<code>df -h</code>也没有显示增加的磁盘，后来发现还需要格式化并挂载磁盘，详细过程见<a href="https://blog.csdn.net/u012406115/article/details/56853188" target="_blank" rel="noopener">扩展或者添加硬盘给VMware的Linux操作系统</a>：</p>
 <ol>
-<li>列表（可以被修改），元组（不可以被修改）</li>
-<li>字典（<k,v>结构）</li>
-<li>集合（同数学概念上的集合）</li>
-<li>函数式编程（主要由lambda()、map()、reduce()、filter()构成）</li>
+<li><p>查看分区</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fdisk -l</div></pre></td></tr></table></figure>
+<p> 添加完磁盘后执行上述命令会看到未分区的 <code>dev/sdb</code></p>
+</li>
+<li><p>创建分区</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fdisk /dev/sdb</div></pre></td></tr></table></figure>
+</li>
+<li><p>重启 linux，并格式化<br> 对于添加新硬盘的方法执行：mkfs.ext4 /dev/sdb1格式化</p>
+</li>
+<li>开机挂载<ul>
+<li>如果设置root登录可以直接修改“etc/profile”文件使每次系统开机自动挂载该分区到“/disk”目录下。我们再该文件的末尾添加“mount /dev/sdb1/disk”，或者mount/dev/sda4 /disk保存重启系统。</li>
+<li>或者更加通用专业的方法修改/etc/fsrab文件加入/dev/sda4   /disk4 ext2 defaults 0 0，并保存，实现开机自动挂载。<br>这时我们可以查看/disk文件的磁盘空间会是很大的，我们可以将一些不常用的大容量文件放在该目录下以节省系统的磁盘空间。</li>
+</ul>
+</li>
 </ol>
-<h3 id="Python数据分析常用库"><a href="#Python数据分析常用库" class="headerlink" title="Python数据分析常用库"></a>Python数据分析常用库</h3><p><img src="http://upload-images.jianshu.io/upload_images/137261-7405db8f00f43a8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Python数据挖掘相关扩展库"></p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://blog.csdn.net/x6_9x/article/details/72891404" target="_blank" rel="noopener">docker镜像的导入和导出</a><br><a href="https://www.cnblogs.com/q4486233/p/6482711.html" target="_blank" rel="noopener">Docker 容器镜像删除</a><br><a href="https://www.linuxidc.com/Linux/2017-03/142007.htm" target="_blank" rel="noopener">虚拟机VMware新增硬盘无法识别问题</a><br><a href="https://blog.csdn.net/u012406115/article/details/56853188" target="_blank" rel="noopener">如何扩展或者添加硬盘给VMware的Linux操作系统</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/" itemprop="url">使用VSCode搭建C/C++开发环境</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-29T22:27:34+08:00">
+                2018-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/其它笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">其它笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本人虽然最近偏向Java语言，但平常有时也会遇到需要临时调试些C/C++代码，虽然电脑装了VS又感觉有点大材小用，而我平常一直是在用VSCode写markdown等，实际上VSCode和Sublime、Notepad++等都有很多插件可以装，装完就可以当作“短小精悍”的IDE啦，下面就记录下前天在Win10下用VSCode搭建C/C++环境的过程。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>Windows 10 64位</li>
+<li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VSCode 1.21.1 64位</a></li>
+<li><a href="http://www.mingw.org/" target="_blank" rel="noopener">MinGW</a></li>
+</ul>
+<h2 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h2><h3 id="安装C-C-插件"><a href="#安装C-C-插件" class="headerlink" title="安装C/C++插件"></a>安装C/C++插件</h3><p>在 VSCode 左侧第5个插件商店下面搜索<code>C/C++</code>，出现第一个插件应该就是微软官方插件，长这样：</p>
+<img src="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/C插件.png" title="C插件.png">
+<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><ul>
+<li><p>新建项目文件夹 <code>VSC-CPP</code> 并编写如下源文件</p>
+<ul>
+<li>add.h     // add() 函数声明</li>
+<li>add.cpp   // add() 函数实现</li>
+<li>sub.h     // sub() 函数声明</li>
+<li>sub.cpp   // sub() 函数实现</li>
+<li>main.cpp  // 调用 add() 与 sub()</li>
+</ul>
+</li>
+<li><p>add.h</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _ADD_H_</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ADD_H_</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// ! _ADD_H_</span></span></div></pre></td></tr></table></figure>
+</li>
+<li><p>add.cpp</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"add.h"</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> a + b; &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>sub.h</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _SUB_H_</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _SUB_H_</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// ! _SUB_H_</span></span></div></pre></td></tr></table></figure>
+</li>
+<li><p>sub.cpp</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sub.h"</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> a - b; &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>main.cpp</p>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"add.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sub.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; add(<span class="number">1</span>, <span class="number">2</span>) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; sub(<span class="number">2</span>, <span class="number">1</span>) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="修改默认配置文件"><a href="#修改默认配置文件" class="headerlink" title="修改默认配置文件"></a>修改默认配置文件</h3><ol>
+<li><p>按 <code>ctrl+shit+p</code>，在上面出现的框里输入<code>c/cpp</code>，点击<code>C/Cpp:Edit Configurations</code>项编辑配置文件 <code>c_cpp_properties.json</code>，里面很多是自动生成的，主要对应平台（Win32，因为是Windows）修改下面几项即可：</p>
+ <img src="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/cpp插件配置.png" title="cpp插件配置">
+<p> 具体这样修改的原因，可以参见 vscode-cpptools github提供的模板，本人参考网上配置文件修改后会出现找不到include的文件等如下问题：<br> <a href="https://github.com/Microsoft/vscode-cpptools/issues/1041" target="_blank" rel="noopener">#include errors detected … cannot open source file “iostream #1041</a><br> <a href="https://github.com/Microsoft/vscode-cpptools/issues/1724" target="_blank" rel="noopener">Namespace std has no member cin, cout - Windows #1724</a></p>
+<p> 最终解决办法都是采用官方提供的配置文件模板 <a href="https://github.com/Microsoft/vscode-cpptools/blob/master/Documentation/LanguageServer/MinGW.md" target="_blank" rel="noopener">MinGW.md</a>，大家根据自己MinGW实际路径修改即可</p>
+</li>
+<li><p>上一步解决了代码提示问题，接下来按 <code>ctrl+shit+p</code>，输入 <code>Tasks: Configure Task</code>，弹出窗口中选择 Others (这里我们要用 GCC 来编译)，在新打开的 <code>tasks.json</code> 中配置如下（其它情况可视具体情况配置）：</p>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"version"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="string">"tasks"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="string">"label"</span>: <span class="string">"build"</span>,</div><div class="line">            <span class="string">"type"</span>: <span class="string">"shell"</span>,</div><div class="line">            <span class="string">"command"</span>: <span class="string">"g++"</span>,</div><div class="line">            <span class="string">"args"</span>: [</div><div class="line">                <span class="string">"main.cpp"</span>,</div><div class="line">                <span class="string">"add.cpp"</span>,</div><div class="line">                <span class="string">"sub.cpp"</span>,</div><div class="line">                <span class="string">"-o"</span>,</div><div class="line">                <span class="string">"main.exe"</span></div><div class="line">            ],</div><div class="line">            <span class="string">"problemMatcher"</span>: []</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="string">"label"</span>: <span class="string">"build-debug"</span>,</div><div class="line">            <span class="string">"type"</span>: <span class="string">"shell"</span>,</div><div class="line">            <span class="string">"command"</span>: <span class="string">"g++"</span>,</div><div class="line">            <span class="string">"args"</span>: [</div><div class="line">                <span class="string">"-g"</span>,</div><div class="line">                <span class="string">"main.cpp"</span>,</div><div class="line">                <span class="string">"add.cpp"</span>,</div><div class="line">                <span class="string">"sub.cpp"</span>,</div><div class="line">                <span class="string">"-o"</span>,</div><div class="line">                <span class="string">"debug.exe"</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>即我们添加了两个任务，一个是<code>build</code>，一个是<code>build-debug</code></p>
+<h3 id="编译与执行"><a href="#编译与执行" class="headerlink" title="编译与执行"></a>编译与执行</h3><ol>
+<li><p>按 <code>ctrl+shit+p</code>，输入并选择 <code>Tasks: Run Task</code>，这时会看到出现两个tasks，直接回车选第一个会看到项目文件夹下生成了main.exe：</p>
+ <img src="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/tasks.jpg" title="tasks">
+</li>
+<li><p>在VSCode终端下运行即可得到程序结果：</p>
+</li>
+</ol>
+<img src="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/运行结果.png" title="运行结果">
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/wzxlovesy/article/details/76708151" target="_blank" rel="noopener">VS Code 配置 C/C++ 环境</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/" itemprop="url">（四）图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T14:45:56+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">算法与数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h2><ul>
+<li>图：是由一组顶点和一组能够将两个顶点相连的边组成的</li>
+<li>自环：即可一条龙连接一个顶点和其自身的边</li>
+<li>平行边：连接同一对顶点的两条边</li>
+<li>常将含有平行边的图称为<strong>多重图</strong>，而没有平行边或自环的图称为<strong>简单图</strong></li>
+<li>相邻：当两顶点通过一条边相连时，称这两个顶点是<strong>相邻</strong>的，并称连接<strong>依附于</strong>这两个顶点</li>
+<li>度数：顶点的度数就是依附于它的边数</li>
+<li>子图：由<strong>所有边的一个子集</strong>以及这些边<strong>依附的所有顶点</strong>组成的图</li>
+<li>路径是由边顺序连接的一系列顶点；简单路径是一条没有重复顶点的路径</li>
+<li>环是一条至少含有一条边且起点和终点相同的路径；简单环（除了起始和终点必须相同外）是一条不含有重复顶点和边的环</li>
+<li>路径和环的长度为其中包含的边数</li>
+<li>连通图：若从任意一个顶点都存在一条路径到达另一个任意顶点；非连通图：由若干连通部分组成，它们都是其极大连通子图</li>
+<li><strong>树</strong>是无环连通图；互不相连的树组成的集合称为<strong>森林</strong>；<strong>连通图的生成树</strong>是它的一幅子图，它含有图中所有顶点且是一棵树；图的<strong>生成树森林</strong>是它的所有连通子图的生成树的集合</li>
+<li>当且仅当V个结点的图G满足下列5个条件之一时是树<ul>
+<li>G有V-1条边且不含环</li>
+<li>G有V-1条边且是连通的</li>
+<li>G是连通的，但删除任意一条边都会使它不再连通</li>
+<li>G是无环图，但添加任意一条边都会产生一条环</li>
+<li>G中任意一对顶点之间仅存在一条简单路径</li>
+</ul>
+</li>
+<li><strong>二分图</strong>中每条边连接的两个顶点分别属于不同部分</li>
+</ul>
+<h3 id="图的数据结构"><a href="#图的数据结构" class="headerlink" title="图的数据结构"></a>图的数据结构</h3><img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/无向图API.png" title="无向图API">
+<ol>
+<li>必须为可能在应用中碰到的各种类型的图预留出足够<strong>空间</strong></li>
+<li>Graph 实例方法的实现一定要快</li>
+</ol>
+<h3 id="三种图的表示方法："><a href="#三种图的表示方法：" class="headerlink" title="三种图的表示方法："></a>三种图的表示方法：</h3><ul>
+<li>邻接矩阵：VxV 布尔矩阵，当顶点v和顶点w之间有相连的边时，定义v行w列元素值为true，否则为false。该方法不满足第一个条件，上百万顶点的图所需空间不能满足。（邻接矩阵也无法表示平行边）</li>
+<li>边的数组：使用一个Edge类，含有两个int实例变量。该方法简洁但不满足第二个条件——查找结点的相邻结点需要检查图中所有边</li>
+<li>邻接表数组：使用一个以顶点为索引的列表数组，其中每个元素都是和该顶点相邻的顶点列表。该数据结构能同时满足两个条件。</li>
+</ul>
+<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/邻接表数组.png" title="邻接表数组">
+<p>非稠密图标准表示称为<strong>邻接表</strong>，在该数据结构中每条边都会出现两次，其实现有如下性能：</p>
+<ul>
+<li>空间和V+E成正比</li>
+<li>添加一条边所需时间为常数</li>
+<li>遍历顶点v所有相邻顶点所需时间和v度数成正比（处理每个相邻顶点所需时间为常数）</li>
+</ul>
+<blockquote>
+<p>当需要添加/删除顶点时，使用符号表（ST）来代替由顶点索引构成的数组；当需要删除一条边/检查图是否含有边v-w时，可以用SET代替Bag来实现邻接表。这种方法称为<strong>邻接集</strong>。</p>
+</blockquote>
+<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/典型Graph实现的性能复杂度.png" title="典型Graph实现的性能复杂度">
+<h3 id="图处理算法的设计模式"><a href="#图处理算法的设计模式" class="headerlink" title="图处理算法的设计模式"></a>图处理算法的设计模式</h3><p>图的表示和实现分离</p>
+<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/图处理算法API.png" title="图处理算法API">
+<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/图处理用例.png" title="图处理用例">
+<h3 id="深度优先搜索（栈）"><a href="#深度优先搜索（栈）" class="headerlink" title="深度优先搜索（栈）"></a>深度优先搜索（栈）</h3><p>在访问其中任何一个顶点时：</p>
+<ul>
+<li>将它标记为已访问</li>
+<li>递归地访问它所没有被标记过的邻居节点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DepthFirstSearch</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[] marked;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DepthFirstSearch</span><span class="params">(Graph G, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        marked = <span class="keyword">new</span> <span class="keyword">boolean</span>[G.V()];</div><div class="line">        dfs(G, s);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(Graph g, <span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        marked[v] = <span class="keyword">true</span>;</div><div class="line">        count++;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> w : g.adj(v)) &#123;</div><div class="line">            <span class="keyword">if</span> (!marked[w]) &#123;</div><div class="line">                dfs(g, w);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">marked</span><span class="params">(<span class="keyword">int</span> w)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> marked[w];</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>深度优先搜索标记与起点相连通的所有顶点所需时间和顶点度数之和成正比</p>
+</blockquote>
+<h3 id="寻找路径"><a href="#寻找路径" class="headerlink" title="寻找路径"></a>寻找路径</h3><img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/路径API.png" title="路径API">
+<p>基于深度优先搜索查找路径（从给定起点s到它连通的所有顶点的路径）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DepthFirstPaths</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[] marked;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 起点</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> s;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 该顶点到一个顶点的已知路径上的最后一个顶点</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] edgeTo;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DepthFirstPaths</span><span class="params">(Graph G, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        marked = <span class="keyword">new</span> <span class="keyword">boolean</span>[G.V()];</div><div class="line">        edgeTo = <span class="keyword">new</span> <span class="keyword">int</span>[G.V()];</div><div class="line">        <span class="keyword">this</span>.s = s;</div><div class="line">        dfs(G, s);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPathTo</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> marked[v];</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Iterable&lt;Integer&gt; <span class="title">pathTo</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!hasPathTo(v)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//注意使用了栈</span></div><div class="line">        Stack&lt;Integer&gt; path = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = v; x != s ; x = edgeTo[x]) &#123;</div><div class="line">            path.push(x);</div><div class="line">        &#125;</div><div class="line">        path.push(s);</div><div class="line">        <span class="keyword">return</span> path;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(Graph g, <span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        marked[v] = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">for</span> (Integer w : g.adj(v)) &#123;</div><div class="line">            <span class="keyword">if</span> (!marked[w])&#123;</div><div class="line">                edgeTo[w] = v;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>深度优先搜索得到从给定起点到任意标记顶点的路径所需时间和路径长度成正比</p>
+</blockquote>
+<h3 id="广度优先搜索（队列）"><a href="#广度优先搜索（队列）" class="headerlink" title="广度优先搜索（队列）"></a>广度优先搜索（队列）</h3><blockquote>
+<p>单点最短路径。若s到v存在一条路径，找出最短那条（边数最少）。<br>要找到从s到v的最短路径，从s开始，在所有由一条边就可以到达的顶点中寻找v，若找不到则继续在与s距离两条边的所有顶点中查找v，如此一直进行。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BreadthFirstPaths</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 到达该店的最短路径是否已知</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[] marked;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] edgeTo;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> s;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BreadthFirstPaths</span><span class="params">(Graph G, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        marked = <span class="keyword">new</span> <span class="keyword">boolean</span>[G.V()];</div><div class="line">        edgeTo = <span class="keyword">new</span> <span class="keyword">int</span>[G.V()];</div><div class="line">        <span class="keyword">this</span>.s = s;</div><div class="line">        bfs(G, s);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//非递归</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">(Graph G, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        Queue&lt;Integer&gt; queue = <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;();</div><div class="line">        marked[s] = <span class="keyword">true</span>;</div><div class="line">        queue.add(s);</div><div class="line">        <span class="comment">//一层一层遍历</span></div><div class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</div><div class="line">            <span class="keyword">int</span> v = queue.poll();</div><div class="line">            <span class="keyword">for</span> (Integer w : G.adj(v)) &#123;</div><div class="line">                <span class="keyword">if</span> (!marked[w]) &#123;</div><div class="line">                    queue.add(w);</div><div class="line">                    edgeTo[w] = v;</div><div class="line">                    marked[w] = <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPathTo</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> marked[v];</div><div class="line">    &#125;</div><div class="line">    <span class="function">Iterable&lt;Integer&gt; <span class="title">pathTo</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!hasPathTo(v)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        Stack&lt;Integer&gt; path = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">        path.push(v);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = v; x != s; x = edgeTo[x]) &#123;</div><div class="line">            path.push(x);</div><div class="line">        &#125;</div><div class="line">        path.push(s);</div><div class="line">        <span class="keyword">return</span> path;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>广度优先搜索所需时间在最坏情况下和 <code>V+E</code> 成正比</p>
+</blockquote>
+<p><a href="https://stackoverflow.com/questions/11468621/why-is-the-time-complexity-of-both-dfs-and-bfs-o-v-e" target="_blank" rel="noopener">Why is the time complexity of both DFS and BFS O( V + E )</a></p>
+<h3 id="连通分量"><a href="#连通分量" class="headerlink" title="连通分量"></a>连通分量</h3><p>DFS可以应用找出一幅图所有连通分量</p>
+<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/连通分量.png" title="连通分量">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CC</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[] marked;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] id;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CC</span><span class="params">(Graph G)</span> </span>&#123;</div><div class="line">        marked = <span class="keyword">new</span> <span class="keyword">boolean</span>[G.V()];</div><div class="line">        id = <span class="keyword">new</span> <span class="keyword">int</span>[G.V()];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> s = <span class="number">0</span>; s &lt; G.V(); s++) &#123;</div><div class="line">            <span class="keyword">if</span> (!marked[s]) &#123;</div><div class="line">                <span class="comment">//一次深度优先搜索就是一个连通分量</span></div><div class="line">                dfs(G, s);</div><div class="line">                count++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(Graph g, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        marked[s] = <span class="keyword">true</span>;</div><div class="line">        <span class="comment">//同一连通分量同一编号</span></div><div class="line">        id[s] = count;</div><div class="line">        <span class="keyword">for</span> (Integer v : g.adj(s)) &#123;</div><div class="line">            <span class="keyword">if</span> (!marked[v]) &#123;</div><div class="line">                dfs(g, v);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connected</span><span class="params">(<span class="keyword">int</span> w ,<span class="keyword">int</span> v)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> id[w] == id[v];</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">id</span><span class="params">(<span class="keyword">int</span> v)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> id[v];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>CC中基于DFS搜索解决图连通性问题相比：理论上，DFS 搜索比 union-find 快，因为它能保证所需时间是常数而 union-find 不行；但实际应用中，union-find 更快，因为它不需完整构造并表示一幅图。但DFS必须对图进行预处理，在只需判断连通性或只需完成大量连通性查询和插入操作混合等类似任务时，更倾向union-find，而DFS更适合实现抽象数据类型，它能更有效利用已有数据结构。</p>
+<ul>
+<li><p>使用深度优先搜索处理图的其它实例</p>
+<ul>
+<li><p>判断 G 是否为无环图</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+</li>
+<li><p>G 是二分图吗？（双色问题）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="有向图"><a href="#有向图" class="headerlink" title="有向图"></a>有向图</h2><h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/" itemprop="url">Java中的锁</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-18T22:47:23+08:00">
+                2018-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这部分主要介绍Java并发包中与锁相关的API和组件的使用和实现。</p>
+<h2 id="Lock接口"><a href="#Lock接口" class="headerlink" title="Lock接口"></a>Lock接口</h2><p>Lock接口之前Java是靠synchronized关键字实现锁功能的，而Java SE 5后并发包中新增了Lock接口（以及相关实现类）用来实现锁功能，它提供了与synchronized关键字类似的同步功能，只是在使用时需要显式地获取和释放锁。虽没有了隐式释放锁的便利性，但有了如下优点：</p>
+<ol>
+<li>锁获取与释放的可操作性</li>
+<li>可中断的获取锁</li>
+<li>超时获取锁等</li>
+</ol>
+<p>Lock使用方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">    lock.unlock();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>在finally块中释放锁，保证在获取到锁之后，最终能被释放。<strong>不要将获取锁的过程写在try块中，因为如果在获取锁（自定义锁的实现）时发生了异常，异常抛出的同时，也会导致锁无故释放。</strong></p>
+</blockquote>
+<img src="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/Lock接口提供的synchronized关键字不具备的主要特性.png" title="Lock接口提供的synchronized关键字不具备的主要特性">
+<img src="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/Lock的API.png" title="Lock的API">
+<p>Lock接口的实现基本都是通过聚合了一个同步器（AbstractQueuedSynchronizer）的子类来完成线程访问控制的。</p>
+<h2 id="队列同步器"><a href="#队列同步器" class="headerlink" title="队列同步器"></a>队列同步器</h2><p>同步器的设计是基于模板方法模式的，即使用者需<strong>继承同步器并重写指定的方法，</strong>随后将同步器组合在自定义同步组件的实现中，并<strong>调用同步器提供的模板方法，而这些模板方法将会调用使用者重写的方法。</strong></p>
+<p>重写同步器指定方法时，需使用同步器提供的如下3个方法来访问或修改同步状态：</p>
+<ul>
+<li>getState()：获取当前同步状态。</li>
+<li>setState(int newState)：设置当前同步状态。</li>
+<li>compareAndSetState(int expect,int update)：使用CAS设置当前状态，该方法能保证状态设置的原子性。</li>
+</ul>
+<img src="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/同步器可重写的方法.png" title="同步器可重写的方法">
+<p>自定义同步组件时，将会调用同步器提供的模板方法：</p>
+<ul>
+<li>独占式获取与释放同步状态</li>
+<li>共享式获取与释放同步状态</li>
+<li>查询同步队列中的等待线程</li>
+</ul>
+<img src="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/同步器提供的模板方法.png" title="同步器提供的模板方法">
+<h2 id="重入锁"><a href="#重入锁" class="headerlink" title="重入锁"></a>重入锁</h2><h2 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h2><h2 id="LockSupport工具"><a href="#LockSupport工具" class="headerlink" title="LockSupport工具"></a>LockSupport工具</h2><h2 id="Condition-接口"><a href="#Condition-接口" class="headerlink" title="Condition 接口"></a>Condition 接口</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/03/14/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch4-Java并发编程基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/14/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch4-Java并发编程基础/" itemprop="url">（四）Java并发编程基础</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-14T15:18:28+08:00">
+                2018-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="线程简介"><a href="#线程简介" class="headerlink" title="线程简介"></a>线程简介</h2><p>现代操作系统调度的最小单元是线程，也叫轻量级进程（LightWeight Process），在一个进程里可以创建多个线程，这些线程都拥有各自的计数器、堆栈和局部变量等属性，并且能够访问共享的内存变量。处理器在这些线程上高速切换，让使用者感觉到这些线程在同时执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MultiThread</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// 获取Java线程管理MXBean</span></div><div class="line">        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();</div><div class="line">        <span class="comment">// 不需要获取同步的monitor和synchronizer信息，仅获取线程和线程堆栈信息</span></div><div class="line">        ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(<span class="keyword">false</span>, <span class="keyword">false</span>);</div><div class="line">        <span class="comment">// 遍历线程信息，仅打印线程ID和线程名称信息</span></div><div class="line">        <span class="keyword">for</span> (ThreadInfo threadInfo : threadInfos) &#123;</div><div class="line">            System.out.println(<span class="string">"["</span> + threadInfo.getThreadId() + <span class="string">"] "</span> + threadInfo.getThreadName());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//输出</span></div><div class="line">[<span class="number">6</span>] Monitor Ctrl-Break</div><div class="line">[<span class="number">5</span>] Attach Listener</div><div class="line">[<span class="number">4</span>] Signal Dispatcher</div><div class="line">[<span class="number">3</span>] Finalizer</div><div class="line">[<span class="number">2</span>] Reference Handler</div><div class="line">[<span class="number">1</span>] main</div></pre></td></tr></table></figure>
+<h3 id="为什么使用线程"><a href="#为什么使用线程" class="headerlink" title="为什么使用线程"></a>为什么使用线程</h3><ol>
+<li>更多处理器核心</li>
+<li>更快响应时间</li>
+<li>更好的编程模型
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/10/24/data_mining_notes/Python数据分析、挖掘常用工具/#more" rel="contents">
+            <a class="btn" href="/2018/03/14/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch4-Java并发编程基础/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1343,7 +1204,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/02/08/learning_summary/linux下普通用户安装mysql/">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/03/04/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch3-Java内存模型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fighter.">
@@ -1362,7 +1223,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/08/learning_summary/linux下普通用户安装mysql/" itemprop="url">Linux下普通用户安装Mysql</a></h1>
+                <a class="post-title-link" href="/2018/03/04/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch3-Java内存模型/" itemprop="url">（三）Java内存模型</a></h1>
         
 
         <div class="post-meta">
@@ -1374,8 +1235,8 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-08T10:08:17+08:00">
-                2017-02-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-04T14:28:35+08:00">
+                2018-03-04
               </time>
             
 
@@ -1397,8 +1258,481 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习总结/" itemprop="url" rel="index">
-                    <span itemprop="name">学习总结</span>
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Java-内存模型的基础"><a href="#Java-内存模型的基础" class="headerlink" title="Java 内存模型的基础"></a>Java 内存模型的基础</h2><h3 id="并发编程模型的两个关键问题"><a href="#并发编程模型的两个关键问题" class="headerlink" title="并发编程模型的两个关键问题"></a>并发编程模型的两个关键问题</h3><ol>
+<li>线程之间如何<strong>通信</strong>（线程之间以何种机制来<strong>交换信息</strong>）</li>
+<li>线程之间如何<strong>同步</strong>（程序中用于<strong>控制不同线程间操作发生相对顺序的机制</strong>）</li>
+</ol>
+<p>在命令式编程中，线程之间通信机制有两种：共享内存和消息传递。</p>
+<ol>
+<li>共享内存的并发模型<ul>
+<li>线程通信：线程之间共享程序的公共状态，<strong>通过写-读内存中的公共状态进行隐式通信</strong></li>
+<li>线程同步：<strong>同步是显式进行的。</strong>程序员必须显式指定某个方法或某段代码需要在线程之间互斥执行。</li>
+</ul>
+</li>
+<li>消息传递的并发模型<ul>
+<li>线程通信：线程之间没有公共状态，线程间<strong>必须通过发送消息来显式进行通信</strong></li>
+<li>线程同步：由于消息的发送必须在消息的接收之前，因此<strong>同步是隐式进行的。</strong></li>
+</ul>
+</li>
+</ol>
+<p><strong>Java 并发采用共享内存模型，Java 线程间通信总是隐式进行，整个通信过程对程序员完全透明。</strong><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/04/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch3-Java内存模型/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch2-Java并发机制的底层实现原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch2-Java并发机制的底层实现原理/" itemprop="url">（二）Java并发机制的底层实现原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T13:16:10+08:00">
+                2018-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Java代码在编译后会变成Java字节码，字节码被类加载器加载到JVM里，JVM执行字节码，最终需要转化为汇编指令在CPU上执行，Java中所使用的并发机制依赖于JVM的实现和CPU的指令。</p>
+<h2 id="volatile-应用"><a href="#volatile-应用" class="headerlink" title="volatile 应用"></a>volatile 应用</h2><p><strong>volatile 是轻量级 synchronized</strong>，它在多处理器开发中保证了共享变量的“可见性”。</p>
+<blockquote>
+<p>可见性：当一个线程修改一个共享变量时，另外一个线程能读到这个修改后的值。</p>
+</blockquote>
+<p>若 volatile 变量修饰符使用恰当，它<strong>比 synchronized 使用和执行成本更低</strong>，因为它<strong>不会引起线程上下文切换和调度。</strong></p>
+<h3 id="volatile-定义与实现原理"><a href="#volatile-定义与实现原理" class="headerlink" title="volatile 定义与实现原理"></a>volatile 定义与实现原理</h3><blockquote>
+<p>Java 语言规范对 volatile 的定义：Java 编程语言允许线程访问共享变量，为了确保共享变量能被准确和一致地更新，线程应确保通过排它锁单独获得这个变量。Java 语言提供了 volatile，在某些情况下比锁更加厉害。<strong>若一个字段被声明为 volatile，Java 线程内存模型确保所有线程看到这个变量的值是一致的。</strong><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch2-Java并发机制的底层实现原理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch1-并发编程的挑战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch1-并发编程的挑战/" itemprop="url">（一）并发编程的挑战</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T12:12:44+08:00">
+                2018-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h2><p>单核处理器也支持多线程执行代码，CPU通过给每个线程分配CPU时间片来实现这个机制。时间片是CPU分配给各个线程的时间，因为时间片非常短，所以CPU通过不停地切换线程执行，让我们感觉多个线程是同时执行的，时间片一般是几十毫秒（ms）。</p>
+<blockquote>
+<p>上下文切换：<strong>任务从保存到再加载</strong>的过程就是一次上下文切换。</p>
+</blockquote>
+<h3 id="多线程一定快吗？"><a href="#多线程一定快吗？" class="headerlink" title="多线程一定快吗？"></a>多线程一定快吗？</h3><p>不一定，因为线程有创建和上下文切换开销。</p>
+<h3 id="减少上下文切换"><a href="#减少上下文切换" class="headerlink" title="减少上下文切换"></a>减少上下文切换</h3><p>方法：</p>
+<ul>
+<li>无锁并发编程<br>  多线程竞争锁时，会引起上下文切换，所以多线程处理数据时，可以用一些方法来避免使用锁，如将数据的 ID 按 Hash 算法取模分段，不同线程处理不同段数据。</li>
+<li>CAS 算法<br>  Java 的 Atomic 包使用 CAS 算法来更新数据，而不需要加锁。</li>
+<li>使用最少线程和使用协程<ul>
+<li>避免创建不需要的线程，比如任务很少，但创建了很多线程来处理，这会造成大量线程都处于等待状态</li>
+<li>协程：在单线程里实现多任务的调度，并在单线程里维持多任务间的切换
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/02/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch1-并发编程的挑战/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/02/24/Java_Notes/Jvm/类加载/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/24/Java_Notes/Jvm/类加载/" itemprop="url">类加载</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-24T16:58:42+08:00">
+                2018-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
                   </a>
                 </span>
 
@@ -1436,10 +1770,224 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
       
         
           
-            <p>本文主要针对使用编译好的二进制文件安装mysql<br>如在mysql官网 (<a href="https://dev.mysql.com/downloads/file/?id=467234" target="_blank" rel="external">https://dev.mysql.com/downloads/file/?id=467234</a>) 下载的：<br>mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz</p>
-<p>检测当前机器上是否已经安装mysql：<br>1、检测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep -i mysql</div></pre></td></tr></table></figure></p>
-<p>2、卸载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -e mysql-libs-5.1.61-4.el6.x86_64 --nodeps</div><div class="line">-e:--erase=&lt;package&gt;+   erase (uninstall) package</div><div class="line">--nodeps:忽略依赖关系</div></pre></td></tr></table></figure></p>
-<p>3、开始安装mysql：<br>当前我使用的用户是 <strong>fighter</strong></p>
+            <h2 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>虚拟机把描述类的数据从 class 文件加载到内存，并对数据进行校验，解析和初始化，最终形成可以被虚拟机直接使用的 java 类型，这就是虚拟机的类加载机制。</li>
+<li>懒加载</li>
+</ul>
+<h3 id="类加载时机"><a href="#类加载时机" class="headerlink" title="类加载时机"></a>类加载时机</h3><img src="/2018/02/24/Java_Notes/Jvm/类加载/类加载时机.png" title="类加载时机">
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><ol>
+<li>遇到 <code>new、getstatic、putstatic 或 invokestatic</code> 这 4 条字节码指令时，如果类没有进行初始化，则需要先触发其初始化。生成这 4 条指令的最常见的 Java 代码场景是：使用 new 关键字实例化对象的时候、读取或设置一个类的静态字段（被 final 修饰、已在编译器把结果放入常量池的静态字段除外）的时候，</li>
+<li>使用 Java.lang.refect 包的方法对类进行反射调用时，如果类还没有进行过初始化，则需要先触发其初始化。</li>
+<li>当初始化一个类的时候，如果发现其父类还没有进行初始化，则需要先触发其父类的初始化。</li>
+<li>当虚拟机启动时，用户需要指定一个要执行的主类（包含 main() 方法的那个类），虚拟机会先执行该主类。</li>
+</ol>
+<h4 id="不被初始化的例子"><a href="#不被初始化的例子" class="headerlink" title="不被初始化的例子"></a>不被初始化的例子</h4><ul>
+<li>通过子类引用父类的静态字段，子类不会被初始化</li>
+<li>通过数组定义来引用类</li>
+<li>调用类的常量</li>
+</ul>
+<h3 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h3><img src="/2018/02/24/Java_Notes/Jvm/类加载/类加载的过程.png" title="类加载的过程">
+<h4 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h4><ul>
+<li>通过一个类的全限定名来获取定义此类的二进制流</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中生成一个代表这个类的 class 对象，作为这个类的各种数据的访问入口</li>
+</ul>
+<h5 id="加载源"><a href="#加载源" class="headerlink" title="加载源"></a>加载源</h5><ul>
+<li>文件<ul>
+<li>class 文件</li>
+<li>jar 文件</li>
+</ul>
+</li>
+<li>网络</li>
+<li>计算生成一个二进制流<ul>
+<li>$Proxy</li>
+</ul>
+</li>
+<li>由其它文件生成<ul>
+<li>jsp</li>
+</ul>
+</li>
+<li>数据库</li>
+</ul>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><img src="/2018/02/24/Java_Notes/Jvm/类加载/类加载的过程.png" title="类加载的过程">
+<ul>
+<li>验证是连接的第一步，这一阶段的目的是为了确保 class 文件的字节流中包含的信息符合当前虚拟机的要求。并且不会危害虚拟机自身的安全。</li>
+<li>文件格式验证</li>
+<li>元数据验证</li>
+<li>字节码验证</li>
+<li>符号引用验证</li>
+</ul>
+<h4 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h4><ul>
+<li>准备阶段正式为<strong>类变量</strong>分配内存并设置<strong>变量的默认值</strong>。这些变量使用的内存都将在方法区进行分配。如果变量被 final 修饰，则在这个过程中，常量值会被一同指定。</li>
+</ul>
+<h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><ul>
+<li>解析阶段是虚拟机将常量池中的符号引用替换为直接引用的过程。</li>
+<li>类或者接口的解析</li>
+<li>字段解析</li>
+<li>类方法解析</li>
+<li>接口方法解析</li>
+</ul>
+<p><a href="http://blog.csdn.net/u011080472/article/details/51329315" target="_blank" rel="noopener">【深入理解JVM】：类加载机制</a></p>
+<h4 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h4><ul>
+<li>初始化是类加载的最后一步</li>
+<li>初始化是执行 <code>&lt;clinit&gt;()</code> 方法的过程<blockquote>
+<p>类初始化阶段是类加载过程的最后一步，前面的类加载过程中，除了在加载阶段用户应用程序可以通过自定义类加载器参与之外，其余动作完全由虚拟机主导和控制。到了初始化阶段，才真正开始执行类中定义的Java程序代码（或者说是字节码）。<br>在准备阶段，变量已经赋过一次系统要求的初始值，而在初始化阶段，则根据程序员通过程序制定的主观计划去初始化类变量和其他资源，或者可以从另外一个角度来表达：初始化阶段是执行类构造器<clinit()>方法的过程。<br><a href="http://blog.csdn.net/u011080472/article/details/51329315" target="_blank" rel="noopener">【深入理解JVM】：类加载机制</a><br><a href="http://www.importnew.com/18548.html" target="_blank" rel="noopener">Java虚拟机类加载机制</a><br><a href="http://blog.csdn.net/qq_20176495/article/details/74936554" target="_blank" rel="noopener">类加载机制</a><br><a href="http://blog.csdn.net/zjkc050818/article/details/78376195" target="_blank" rel="noopener">【Java面试题】之类加载：从面试题分析Java类加载机制</a></clinit()></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><ul>
+<li>虚拟机的设计团队把类加载阶段中的“通过一个类的全限定名来获取描述此类的二进制字节流”这个动作放到 Java 虚拟机外部去实现，以便让应用程序自己决定如何去获取所需要的类。实现这个动作的代码模块称之为类加载器。</li>
+<li>只有被同一个类加载器加载的类才可能会相等。相同的字节码被不同的类加载器加载的类不相等。</li>
+</ul>
+<h4 id="类加载器分类"><a href="#类加载器分类" class="headerlink" title="类加载器分类"></a>类加载器分类</h4><ul>
+<li>启动类加载器<ul>
+<li>由 C++ 实现，是虚拟机的一部分，用于加载 javahome 下的 lib 目录下的类</li>
+</ul>
+</li>
+<li>扩展类加载器<ul>
+<li>加载 javahome 下 /lib/ext 目录中的类</li>
+</ul>
+</li>
+<li>应用程序类加载器<ul>
+<li>加载用户类路径上的所指定的类库</li>
+</ul>
+</li>
+<li>自定义类加载器<ul>
+<li>定义一个类，继承 classloader</li>
+<li>重写 loadclass 方法</li>
+<li>实例化 class 对象</li>
+</ul>
+</li>
+</ul>
+<h4 id="自定义类加载器的优势"><a href="#自定义类加载器的优势" class="headerlink" title="自定义类加载器的优势"></a>自定义类加载器的优势</h4><ul>
+<li>类加载器是 Java 语言的一项创新，也是 Java 语言流行的重要原因之一，它最初的设计是为了满足 Java Applet 的需求而开发。</li>
+<li>高度灵活性</li>
+<li>通过自定义类加载器可以实现热部署</li>
+<li>代码加密</li>
+</ul>
+<h4 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h4><img src="/2018/02/24/Java_Notes/Jvm/类加载/类加载器.png" title="类加载器">
+<ul>
+<li>从 jdk1.2 开始，java 虚拟机规范推荐开发者使用双亲委派模型（ParentsDelegation Model）进行类加载，其加载过程如下：</li>
+<li>如果一个类加载器收到了类加载请求，它首先不会自己去尝试加载这个类，而是把类加载请求委派给父类加载器去完成</li>
+<li>每一层的类加载器都把类加载请求委派给父类加载器，直到所有的类加载请求都应该传递给顶层的启动类加载器</li>
+<li>如果顶层的启动类加载器无法完成加载请求，子类加载器尝试去加载，如果连最初发起类加载请求的类加载器也无法完成加载请求时，将会抛出 ClassNotFoundException，而不再调用其子类加载器去进行类加载。</li>
+<li>双亲委派模型的类加载机制的优点是 java 类 它的类加载器一起具备了一种带优先级的层次关系，越是基础的类，越是被上层的类加载器进行加载，保证了 java 程序的稳定运行。</li>
+</ul>
+<h3 id="虚拟机字节码执行引擎"><a href="#虚拟机字节码执行引擎" class="headerlink" title="虚拟机字节码执行引擎"></a>虚拟机字节码执行引擎</h3><ul>
+<li>字节码结构</li>
+<li>类加载</li>
+<li>虚拟机字节码执行引擎</li>
+</ul>
+<h4 id="运行时栈帧结构"><a href="#运行时栈帧结构" class="headerlink" title="运行时栈帧结构"></a>运行时栈帧结构</h4><ul>
+<li>局部变量表</li>
+<li>操作数栈</li>
+<li>动态链接</li>
+<li>方法返回地址</li>
+<li>附加信息</li>
+</ul>
+<p><a href="http://blog.csdn.net/sinat_33087001/article/details/77200623" target="_blank" rel="noopener">[深入理解JVM 六]—-虚拟机字节码执行系统</a><br><a href="http://blog.csdn.net/rusbme/article/details/51217620" target="_blank" rel="noopener">Java方法执行</a><br><a href="http://blog.csdn.net/ns_code/article/details/17965867" target="_blank" rel="noopener">【深入Java虚拟机】之五：多态性实现机制——静态分派与动态分派</a></p>
+<h5 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//实例变量有默认值，即便不赋值也可以直接使用</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> a;</div><div class="line"><span class="keyword">private</span> <span class="keyword">int</span> b;</div><div class="line"></div><div class="line">add()&#123;</div><div class="line">    <span class="keyword">int</span> a, b;</div><div class="line">    <span class="keyword">return</span> a + b;<span class="comment">//没有赋值，报错</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>slot 32 64</li>
+<li>byte、boolean、short、char、int、float、double、long（不会出现线程安全性问题）、reference（指向对象地址）、returnAddress（不再使用）</li>
+</ul>
+<blockquote>
+<p>线程安全性问题三要素：</p>
+<ol>
+<li>多线程</li>
+<li>要有共享资源</li>
+<li>对共享资源进行非原子性操作</li>
+</ol>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</div><div class="line">a--;<span class="comment">// a = a - 1;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>slot 复用：当一个变量的 pc 寄存器的值大于 slot 的作用域的时候，slot 是可以复用的</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">    <span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">60</span> * <span class="number">1024</span> * <span class="number">1024</span>];</div><div class="line">    System.gc();<span class="comment">//不回收</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">60</span> * <span class="number">1024</span> * <span class="number">1024</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span> a = <span class="number">10</span>;<span class="comment">//对局部变量表读写了</span></div><div class="line">    System.gc();<span class="comment">//回收，因此引用使用完使其为 null，方便垃圾回收</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/a474dd20b08d" target="_blank" rel="noopener">局部变量表Slot复用</a></p>
+<h5 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h5><p>每个栈帧不完全独立，实际上局部变量表的部分数据重叠<br><a href="http://blog.csdn.net/a616413086/article/details/51272309" target="_blank" rel="noopener">栈帧、局部变量表、操作数栈</a></p>
+<h5 id="动态连接"><a href="#动态连接" class="headerlink" title="动态连接"></a>动态连接</h5><h5 id="方法返回地址和附加信息"><a href="#方法返回地址和附加信息" class="headerlink" title="方法返回地址和附加信息"></a>方法返回地址和附加信息</h5><ul>
+<li>方法返回地址：调用时通过一个指向方法的指针指向方法的地址，方法返回时将回归到调用处，那个地方是返回地址。</li>
+<li>附加信息：虚拟机规范中允许具体的虚拟机实现增加一些规范里没有描述的信息到栈帧中。这部分信息完全取决于虚拟机的实现。</li>
+</ul>
+<h3 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h3><ul>
+<li>解析调用</li>
+<li>分派调用<ul>
+<li>静态分派调用</li>
+<li>动态分派调用</li>
+</ul>
+</li>
+<li><p>动态语言支持</p>
+</li>
+<li><p>方法调用并不等同于方法的执行，方法调用阶段的唯一任务就是<strong>确定被调用方法的版本</strong></p>
+</li>
+<li>封装、继承、多态</li>
+</ul>
+<blockquote>
+<p>类加载过程中的解析作用：将 class 文件中的符号引用解析成直接引用</p>
+</blockquote>
+<h4 id="解析调用"><a href="#解析调用" class="headerlink" title="解析调用"></a>解析调用</h4><p>静态方法、构造器方法、私有方法和被 final 修饰的方法不能被重写、重载，编译完就能确定版本</p>
+<ul>
+<li>invokestatic（静态方法的字节码）</li>
+<li>invokespecial（构造器方法、私有方法、父类方法生成的字节码）</li>
+<li>invokevirtual</li>
+<li>invokeinterface</li>
+<li>invokedynamic</li>
+</ul>
+<h4 id="静态分派调用（单、多分派）"><a href="#静态分派调用（单、多分派）" class="headerlink" title="静态分派调用（单、多分派）"></a>静态分派调用（单、多分派）</h4><p>静态分派调用主要针对方法的重载（编译期确定？）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticCall</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Parent</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Child1</span> <span class="keyword">extends</span> <span class="title">Parent</span></span>&#123;&#125;</div><div class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Child2</span> <span class="keyword">extends</span> <span class="title">Parent</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Child1 c1)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"c1 is called"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Child2 c2)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"c2 is called"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Parent p)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"p is called"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">//=左边静态类型 右边实际类型</span></div><div class="line">        Parent p1 = <span class="keyword">new</span> Child1();</div><div class="line">        Parent p2 = <span class="keyword">new</span> Child2();</div><div class="line">        StaticCall s = <span class="keyword">new</span> StaticCall();</div><div class="line">        s.sayHello(p1);</div><div class="line">        s.sayHello(p2);</div><div class="line">        <span class="comment">//实际类型发生改变</span></div><div class="line">        Parent p = <span class="keyword">new</span> Child1();</div><div class="line">        p = <span class="keyword">new</span> Child2();</div><div class="line">        <span class="comment">//静态类型发生改变</span></div><div class="line">        s.sayHello((Child2)p);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>方法调用时会选一个最先匹配的执行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticCallTest2</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(<span class="keyword">byte</span> a)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"byte"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(<span class="keyword">short</span> a)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"short"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"int"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(<span class="keyword">long</span> a)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"long"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(<span class="keyword">char</span> a)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"char"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Character a)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"Character"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(Object a)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"Object"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(<span class="keyword">char</span> ... a)</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"char ..."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        StaticCallTest2 s = <span class="keyword">new</span> StaticCallTest2();</div><div class="line">        s.sayHello(<span class="string">'1'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="动态分派调用（单、多分派）"><a href="#动态分派调用（单、多分派）" class="headerlink" title="动态分派调用（单、多分派）"></a>动态分派调用（单、多分派）</h4><p>动态分派调用针对方法的重写：</p>
+<ul>
+<li>找到操作数栈顶的第一个元素所指向的对象的<strong>实际类型</strong></li>
+<li>如果在实际类型中找到与常量池中的描述符和简单名称都相符的方法，则进行访问权限校验，如果通过则直接返回这个方法的直接引用，查找过程结束，如果不通过，抛出异常</li>
+<li>按照继承关系从下往上依次对实际类型的各父类（父类编译期就可知道）进行搜索与验证</li>
+<li>如果始终没有找到，则抛出 AbstractMethodError</li>
+</ul>
+<h3 id="动态类型语言支持"><a href="#动态类型语言支持" class="headerlink" title="动态类型语言支持"></a>动态类型语言支持</h3><ul>
+<li>静态类型的语言在非运行阶段，变量的类型是可以确定的，也就是说变量是有类型的</li>
+<li>动态类型语言在非运行阶段，变量的类型是无法确定的，也就是变量是没有类型的，但是值是有类型的，也就是运行期间可以确定变量的值的类型</li>
+</ul>
+<h3 id="字节码执行引擎小结"><a href="#字节码执行引擎小结" class="headerlink" title="字节码执行引擎小结"></a>字节码执行引擎小结</h3><ul>
+<li>代码执行时涉及的内存结构</li>
+<li>如何找到正确的执行方法</li>
+<li>如何执行方法的字节码</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Java 技术体系<ul>
+<li>Java 程序设计语言</li>
+<li><strong>Java 虚拟机</strong></li>
+<li><strong>class 文件格式</strong></li>
+<li>Java API</li>
+<li>第三方类库</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Java 技术体系，认识 Java 虚拟机</li>
+<li>内存管理<ul>
+<li>运行时内存区域</li>
+<li>对象的创建，内存布局以及访问定位</li>
+<li>垃圾回收<ul>
+<li>判断对象是否存活算法</li>
+<li>垃圾收集算法</li>
+<li>垃圾收集器</li>
+</ul>
+</li>
+<li>内存的分配</li>
+<li>Java 的监控工具</li>
+</ul>
+</li>
+<li>Java 虚拟机的运行<ul>
+<li>class 文件格式</li>
+<li>class 字节码指令</li>
+<li>类加载</li>
+<li>字节码执行引擎</li>
+</ul>
+</li>
+</ul>
 
           
         
@@ -1488,7 +2036,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/01/09/learning_summary/Redis-AOF/">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/02/17/Java_Notes/Jvm/类文件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fighter.">
@@ -1507,7 +2055,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/01/09/learning_summary/Redis-AOF/" itemprop="url">Redis-AOF</a></h1>
+                <a class="post-title-link" href="/2018/02/17/Java_Notes/Jvm/类文件/" itemprop="url">类文件</a></h1>
         
 
         <div class="post-meta">
@@ -1519,8 +2067,8 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-09T16:12:21+08:00">
-                2017-01-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-17T23:52:32+08:00">
+                2018-02-17
               </time>
             
 
@@ -1542,8 +2090,8 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习总结/" itemprop="url" rel="index">
-                    <span itemprop="name">学习总结</span>
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
                   </a>
                 </span>
 
@@ -1580,20 +2128,132 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
 
       
         
-          <h3 id="持久化选项"><a href="#持久化选项" class="headerlink" title="持久化选项"></a>持久化选项</h3><blockquote>
+          
+            <h2 id="class-文件结构"><a href="#class-文件结构" class="headerlink" title="class 文件结构"></a>class 文件结构</h2><ul>
+<li>class 文件是一组以 8 位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑的排列在 class 文件之中，中间没有添加任何分隔符，整个 class 文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。</li>
+<li>当遇到 8 位字节以上的空间的数据项时，则会按照高位在前的方式分割成若干个 8 位字节进行存储。</li>
+<li>class 文件中有两种数据类型，分别是无符号数和表（引用类型）。</li>
+</ul>
+<blockquote>
 <ul>
-<li>快照持久化：获得存储在内存里面的数据在某个时间点上的副本。</li>
-<li>AOF持久化（只追加文件append-only file）：会在执行命令时，将被执行的写命令写到硬盘里。</li>
+<li>魔数</li>
+<li>class 文件版本</li>
+<li>常量池</li>
+<li>访问标志</li>
+<li>类索引，父类索引，接口索引集合</li>
+<li>字段表集合</li>
+<li>方法表集合</li>
+<li>属性表集合</li>
 </ul>
 </blockquote>
-<h4 id="两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。"><a href="#两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。" class="headerlink" title="两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。"></a>两种方案既可同时使用，也可单独使用，或都不使用，具体结合数据及应用决定。</h4>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/09/learning_summary/Redis-AOF/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+<h3 id="魔数"><a href="#魔数" class="headerlink" title="魔数"></a>魔数</h3><ul>
+<li>版本</li>
+<li>JDK 1.8=52</li>
+<li>JDK 1.7=51</li>
+<li>JDK 1.6=50</li>
+<li>JDK 1.5=49</li>
+<li>JDK 1.4=48</li>
+<li>JDK 1.3=47</li>
+<li>JDK 1.2=46</li>
+<li>JDK 1.1=45</li>
+</ul>
+<p>class 文件以 cafebabe 开头，后面跟着的是 JDK 次版本号和主版本号</p>
+<h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><ul>
+<li><p>CP_info</p>
+</li>
+<li><p>CONSTANT_Methodref_info 用于记录方法信息（包括类中定义的方法以及代码中使用到的方法）</p>
+</li>
+</ul>
+<blockquote>
+<p>查看 class 文件信息：javap -verbose HelloWorld.class</p>
+</blockquote>
+<h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><h3 id="类索引"><a href="#类索引" class="headerlink" title="类索引"></a>类索引</h3><h3 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h3><p>字段表用于描述接口或者类中声明的变量</p>
+<h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><h3 id="属性表集合"><a href="#属性表集合" class="headerlink" title="属性表集合"></a>属性表集合</h3><h2 id="字节码指令"><a href="#字节码指令" class="headerlink" title="字节码指令"></a>字节码指令</h2><ul>
+<li>Java 虚拟机的指令由一个字节长度的，代表着某种特定操作含义的数字，称之为操作码，以及跟随其后的零至多个代表此操作所需参数的操作数而构成。</li>
+<li>操作码长度为 1 个字节，因此最大只有 256 条。</li>
+<li>基于栈的指令集架构</li>
+</ul>
+<h3 id="字节码与数据类型"><a href="#字节码与数据类型" class="headerlink" title="字节码与数据类型"></a>字节码与数据类型</h3><ul>
+<li>在虚拟机的指令集中，大多数的指令都包含了其操作所对应的数据类型信息。</li>
+<li>lload fload</li>
+<li>大多数指令是包含类型信息的</li>
+<li>也有不包含类型信息的<ul>
+<li>goto 与类型无关</li>
+<li>Arraylength 操作数组类型</li>
+</ul>
+</li>
+<li>类型多，指令少</li>
+</ul>
+<h3 id="加载和存储指令"><a href="#加载和存储指令" class="headerlink" title="加载和存储指令"></a>加载和存储指令</h3><ul>
+<li>加载和存储指令用于将数据在栈帧中的局部变量表和操作数栈之间来回传输。</li>
+<li>将局部变量表加载到操作数栈：iload lload fload dload aload</li>
+<li>将一个数值从操作数栈存储到局部变量表：istore lfda</li>
+<li>将一个常量加载到操作数栈：bipush sipush ldc ldc_w_ldc2_w aconst_null iconst_m1 iconst</li>
+<li>扩充局部变量表的访问索引的指令：wide</li>
+</ul>
+<h3 id="运算指令"><a href="#运算指令" class="headerlink" title="运算指令"></a>运算指令</h3><ul>
+<li>运算或算术指令用于对两个操作数栈上的值进行某种特定的运算，并把结果存储到操作数栈顶。</li>
+<li>加法指令：add</li>
+<li>减法指令：sub</li>
+<li>乘法指令：mul</li>
+<li>除法指令：div</li>
+<li>取余指令：rem</li>
+<li>取反指令：neg</li>
+</ul>
+<h3 id="类型转换指令"><a href="#类型转换指令" class="headerlink" title="类型转换指令"></a>类型转换指令</h3><ul>
+<li>类型转换指令可以将两种不同的数值类型进行相互转换，这些转换操作一般用于实现用户代码中的显示类型转换操作以及用来处理字节码指令集中数据类型相关指令无法与数据类型一一对应的问题。</li>
+<li>宽化类型处理和窄化类型处理</li>
+<li>i2b i2c i2s l2i</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">问题：</div><div class="line">Animal animal = getAnimal()</div><div class="line">Object obj = animal;</div><div class="line">User u = (User) obj;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> hour = <span class="number">24</span>;</div><div class="line"><span class="comment">//计算过程都按 int 计算，int 越界</span></div><div class="line"><span class="keyword">long</span> mi = hour * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span>;</div><div class="line"><span class="keyword">long</span> mic = hour * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span>*<span class="number">1000</span>;</div><div class="line"><span class="comment">//最后执行一次 i2l</span></div><div class="line">System.out.println(mic / mi);</div></pre></td></tr></table></figure>
+<h3 id="对象创建与访问指令"><a href="#对象创建与访问指令" class="headerlink" title="对象创建与访问指令"></a>对象创建与访问指令</h3><ul>
+<li>创建类实例的指令：new</li>
+<li>创建数组的指令：newarray anewarray multianewarray</li>
+<li>访问类字段：getfield putfield getstatic putstatic</li>
+<li>把数组元素加载到操作数栈的指令：baload c s i l f d a</li>
+<li>将操作数栈的值存储到数组元素：astore</li>
+<li>取数组长度的指令：arraylength</li>
+<li>检查实例类型的指令：instanceof checkcast</li>
+</ul>
+<h3 id="操作数栈管理指令"><a href="#操作数栈管理指令" class="headerlink" title="操作数栈管理指令"></a>操作数栈管理指令</h3><ul>
+<li>操作数栈指令用于直接操作操作数栈</li>
+<li>将操作数栈的一个或两个元素出栈：pop pop2</li>
+<li>复制栈顶一个或两个数值并将复制或双份复制值重新压入栈顶：dup dup2 dup_x1 dup_x2</li>
+<li>将栈顶的两个数值替换：swap</li>
+</ul>
+<h3 id="控制转移指令"><a href="#控制转移指令" class="headerlink" title="控制转移指令"></a>控制转移指令</h3><ul>
+<li>控制转移指令可以让 Java 虚拟机有条件或无条件的从指定的位置指令而不是控制转移指令的下一条指令继续执行程序。可以认为控制转移指令就是在修改 pc 寄存器的值。</li>
+<li>条件分支：ifeq iflt ifle ifne ifgt ifnull ifcmple</li>
+<li>复合条件分支：tableswitch lookupswitch</li>
+<li>无条件分支：goto goto_w jsr jsr_w ret</li>
+</ul>
+<h3 id="方法调用和返回指令"><a href="#方法调用和返回指令" class="headerlink" title="方法调用和返回指令"></a>方法调用和返回指令</h3><h4 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h4><ul>
+<li>invokevirtual 指令用于调用对象的实例方法，根据对象的实际类型进行分派（虚方法分派），这也是 Java 语言中最常见的方法分派方式。</li>
+<li>invokeinterface 指令用于调用接口方法，它会在运行时搜索一个实现了这个接口方法的对象，找出适合的方法进行调用。</li>
+<li>invokespecial 指令用于调用一些需要特殊处理的实例方法，包括实例初始化方法、私有方法和父类方法。</li>
+<li>invokestatic 指令用于调用类方法（static 方法）</li>
+</ul>
+<h4 id="方法的返回指令"><a href="#方法的返回指令" class="headerlink" title="方法的返回指令"></a>方法的返回指令</h4><ul>
+<li>方法的调用指令与数据类型无关，而方法返回指令则是根据返回值的类型区分的，包括 ireturn（当返回值是 boolean、byte、char、short 和 int 类型时使用）、lreturn、freturn、dreturn 和 areturn，另外还有一条 return 指令供声明为 void 的方法、实例初始化方法、类和接口的类初始化方法使用。</li>
+</ul>
+<h3 id="异常处理指令"><a href="#异常处理指令" class="headerlink" title="异常处理指令"></a>异常处理指令</h3><p>在程序中<strong>显式抛出异常的操作</strong>会由 athrow 指令实现，除了这种情况，还有别的异常会在其他 Java 虚拟机指令检测到异常状况时由虚拟机自动抛出。</p>
+<p>新 jdk 不再使用字节码指令执行 catch 语句了，而使用 exception table 执行 catch 下语句。</p>
+<p><a href="http://www.itwendao.com/article/detail/335271.html" target="_blank" rel="noopener">Java虚拟机是如何处理异常的？</a><br><a href="https://www.javaworld.com/article/2076868/learn-java/how-the-java-virtual-machine-handles-exceptions.html" target="_blank" rel="noopener">How the Java virtual machine handles exceptions
+</a></p>
+<h3 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h3><h4 id="同步指令-1"><a href="#同步指令-1" class="headerlink" title="同步指令"></a>同步指令</h4><ul>
+<li>Java 虚拟机可以支持方法级的同步和方法内部一段指令序列的同步，这两种同步结构都是使用管程（monitor）来支持的。</li>
+<li>方法级的同步是隐式的，即无需通过字节码指令来控制，它实现在方法调用和返回操作中。虚拟机可以从方法常量池中的方法表结构（method info structure）中的 ACC_SYNCHRONIZED 访问标志是否被设置，如果设置了，执行线程将先持有管程，然后再执行方法，最后在方法完成（无论正常完成还是非正常完成）时释放管程。在方法执行期间，执行线程持有了管程，其他任何线程都无法再获得同一个管程。如果一个同步方法执行期间抛出了异常，并在方法内部无法处理此异常，那这个同步方法所持有的管程将在异常抛到同步方法外时自动释放。</li>
+<li>同步一段指令集序列通常是由 Java 语言中的 synchronized 块表示，Java 虚拟机的指令集中有 monitorenter 和 monitorexit 两条指令来支持 synchronized 关键字的语义，正确实现 synchronized 关键字需要编译器与 Java 虚拟机两者协作支持。</li>
+</ul>
+<h4 id="管程"><a href="#管程" class="headerlink" title="管程"></a>管程</h4><ul>
+<li>管程 (英语：Monitors，也称为监视器) 是一种程序结构，结构内的多个子程序（对象或模块）形成的多个工作线程互斥访问共享资源。这些共享资源一般是硬件设备或一群变量。</li>
+<li>管程实现了在一个时间点，最多只有一个线程在执行管程的某个子程序。与那些通过修改数据结构实现互斥访问的并发程序设计相比，管程实现很大程度上简化了程序设计。</li>
+<li>系统中的各种硬件资源和软件资源，均可用数据结构抽象地描述其资源特性，即用少量信息和对资源所执行的操作来表征该资源，而忽略了它们的内部结构和实现细节。</li>
+<li>利用共享数据结构抽象地表示系统中的共享资源，而把对该共享数据结构实施的操作定义为一组过程。</li>
+</ul>
+
+          
         
       
     </div>
@@ -1630,6 +2290,10 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1677,7 +2341,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1688,7 +2352,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1699,7 +2363,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
