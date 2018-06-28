@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://fighterhit.github.io/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/Lock的API.png">
 <meta property="og:image" content="http://fighterhit.github.io/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/同步器可重写的方法.png">
 <meta property="og:image" content="http://fighterhit.github.io/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/同步器提供的模板方法.png">
-<meta property="og:updated_time" content="2018-03-19T01:46:34.467Z">
+<meta property="og:updated_time" content="2018-06-28T12:00:40.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中的锁">
 <meta name="twitter:description" content="这部分主要介绍Java并发包中与锁相关的API和组件的使用和实现。 Lock接口Lock接口之前Java是靠synchronized关键字实现锁功能的，而Java SE 5后并发包中新增了Lock接口（以及相关实现类）用来实现锁功能，它提供了与synchronized关键字类似的同步功能，只是在使用时需要显式地获取和释放锁。虽没有了隐式释放锁的便利性，但有了如下优点：  锁获取与释放的可操作性 可">
@@ -371,6 +371,7 @@
 </ol>
 <p>Lock使用方式：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">    lock.unlock();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <blockquote>
 <p>在finally块中释放锁，保证在获取到锁之后，最终能被释放。<strong>不要将获取锁的过程写在try块中，因为如果在获取锁（自定义锁的实现）时发生了异常，异常抛出的同时，也会导致锁无故释放。</strong></p>
 </blockquote>
@@ -720,7 +721,7 @@ var jiathis_config={
   
 
     <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    Hosted by <a target="_blank" href="https://github.com/">GitHub Pages</a>
     </span>
 
 </div>

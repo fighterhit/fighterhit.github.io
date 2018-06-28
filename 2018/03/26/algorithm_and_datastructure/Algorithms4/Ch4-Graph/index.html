@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://fighterhit.github.io/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/图处理用例.png">
 <meta property="og:image" content="http://fighterhit.github.io/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/路径API.png">
 <meta property="og:image" content="http://fighterhit.github.io/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/连通分量.png">
-<meta property="og:updated_time" content="2018-03-30T15:09:25.890Z">
+<meta property="og:updated_time" content="2018-06-28T11:59:38.702Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（四）图">
 <meta name="twitter:description" content="无向图 图：是由一组顶点和一组能够将两个顶点相连的边组成的 自环：即可一条龙连接一个顶点和其自身的边 平行边：连接同一对顶点的两条边 常将含有平行边的图称为多重图，而没有平行边或自环的图称为简单图 相邻：当两顶点通过一条边相连时，称这两个顶点是相邻的，并称连接依附于这两个顶点 度数：顶点的度数就是依附于它的边数 子图：由所有边的一个子集以及这些边依附的所有顶点组成的图 路径是由边顺序连接的一系列顶">
@@ -393,6 +393,7 @@
 <li>必须为可能在应用中碰到的各种类型的图预留出足够<strong>空间</strong></li>
 <li>Graph 实例方法的实现一定要快</li>
 </ol>
+<a id="more"></a>
 <h3 id="三种图的表示方法："><a href="#三种图的表示方法：" class="headerlink" title="三种图的表示方法："></a>三种图的表示方法：</h3><ul>
 <li>邻接矩阵：VxV 布尔矩阵，当顶点v和顶点w之间有相连的边时，定义v行w列元素值为true，否则为false。该方法不满足第一个条件，上百万顶点的图所需空间不能满足。（邻接矩阵也无法表示平行边）</li>
 <li>边的数组：使用一个Edge类，含有两个int实例变量。该方法简洁但不满足第二个条件——查找结点的相邻结点需要检查图中所有边</li>
@@ -781,7 +782,7 @@ var jiathis_config={
   
 
     <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    Hosted by <a target="_blank" href="https://github.com/">GitHub Pages</a>
     </span>
 
 </div>

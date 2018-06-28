@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://fighterhit.github.io/2018/06/20/other_notes/制作Docker镜像/docker架构.png">
 <meta property="og:image" content="http://fighterhit.github.io/2018/06/20/other_notes/制作Docker镜像/docker架构图.png">
-<meta property="og:updated_time" content="2018-06-20T14:08:04.911Z">
+<meta property="og:updated_time" content="2018-06-28T11:58:13.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="制作Docker镜像">
 <meta name="twitter:description" content="前言因为最近在做大数据分析大作业，要求将算法封装进 Docker ，因此临时学了一下 Docker 方面的知识，在这里简单记录一下。 Docker 安装Docker 安装比较简单，可以参考网上教程 Docker 架构使用 Docker 前需要首先理解 Docker 的架构，因为以前自己只使用过 Vmware/VirtualBox 之类虚拟机，所以之前对 Docker 的理解也跟对 Vmware/V">
@@ -391,6 +391,7 @@
 </table>
 </div>
 <p>理解了上面几句话，大概就能跟我一样简单使用了，Docker hub 仓库其实就相当于打包了很多常用的 Docker 镜像，我们可以直接 pull 下来，启动成容器来在本地跑，省去了很多搭环境浪费的时间。</p>
+<a id="more"></a>
 <h2 id="制作-Docker-镜像"><a href="#制作-Docker-镜像" class="headerlink" title="制作 Docker 镜像"></a>制作 Docker 镜像</h2><p>当然有时候我们还需要自己造轮子，按自己的需求、逻辑来封装一个镜像来给别人使用等，所以这时候就需要学会编写 Dockerfile 了，关于 Dockerfile 的编写这里有个<a href="https://blog.csdn.net/mozf881/article/details/55798811" target="_blank" rel="noopener">博客</a>简单介绍了一些语法规则，对于我这次的任务来说已经够用了，如果任务更复杂就需要参考官方文档来好好研究啦。下面是我为这次封装算法编写的 Dockerfile ：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> continuumio/anaconda3      <span class="comment"># 继承 continuumio/anaconda3 镜像</span></div><div class="line"><span class="keyword">MAINTAINER</span> fighter fighterhit@<span class="number">163</span>.com</div><div class="line"><span class="keyword">COPY</span> code  /root/             # 把 code 文件夹复制到镜像内部 /root 下</div><div class="line"><span class="keyword">WORKDIR</span> /root</div><div class="line"><span class="keyword">CMD</span> jupyter notebook --ip=0.0.0.0 --allow-root # docker run 时容器内执行的命令</div></pre></td></tr></table></figure>
 <p>写好 Dockerfile 后执行 build 命令生成镜像：</p>
@@ -739,7 +740,7 @@ var jiathis_config={
   
 
     <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    Hosted by <a target="_blank" href="https://github.com/">GitHub Pages</a>
     </span>
 
 </div>

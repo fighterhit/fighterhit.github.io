@@ -419,7 +419,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/11/12/learning_summary/Hadoop-安装和使用/">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/11/12/other_notes/Hadoop-安装和使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fighter.">
@@ -438,7 +438,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/11/12/learning_summary/Hadoop-安装和使用/" itemprop="url">Hadoop 安装和使用</a></h1>
+                <a class="post-title-link" href="/2017/11/12/other_notes/Hadoop-安装和使用/" itemprop="url">Hadoop 安装和使用</a></h1>
         
 
         <div class="post-meta">
@@ -473,8 +473,8 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习总结/" itemprop="url" rel="index">
-                    <span itemprop="name">学习总结</span>
+                  <a href="/categories/其它笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">其它笔记</span>
                   </a>
                 </span>
 
@@ -524,7 +524,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
 </blockquote>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/11/12/learning_summary/Hadoop-安装和使用/#more" rel="contents">
+            <a class="btn" href="/2017/11/12/other_notes/Hadoop-安装和使用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -728,7 +728,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/02/08/learning_summary/linux下普通用户安装mysql/">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/02/08/other_notes/linux下普通用户安装mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fighter.">
@@ -747,7 +747,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/08/learning_summary/linux下普通用户安装mysql/" itemprop="url">Linux下普通用户安装Mysql</a></h1>
+                <a class="post-title-link" href="/2017/02/08/other_notes/linux下普通用户安装mysql/" itemprop="url">Linux下普通用户安装Mysql</a></h1>
         
 
         <div class="post-meta">
@@ -782,8 +782,8 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习总结/" itemprop="url" rel="index">
-                    <span itemprop="name">学习总结</span>
+                  <a href="/categories/其它笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">其它笔记</span>
                   </a>
                 </span>
 
@@ -820,13 +820,15 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
 
       
         
-          
-            <p>本文主要针对使用编译好的二进制文件安装mysql<br>如在mysql官网 (<a href="https://dev.mysql.com/downloads/file/?id=467234" target="_blank" rel="noopener">https://dev.mysql.com/downloads/file/?id=467234</a>) 下载的：<br>mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz</p>
-<p>检测当前机器上是否已经安装mysql：<br>1、检测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep -i mysql</div></pre></td></tr></table></figure></p>
-<p>2、卸载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -e mysql-libs-5.1.61-4.el6.x86_64 --nodeps</div><div class="line">-e:--erase=&lt;package&gt;+   erase (uninstall) package</div><div class="line">--nodeps:忽略依赖关系</div></pre></td></tr></table></figure></p>
-<p>3、开始安装mysql：<br>当前我使用的用户是 <strong>fighter</strong></p>
-
-          
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>平常在使用服务器时候难免会遇到权限问题，自己无法获得 root 权限，但又需要安装软件，本文记录了在 CentOS 普通用户下使用源码来安装 MySQL 5.6.40 的过程。</p>
+<h3 id="下载-MySQL"><a href="#下载-MySQL" class="headerlink" title="下载 MySQL"></a>下载 MySQL</h3><p>如在 MySQL 官网 (<a href="https://dev.mysql.com/downloads/file/?id=476692" target="_blank" rel="noopener">https://dev.mysql.com/downloads/file/?id=476692</a>) 下载的 <code>mysql-5.6.40.tar.gz</code></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/08/other_notes/linux下普通用户安装mysql/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1179,7 +1181,7 @@ p(y=0|x)=\frac {1}{1+e^{\theta^T x}}
   
 
     <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    Hosted by <a target="_blank" href="https://github.com/">GitHub Pages</a>
     </span>
 
 </div>

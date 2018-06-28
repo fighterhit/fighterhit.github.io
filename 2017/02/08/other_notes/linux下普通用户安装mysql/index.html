@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="本文主要针对使用编译好的二进制文件安装mysql如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz 检测当前机器上是否已经安装mysql：1、检测：1rpm -qa|grep -i mysql 2、卸载：123rpm -e mysql-li">
+<meta name="description" content="前言平常在使用服务器时候难免会遇到权限问题，自己无法获得 root 权限，但又需要安装软件，本文记录了在 CentOS 普通用户下使用源码来安装 MySQL 5.6.40 的过程。 下载 MySQL如在 MySQL 官网 (https://dev.mysql.com/downloads/file/?id=476692) 下载的 mysql-5.6.40.tar.gz">
 <meta name="keywords" content="Linux,Mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux下普通用户安装Mysql">
-<meta property="og:url" content="http://fighterhit.github.io/2017/02/08/learning_summary/linux下普通用户安装mysql/index.html">
+<meta property="og:url" content="http://fighterhit.github.io/2017/02/08/other_notes/linux下普通用户安装mysql/index.html">
 <meta property="og:site_name" content="Fighter&#39;s Blog">
-<meta property="og:description" content="本文主要针对使用编译好的二进制文件安装mysql如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz 检测当前机器上是否已经安装mysql：1、检测：1rpm -qa|grep -i mysql 2、卸载：123rpm -e mysql-li">
+<meta property="og:description" content="前言平常在使用服务器时候难免会遇到权限问题，自己无法获得 root 权限，但又需要安装软件，本文记录了在 CentOS 普通用户下使用源码来安装 MySQL 5.6.40 的过程。 下载 MySQL如在 MySQL 官网 (https://dev.mysql.com/downloads/file/?id=476692) 下载的 mysql-5.6.40.tar.gz">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-24T02:51:19.406Z">
+<meta property="og:updated_time" content="2018-06-28T12:01:46.530Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下普通用户安装Mysql">
-<meta name="twitter:description" content="本文主要针对使用编译好的二进制文件安装mysql如在mysql官网 (https://dev.mysql.com/downloads/file/?id=467234) 下载的：mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz 检测当前机器上是否已经安装mysql：1、检测：1rpm -qa|grep -i mysql 2、卸载：123rpm -e mysql-li">
+<meta name="twitter:description" content="前言平常在使用服务器时候难免会遇到权限问题，自己无法获得 root 权限，但又需要安装软件，本文记录了在 CentOS 普通用户下使用源码来安装 MySQL 5.6.40 的过程。 下载 MySQL如在 MySQL 官网 (https://dev.mysql.com/downloads/file/?id=476692) 下载的 mysql-5.6.40.tar.gz">
 
 
 
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://fighterhit.github.io/2017/02/08/learning_summary/linux下普通用户安装mysql/"/>
+  <link rel="canonical" href="http://fighterhit.github.io/2017/02/08/other_notes/linux下普通用户安装mysql/"/>
 
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/02/08/learning_summary/linux下普通用户安装mysql/">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/02/08/other_notes/linux下普通用户安装mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fighter.">
@@ -315,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习总结/" itemprop="url" rel="index">
-                    <span itemprop="name">学习总结</span>
+                  <a href="/categories/其它笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">其它笔记</span>
                   </a>
                 </span>
 
@@ -357,10 +357,28 @@
       
 
       
-        <p>本文主要针对使用编译好的二进制文件安装mysql<br>如在mysql官网 (<a href="https://dev.mysql.com/downloads/file/?id=467234" target="_blank" rel="noopener">https://dev.mysql.com/downloads/file/?id=467234</a>) 下载的：<br>mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz</p>
-<p>检测当前机器上是否已经安装mysql：<br>1、检测：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -qa|grep -i mysql</div></pre></td></tr></table></figure></p>
-<p>2、卸载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rpm -e mysql-libs-5.1.61-4.el6.x86_64 --nodeps</div><div class="line">-e:--erase=&lt;package&gt;+   erase (uninstall) package</div><div class="line">--nodeps:忽略依赖关系</div></pre></td></tr></table></figure></p>
-<p>3、开始安装mysql：<br>当前我使用的用户是 <strong>fighter</strong></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>平常在使用服务器时候难免会遇到权限问题，自己无法获得 root 权限，但又需要安装软件，本文记录了在 CentOS 普通用户下使用源码来安装 MySQL 5.6.40 的过程。</p>
+<h3 id="下载-MySQL"><a href="#下载-MySQL" class="headerlink" title="下载 MySQL"></a>下载 MySQL</h3><p>如在 MySQL 官网 (<a href="https://dev.mysql.com/downloads/file/?id=476692" target="_blank" rel="noopener">https://dev.mysql.com/downloads/file/?id=476692</a>) 下载的 <code>mysql-5.6.40.tar.gz</code></p>
+<a id="more"></a>
+<h3 id="编译安装-MySQL"><a href="#编译安装-MySQL" class="headerlink" title="编译安装 MySQL"></a>编译安装 MySQL</h3><p>上述的压缩包解压后，进行编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">cmake . \</div><div class="line"> -DCMAKE_INSTALL_PREFIX=/home/user60/apps/mysql \</div><div class="line"> -DMYSQL_UNIX_ADDR=/home/user60/apps/mysql/mysql_3303.sock \</div><div class="line"> -DDEFAULT_CHARSET=utf8 \</div><div class="line"> -DDEFAULT_COLLATION=utf8_general_ci \</div><div class="line"> -DWITH_MYISAM_STORAGE_ENGINE=1 \</div><div class="line"> -DWITH_INNOBASE_STORAGE_ENGINE=1 \</div><div class="line"> -DWITH_MEMORY_STORAGE_ENGINE=1 \</div><div class="line"> -DWITH_READLINE=1 \</div><div class="line"> -DENABLED_LOCAL_INFILE=1 \</div><div class="line"> -DMYSQL_DATADIR=/home/user60/apps/mysql/data \</div><div class="line"> -DMYSQL_USER=soft \</div><div class="line"> -DMYSQL_TCP_PORT=3303 \</div><div class="line"> -DWITHOUT_PARTITION_STORAGE_ENGINE=0</div><div class="line"></div><div class="line">make &amp;&amp; make install</div></pre></td></tr></table></figure>
+<blockquote>
+<p>本机用户名为 user60</p>
+</blockquote>
+<h3 id="配置-MySQL"><a href="#配置-MySQL" class="headerlink" title="配置 MySQL"></a>配置 MySQL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cp /home/user60/apps/mysql/support-files/my-default.cnf /home/user60/apps/mysql/my.cnf</div><div class="line">vi /home/user60/apps/mysql/my.cnf</div></pre></td></tr></table></figure>
+<ul>
+<li>修改 [mysqld] 下选项：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</div><div class="line"></div><div class="line">basedir = /home/user60/apps/mysql/</div><div class="line">datadir = /home/user60/apps/mysql/data/</div><div class="line">lower_case_table_names=1</div><div class="line">max_allowed_packet = 500M</div><div class="line">max_connections=5000</div><div class="line"></div><div class="line">[log-bin=mysql-bin]</div><div class="line">max_binlog_size=100M</div><div class="line">expire_logs_days=7</div></pre></td></tr></table></figure>
+<ul>
+<li>创建系统数据库的表</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scripts/mysql_install_db --defaults-file=./my.cnf --user=soft</div></pre></td></tr></table></figure>
+<h3 id="启动-MySQL"><a href="#启动-MySQL" class="headerlink" title="启动 MySQL"></a>启动 MySQL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /home/soft/apps/mysql/bin</div><div class="line">./mysqld_safe &amp;</div></pre></td></tr></table></figure>
+<h3 id="登录-MySQL-并修改密码"><a href="#登录-MySQL-并修改密码" class="headerlink" title="登录 MySQL 并修改密码"></a>登录 MySQL 并修改密码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">./mysql -u root –p//无密码，直接回车即可</div><div class="line">use mysql;</div><div class="line">grant all privileges on *.* to root@&quot;%&quot; identified by &quot;root&quot;;</div><div class="line">update user set Password = password(&apos;123456&apos;) where User=&apos;root&apos;;</div><div class="line">flush privileges;</div><div class="line">exit;</div></pre></td></tr></table></figure>
+<p>修改密码也可以：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/home/user60/apps/mysql//bin/mysqladmin -u root password &apos;new-password&apos;</div><div class="line">/home/user60/apps/mysql//bin/mysqladmin -u root -h host4 password &apos;new-password&apos;</div></pre></td></tr></table></figure>
+<p>参考：<br><a href="https://my.oschina.net/Mtok/blog/1621679" target="_blank" rel="noopener">Linux 普通用户编译安装mysql</a><br><a href="https://blog.csdn.net/u012279312/article/details/48418029" target="_blank" rel="noopener">Linux下用普通用户安装mysql数据库（编译好的二进制包安装）</a><br><a href="https://blog.csdn.net/chenjinge7/article/details/46582527" target="_blank" rel="noopener">RedHat Linux RPM方式安装MySQL5.6</a><br><a href="https://blog.csdn.net/superchanon/article/details/8546254/" target="_blank" rel="noopener">Linux安装MySQL的两种方法</a></p>
 
       
     </div>
@@ -410,7 +428,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://fighterhit.github.io/2017/02/08/learning_summary/linux下普通用户安装mysql/" title="Linux下普通用户安装Mysql">http://fighterhit.github.io/2017/02/08/learning_summary/linux下普通用户安装mysql/</a>
+    <a href="http://fighterhit.github.io/2017/02/08/other_notes/linux下普通用户安装mysql/" title="Linux下普通用户安装Mysql">http://fighterhit.github.io/2017/02/08/other_notes/linux下普通用户安装mysql/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -531,8 +549,17 @@ var jiathis_config={
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -613,6 +640,22 @@ var jiathis_config={
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载-MySQL"><span class="nav-number">1.1.</span> <span class="nav-text">下载 MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译安装-MySQL"><span class="nav-number">1.2.</span> <span class="nav-text">编译安装 MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-MySQL"><span class="nav-number">1.3.</span> <span class="nav-text">配置 MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动-MySQL"><span class="nav-number">1.4.</span> <span class="nav-text">启动 MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#登录-MySQL-并修改密码"><span class="nav-number">1.5.</span> <span class="nav-text">登录 MySQL 并修改密码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
       
@@ -664,7 +707,7 @@ var jiathis_config={
   
 
     <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    Hosted by <a target="_blank" href="https://github.com/">GitHub Pages</a>
     </span>
 
 </div>

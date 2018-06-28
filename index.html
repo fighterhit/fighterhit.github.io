@@ -354,8 +354,7 @@
 
       
         
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为最近在做大数据分析大作业，要求将算法封装进 Docker ，因此临时学了一下 Docker 方面的知识，在这里简单记录一下。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>因为最近在做大数据分析大作业，要求将算法封装进 Docker ，因此临时学了一下 Docker 方面的知识，在这里简单记录一下。</p>
 <h3 id="Docker-安装"><a href="#Docker-安装" class="headerlink" title="Docker 安装"></a>Docker 安装</h3><p>Docker 安装比较简单，可以参考网上<a href="http://www.runoob.com/docker/ubuntu-docker-install.html" target="_blank" rel="noopener">教程</a></p>
 <h3 id="Docker-架构"><a href="#Docker-架构" class="headerlink" title="Docker 架构"></a>Docker 架构</h3><p>使用 Docker 前需要首先理解 Docker 的架构，因为以前自己只使用过 Vmware/VirtualBox 之类虚拟机，所以之前对 Docker 的理解也跟对 Vmware/VirtualBox 认识差不多，但学习之后发现他们还是有很大区别的， Docker 中融汇了面向对象的思想。网上有两张图对初学者很友好，让人很容易理解 Docker 架构思想：</p>
 <img src="/2018/06/20/other_notes/制作Docker镜像/docker架构.png" title="Docker 架构">
@@ -386,34 +385,13 @@
 </table>
 </div>
 <p>理解了上面几句话，大概就能跟我一样简单使用了，Docker hub 仓库其实就相当于打包了很多常用的 Docker 镜像，我们可以直接 pull 下来，启动成容器来在本地跑，省去了很多搭环境浪费的时间。</p>
-<h2 id="制作-Docker-镜像"><a href="#制作-Docker-镜像" class="headerlink" title="制作 Docker 镜像"></a>制作 Docker 镜像</h2><p>当然有时候我们还需要自己造轮子，按自己的需求、逻辑来封装一个镜像来给别人使用等，所以这时候就需要学会编写 Dockerfile 了，关于 Dockerfile 的编写这里有个<a href="https://blog.csdn.net/mozf881/article/details/55798811" target="_blank" rel="noopener">博客</a>简单介绍了一些语法规则，对于我这次的任务来说已经够用了，如果任务更复杂就需要参考官方文档来好好研究啦。下面是我为这次封装算法编写的 Dockerfile ：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> continuumio/anaconda3      <span class="comment"># 继承 continuumio/anaconda3 镜像</span></div><div class="line"><span class="keyword">MAINTAINER</span> fighter fighterhit@<span class="number">163</span>.com</div><div class="line"><span class="keyword">COPY</span> code  /root/             # 把 code 文件夹复制到镜像内部 /root 下</div><div class="line"><span class="keyword">WORKDIR</span> /root</div><div class="line"><span class="keyword">CMD</span> jupyter notebook --ip=0.0.0.0 --allow-root # docker run 时容器内执行的命令</div></pre></td></tr></table></figure>
-<p>写好 Dockerfile 后执行 build 命令生成镜像：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build . -t fighter:lastest</div></pre></td></tr></table></figure>
-<h3 id="导入-导出-Docker-镜像"><a href="#导入-导出-Docker-镜像" class="headerlink" title="导入/导出 Docker 镜像"></a>导入/导出 Docker 镜像</h3><p>将镜像导出为 tar 包：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker save -o BDProject.tar fighter:latest</div></pre></td></tr></table></figure>
-<p>导入 tar 包：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker load &lt; BDProject.tar</div></pre></td></tr></table></figure>
-<h2 id="给-Vmware-增加磁盘"><a href="#给-Vmware-增加磁盘" class="headerlink" title="给 Vmware 增加磁盘"></a>给 Vmware 增加磁盘</h2><p>因为自己是在 Vmware 虚拟机内做的，在导出制作的 docker 镜像时中途出错，显示磁盘空间不够，后来给 VMWare 加了一个磁盘执行<code>df -h</code>也没有显示增加的磁盘，后来发现还需要格式化并挂载磁盘，详细过程见<a href="https://blog.csdn.net/u012406115/article/details/56853188" target="_blank" rel="noopener">扩展或者添加硬盘给VMware的Linux操作系统</a>：</p>
-<ol>
-<li><p>查看分区</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fdisk -l</div></pre></td></tr></table></figure>
-<p> 添加完磁盘后执行上述命令会看到未分区的 <code>dev/sdb</code></p>
-</li>
-<li><p>创建分区</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fdisk /dev/sdb</div></pre></td></tr></table></figure>
-</li>
-<li><p>重启 linux，并格式化<br> 对于添加新硬盘的方法执行：mkfs.ext4 /dev/sdb1格式化</p>
-</li>
-<li>开机挂载<ul>
-<li>如果设置root登录可以直接修改“etc/profile”文件使每次系统开机自动挂载该分区到“/disk”目录下。我们再该文件的末尾添加“mount /dev/sdb1/disk”，或者mount/dev/sda4 /disk保存重启系统。</li>
-<li>或者更加通用专业的方法修改/etc/fsrab文件加入/dev/sda4   /disk4 ext2 defaults 0 0，并保存，实现开机自动挂载。<br>这时我们可以查看/disk文件的磁盘空间会是很大的，我们可以将一些不常用的大容量文件放在该目录下以节省系统的磁盘空间。</li>
-</ul>
-</li>
-</ol>
-<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="https://blog.csdn.net/x6_9x/article/details/72891404" target="_blank" rel="noopener">docker镜像的导入和导出</a><br><a href="https://www.cnblogs.com/q4486233/p/6482711.html" target="_blank" rel="noopener">Docker 容器镜像删除</a><br><a href="https://www.linuxidc.com/Linux/2017-03/142007.htm" target="_blank" rel="noopener">虚拟机VMware新增硬盘无法识别问题</a><br><a href="https://blog.csdn.net/u012406115/article/details/56853188" target="_blank" rel="noopener">如何扩展或者添加硬盘给VMware的Linux操作系统</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/20/other_notes/制作Docker镜像/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -552,8 +530,7 @@
 
       
         
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本人虽然最近偏向Java语言，但平常有时也会遇到需要临时调试些C/C++代码，虽然电脑装了VS又感觉有点大材小用，而我平常一直是在用VSCode写markdown等，实际上VSCode和Sublime、Notepad++等都有很多插件可以装，装完就可以当作“短小精悍”的IDE啦，下面就记录下前天在Win10下用VSCode搭建C/C++环境的过程。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本人虽然最近偏向Java语言，但平常有时也会遇到需要临时调试些C/C++代码，虽然电脑装了VS又感觉有点大材小用，而我平常一直是在用VSCode写markdown等，实际上VSCode和Sublime、Notepad++等都有很多插件可以装，装完就可以当作“短小精悍”的IDE啦，下面就记录下前天在Win10下用VSCode搭建C/C++环境的过程。</p>
 <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
 <li>Windows 10 64位</li>
 <li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VSCode 1.21.1 64位</a></li>
@@ -561,54 +538,13 @@
 </ul>
 <h2 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h2><h3 id="安装C-C-插件"><a href="#安装C-C-插件" class="headerlink" title="安装C/C++插件"></a>安装C/C++插件</h3><p>在 VSCode 左侧第5个插件商店下面搜索<code>C/C++</code>，出现第一个插件应该就是微软官方插件，长这样：</p>
 <img src="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/C插件.png" title="C插件.png">
-<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><ul>
-<li><p>新建项目文件夹 <code>VSC-CPP</code> 并编写如下源文件</p>
-<ul>
-<li>add.h     // add() 函数声明</li>
-<li>add.cpp   // add() 函数实现</li>
-<li>sub.h     // sub() 函数声明</li>
-<li>sub.cpp   // sub() 函数实现</li>
-<li>main.cpp  // 调用 add() 与 sub()</li>
-</ul>
-</li>
-<li><p>add.h</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _ADD_H_</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _ADD_H_</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// ! _ADD_H_</span></span></div></pre></td></tr></table></figure>
-</li>
-<li><p>add.cpp</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"add.h"</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> a + b; &#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>sub.h</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _SUB_H_</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _SUB_H_</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// ! _SUB_H_</span></span></div></pre></td></tr></table></figure>
-</li>
-<li><p>sub.cpp</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sub.h"</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> a - b; &#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>main.cpp</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"add.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sub.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; add(<span class="number">1</span>, <span class="number">2</span>) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; sub(<span class="number">2</span>, <span class="number">1</span>) &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="修改默认配置文件"><a href="#修改默认配置文件" class="headerlink" title="修改默认配置文件"></a>修改默认配置文件</h3><ol>
-<li><p>按 <code>ctrl+shit+p</code>，在上面出现的框里输入<code>c/cpp</code>，点击<code>C/Cpp:Edit Configurations</code>项编辑配置文件 <code>c_cpp_properties.json</code>，里面很多是自动生成的，主要对应平台（Win32，因为是Windows）修改下面几项即可：</p>
- <img src="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/cpp插件配置.png" title="cpp插件配置">
-<p> 具体这样修改的原因，可以参见 vscode-cpptools github提供的模板，本人参考网上配置文件修改后会出现找不到include的文件等如下问题：<br> <a href="https://github.com/Microsoft/vscode-cpptools/issues/1041" target="_blank" rel="noopener">#include errors detected … cannot open source file “iostream #1041</a><br> <a href="https://github.com/Microsoft/vscode-cpptools/issues/1724" target="_blank" rel="noopener">Namespace std has no member cin, cout - Windows #1724</a></p>
-<p> 最终解决办法都是采用官方提供的配置文件模板 <a href="https://github.com/Microsoft/vscode-cpptools/blob/master/Documentation/LanguageServer/MinGW.md" target="_blank" rel="noopener">MinGW.md</a>，大家根据自己MinGW实际路径修改即可</p>
-</li>
-<li><p>上一步解决了代码提示问题，接下来按 <code>ctrl+shit+p</code>，输入 <code>Tasks: Configure Task</code>，弹出窗口中选择 Others (这里我们要用 GCC 来编译)，在新打开的 <code>tasks.json</code> 中配置如下（其它情况可视具体情况配置）：</p>
-</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"version"</span>: <span class="string">"2.0.0"</span>,</div><div class="line">    <span class="string">"tasks"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="string">"label"</span>: <span class="string">"build"</span>,</div><div class="line">            <span class="string">"type"</span>: <span class="string">"shell"</span>,</div><div class="line">            <span class="string">"command"</span>: <span class="string">"g++"</span>,</div><div class="line">            <span class="string">"args"</span>: [</div><div class="line">                <span class="string">"main.cpp"</span>,</div><div class="line">                <span class="string">"add.cpp"</span>,</div><div class="line">                <span class="string">"sub.cpp"</span>,</div><div class="line">                <span class="string">"-o"</span>,</div><div class="line">                <span class="string">"main.exe"</span></div><div class="line">            ],</div><div class="line">            <span class="string">"problemMatcher"</span>: []</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="string">"label"</span>: <span class="string">"build-debug"</span>,</div><div class="line">            <span class="string">"type"</span>: <span class="string">"shell"</span>,</div><div class="line">            <span class="string">"command"</span>: <span class="string">"g++"</span>,</div><div class="line">            <span class="string">"args"</span>: [</div><div class="line">                <span class="string">"-g"</span>,</div><div class="line">                <span class="string">"main.cpp"</span>,</div><div class="line">                <span class="string">"add.cpp"</span>,</div><div class="line">                <span class="string">"sub.cpp"</span>,</div><div class="line">                <span class="string">"-o"</span>,</div><div class="line">                <span class="string">"debug.exe"</span></div><div class="line">            ]</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>即我们添加了两个任务，一个是<code>build</code>，一个是<code>build-debug</code></p>
-<h3 id="编译与执行"><a href="#编译与执行" class="headerlink" title="编译与执行"></a>编译与执行</h3><ol>
-<li><p>按 <code>ctrl+shit+p</code>，输入并选择 <code>Tasks: Run Task</code>，这时会看到出现两个tasks，直接回车选第一个会看到项目文件夹下生成了main.exe：</p>
- <img src="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/tasks.jpg" title="tasks">
-</li>
-<li><p>在VSCode终端下运行即可得到程序结果：</p>
-</li>
-</ol>
-<img src="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/运行结果.png" title="运行结果">
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/wzxlovesy/article/details/76708151" target="_blank" rel="noopener">VS Code 配置 C/C++ 环境</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/29/other_notes/使用VSCode搭建C-C-开发环境/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -747,8 +683,7 @@
 
       
         
-          
-            <h2 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h2><ul>
+          <h2 id="无向图"><a href="#无向图" class="headerlink" title="无向图"></a>无向图</h2><ul>
 <li>图：是由一组顶点和一组能够将两个顶点相连的边组成的</li>
 <li>自环：即可一条龙连接一个顶点和其自身的边</li>
 <li>平行边：连接同一对顶点的两条边</li>
@@ -776,66 +711,13 @@
 <li>必须为可能在应用中碰到的各种类型的图预留出足够<strong>空间</strong></li>
 <li>Graph 实例方法的实现一定要快</li>
 </ol>
-<h3 id="三种图的表示方法："><a href="#三种图的表示方法：" class="headerlink" title="三种图的表示方法："></a>三种图的表示方法：</h3><ul>
-<li>邻接矩阵：VxV 布尔矩阵，当顶点v和顶点w之间有相连的边时，定义v行w列元素值为true，否则为false。该方法不满足第一个条件，上百万顶点的图所需空间不能满足。（邻接矩阵也无法表示平行边）</li>
-<li>边的数组：使用一个Edge类，含有两个int实例变量。该方法简洁但不满足第二个条件——查找结点的相邻结点需要检查图中所有边</li>
-<li>邻接表数组：使用一个以顶点为索引的列表数组，其中每个元素都是和该顶点相邻的顶点列表。该数据结构能同时满足两个条件。</li>
-</ul>
-<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/邻接表数组.png" title="邻接表数组">
-<p>非稠密图标准表示称为<strong>邻接表</strong>，在该数据结构中每条边都会出现两次，其实现有如下性能：</p>
-<ul>
-<li>空间和V+E成正比</li>
-<li>添加一条边所需时间为常数</li>
-<li>遍历顶点v所有相邻顶点所需时间和v度数成正比（处理每个相邻顶点所需时间为常数）</li>
-</ul>
-<blockquote>
-<p>当需要添加/删除顶点时，使用符号表（ST）来代替由顶点索引构成的数组；当需要删除一条边/检查图是否含有边v-w时，可以用SET代替Bag来实现邻接表。这种方法称为<strong>邻接集</strong>。</p>
-</blockquote>
-<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/典型Graph实现的性能复杂度.png" title="典型Graph实现的性能复杂度">
-<h3 id="图处理算法的设计模式"><a href="#图处理算法的设计模式" class="headerlink" title="图处理算法的设计模式"></a>图处理算法的设计模式</h3><p>图的表示和实现分离</p>
-<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/图处理算法API.png" title="图处理算法API">
-<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/图处理用例.png" title="图处理用例">
-<h3 id="深度优先搜索（栈）"><a href="#深度优先搜索（栈）" class="headerlink" title="深度优先搜索（栈）"></a>深度优先搜索（栈）</h3><p>在访问其中任何一个顶点时：</p>
-<ul>
-<li>将它标记为已访问</li>
-<li>递归地访问它所没有被标记过的邻居节点</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DepthFirstSearch</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[] marked;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DepthFirstSearch</span><span class="params">(Graph G, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        marked = <span class="keyword">new</span> <span class="keyword">boolean</span>[G.V()];</div><div class="line">        dfs(G, s);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(Graph g, <span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        marked[v] = <span class="keyword">true</span>;</div><div class="line">        count++;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> w : g.adj(v)) &#123;</div><div class="line">            <span class="keyword">if</span> (!marked[w]) &#123;</div><div class="line">                dfs(g, w);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">marked</span><span class="params">(<span class="keyword">int</span> w)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> marked[w];</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>深度优先搜索标记与起点相连通的所有顶点所需时间和顶点度数之和成正比</p>
-</blockquote>
-<h3 id="寻找路径"><a href="#寻找路径" class="headerlink" title="寻找路径"></a>寻找路径</h3><img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/路径API.png" title="路径API">
-<p>基于深度优先搜索查找路径（从给定起点s到它连通的所有顶点的路径）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DepthFirstPaths</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[] marked;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 起点</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> s;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 该顶点到一个顶点的已知路径上的最后一个顶点</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] edgeTo;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DepthFirstPaths</span><span class="params">(Graph G, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        marked = <span class="keyword">new</span> <span class="keyword">boolean</span>[G.V()];</div><div class="line">        edgeTo = <span class="keyword">new</span> <span class="keyword">int</span>[G.V()];</div><div class="line">        <span class="keyword">this</span>.s = s;</div><div class="line">        dfs(G, s);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPathTo</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> marked[v];</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Iterable&lt;Integer&gt; <span class="title">pathTo</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!hasPathTo(v)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//注意使用了栈</span></div><div class="line">        Stack&lt;Integer&gt; path = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = v; x != s ; x = edgeTo[x]) &#123;</div><div class="line">            path.push(x);</div><div class="line">        &#125;</div><div class="line">        path.push(s);</div><div class="line">        <span class="keyword">return</span> path;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(Graph g, <span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        marked[v] = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">for</span> (Integer w : g.adj(v)) &#123;</div><div class="line">            <span class="keyword">if</span> (!marked[w])&#123;</div><div class="line">                edgeTo[w] = v;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>深度优先搜索得到从给定起点到任意标记顶点的路径所需时间和路径长度成正比</p>
-</blockquote>
-<h3 id="广度优先搜索（队列）"><a href="#广度优先搜索（队列）" class="headerlink" title="广度优先搜索（队列）"></a>广度优先搜索（队列）</h3><blockquote>
-<p>单点最短路径。若s到v存在一条路径，找出最短那条（边数最少）。<br>要找到从s到v的最短路径，从s开始，在所有由一条边就可以到达的顶点中寻找v，若找不到则继续在与s距离两条边的所有顶点中查找v，如此一直进行。</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BreadthFirstPaths</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 到达该店的最短路径是否已知</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[] marked;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] edgeTo;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> s;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BreadthFirstPaths</span><span class="params">(Graph G, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        marked = <span class="keyword">new</span> <span class="keyword">boolean</span>[G.V()];</div><div class="line">        edgeTo = <span class="keyword">new</span> <span class="keyword">int</span>[G.V()];</div><div class="line">        <span class="keyword">this</span>.s = s;</div><div class="line">        bfs(G, s);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//非递归</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">(Graph G, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        Queue&lt;Integer&gt; queue = <span class="keyword">new</span> LinkedBlockingDeque&lt;&gt;();</div><div class="line">        marked[s] = <span class="keyword">true</span>;</div><div class="line">        queue.add(s);</div><div class="line">        <span class="comment">//一层一层遍历</span></div><div class="line">        <span class="keyword">while</span> (!queue.isEmpty()) &#123;</div><div class="line">            <span class="keyword">int</span> v = queue.poll();</div><div class="line">            <span class="keyword">for</span> (Integer w : G.adj(v)) &#123;</div><div class="line">                <span class="keyword">if</span> (!marked[w]) &#123;</div><div class="line">                    queue.add(w);</div><div class="line">                    edgeTo[w] = v;</div><div class="line">                    marked[w] = <span class="keyword">true</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPathTo</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> marked[v];</div><div class="line">    &#125;</div><div class="line">    <span class="function">Iterable&lt;Integer&gt; <span class="title">pathTo</span><span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!hasPathTo(v)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        Stack&lt;Integer&gt; path = <span class="keyword">new</span> Stack&lt;&gt;();</div><div class="line">        path.push(v);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> x = v; x != s; x = edgeTo[x]) &#123;</div><div class="line">            path.push(x);</div><div class="line">        &#125;</div><div class="line">        path.push(s);</div><div class="line">        <span class="keyword">return</span> path;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>广度优先搜索所需时间在最坏情况下和 <code>V+E</code> 成正比</p>
-</blockquote>
-<p><a href="https://stackoverflow.com/questions/11468621/why-is-the-time-complexity-of-both-dfs-and-bfs-o-v-e" target="_blank" rel="noopener">Why is the time complexity of both DFS and BFS O( V + E )</a></p>
-<h3 id="连通分量"><a href="#连通分量" class="headerlink" title="连通分量"></a>连通分量</h3><p>DFS可以应用找出一幅图所有连通分量</p>
-<img src="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/连通分量.png" title="连通分量">
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CC</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span>[] marked;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] id;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CC</span><span class="params">(Graph G)</span> </span>&#123;</div><div class="line">        marked = <span class="keyword">new</span> <span class="keyword">boolean</span>[G.V()];</div><div class="line">        id = <span class="keyword">new</span> <span class="keyword">int</span>[G.V()];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> s = <span class="number">0</span>; s &lt; G.V(); s++) &#123;</div><div class="line">            <span class="keyword">if</span> (!marked[s]) &#123;</div><div class="line">                <span class="comment">//一次深度优先搜索就是一个连通分量</span></div><div class="line">                dfs(G, s);</div><div class="line">                count++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(Graph g, <span class="keyword">int</span> s)</span> </span>&#123;</div><div class="line">        marked[s] = <span class="keyword">true</span>;</div><div class="line">        <span class="comment">//同一连通分量同一编号</span></div><div class="line">        id[s] = count;</div><div class="line">        <span class="keyword">for</span> (Integer v : g.adj(s)) &#123;</div><div class="line">            <span class="keyword">if</span> (!marked[v]) &#123;</div><div class="line">                dfs(g, v);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> count;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connected</span><span class="params">(<span class="keyword">int</span> w ,<span class="keyword">int</span> v)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> id[w] == id[v];</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">id</span><span class="params">(<span class="keyword">int</span> v)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> id[v];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>CC中基于DFS搜索解决图连通性问题相比：理论上，DFS 搜索比 union-find 快，因为它能保证所需时间是常数而 union-find 不行；但实际应用中，union-find 更快，因为它不需完整构造并表示一幅图。但DFS必须对图进行预处理，在只需判断连通性或只需完成大量连通性查询和插入操作混合等类似任务时，更倾向union-find，而DFS更适合实现抽象数据类型，它能更有效利用已有数据结构。</p>
-<ul>
-<li><p>使用深度优先搜索处理图的其它实例</p>
-<ul>
-<li><p>判断 G 是否为无环图</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-</li>
-<li><p>G 是二分图吗？（双色问题）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="有向图"><a href="#有向图" class="headerlink" title="有向图"></a>有向图</h2><h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/26/algorithm_and_datastructure/Algorithms4/Ch4-Graph/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -974,8 +856,7 @@
 
       
         
-          
-            <p>这部分主要介绍Java并发包中与锁相关的API和组件的使用和实现。</p>
+          <p>这部分主要介绍Java并发包中与锁相关的API和组件的使用和实现。</p>
 <h2 id="Lock接口"><a href="#Lock接口" class="headerlink" title="Lock接口"></a>Lock接口</h2><p>Lock接口之前Java是靠synchronized关键字实现锁功能的，而Java SE 5后并发包中新增了Lock接口（以及相关实现类）用来实现锁功能，它提供了与synchronized关键字类似的同步功能，只是在使用时需要显式地获取和释放锁。虽没有了隐式释放锁的便利性，但有了如下优点：</p>
 <ol>
 <li>锁获取与释放的可操作性</li>
@@ -984,29 +865,13 @@
 </ol>
 <p>Lock使用方式：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</div><div class="line">lock.lock();</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">&#125; <span class="keyword">finally</span> &#123;</div><div class="line">    lock.unlock();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>在finally块中释放锁，保证在获取到锁之后，最终能被释放。<strong>不要将获取锁的过程写在try块中，因为如果在获取锁（自定义锁的实现）时发生了异常，异常抛出的同时，也会导致锁无故释放。</strong></p>
-</blockquote>
-<img src="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/Lock接口提供的synchronized关键字不具备的主要特性.png" title="Lock接口提供的synchronized关键字不具备的主要特性">
-<img src="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/Lock的API.png" title="Lock的API">
-<p>Lock接口的实现基本都是通过聚合了一个同步器（AbstractQueuedSynchronizer）的子类来完成线程访问控制的。</p>
-<h2 id="队列同步器"><a href="#队列同步器" class="headerlink" title="队列同步器"></a>队列同步器</h2><p>同步器的设计是基于模板方法模式的，即使用者需<strong>继承同步器并重写指定的方法，</strong>随后将同步器组合在自定义同步组件的实现中，并<strong>调用同步器提供的模板方法，而这些模板方法将会调用使用者重写的方法。</strong></p>
-<p>重写同步器指定方法时，需使用同步器提供的如下3个方法来访问或修改同步状态：</p>
-<ul>
-<li>getState()：获取当前同步状态。</li>
-<li>setState(int newState)：设置当前同步状态。</li>
-<li>compareAndSetState(int expect,int update)：使用CAS设置当前状态，该方法能保证状态设置的原子性。</li>
-</ul>
-<img src="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/同步器可重写的方法.png" title="同步器可重写的方法">
-<p>自定义同步组件时，将会调用同步器提供的模板方法：</p>
-<ul>
-<li>独占式获取与释放同步状态</li>
-<li>共享式获取与释放同步状态</li>
-<li>查询同步队列中的等待线程</li>
-</ul>
-<img src="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/同步器提供的模板方法.png" title="同步器提供的模板方法">
-<h2 id="重入锁"><a href="#重入锁" class="headerlink" title="重入锁"></a>重入锁</h2><h2 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h2><h2 id="LockSupport工具"><a href="#LockSupport工具" class="headerlink" title="LockSupport工具"></a>LockSupport工具</h2><h2 id="Condition-接口"><a href="#Condition-接口" class="headerlink" title="Condition 接口"></a>Condition 接口</h2>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/18/Java_Notes/JavaConcurrence/TheArtOfJavaConcurrency/Ch5-Java中的锁/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2454,7 +2319,7 @@
   
 
     <span class="site-pv">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-    Hosted by <a target="_blank" href="https://gitee.com/">码云 Pages</a>
+    Hosted by <a target="_blank" href="https://github.com/">GitHub Pages</a>
     </span>
 
 </div>
