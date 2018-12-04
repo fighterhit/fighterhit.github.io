@@ -393,7 +393,7 @@
 <p>理解了上面几句话，大概就能跟我一样简单使用了，Docker hub 仓库其实就相当于打包了很多常用的 Docker 镜像，我们可以直接 pull 下来，启动成容器来在本地跑，省去了很多搭环境浪费的时间。</p>
 <a id="more"></a>
 <h2 id="制作-Docker-镜像"><a href="#制作-Docker-镜像" class="headerlink" title="制作 Docker 镜像"></a>制作 Docker 镜像</h2><p>当然有时候我们还需要自己造轮子，按自己的需求、逻辑来封装一个镜像来给别人使用等，所以这时候就需要学会编写 Dockerfile 了，关于 Dockerfile 的编写这里有个<a href="https://blog.csdn.net/mozf881/article/details/55798811" target="_blank" rel="noopener">博客</a>简单介绍了一些语法规则，对于我这次的任务来说已经够用了，如果任务更复杂就需要参考官方文档来好好研究啦。下面是我为这次封装算法编写的 Dockerfile ：</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> continuumio/anaconda3      <span class="comment"># 继承 continuumio/anaconda3 镜像</span></div><div class="line"><span class="keyword">MAINTAINER</span> fighter fighterhit@<span class="number">163</span>.com</div><div class="line"><span class="keyword">COPY</span> code  /root/             # 把 code 文件夹复制到镜像内部 /root 下</div><div class="line"><span class="keyword">WORKDIR</span> /root</div><div class="line"><span class="keyword">CMD</span> jupyter notebook --ip=0.0.0.0 --allow-root # docker run 时容器内执行的命令</div></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> continuumio/anaconda3      <span class="comment"># 继承 continuumio/anaconda3 镜像</span></div><div class="line"><span class="keyword">MAINTAINER</span> fighter fighterhit@<span class="number">163</span>.com</div><div class="line"><span class="keyword">COPY</span><span class="bash"> code  /root/             <span class="comment"># 把 code 文件夹复制到镜像内部 /root 下</span></span></div><div class="line"><span class="keyword">WORKDIR</span><span class="bash"> /root</span></div><div class="line"><span class="keyword">CMD</span><span class="bash"> jupyter notebook --ip=0.0.0.0 --allow-root <span class="comment"># docker run 时容器内执行的命令</span></span></div></pre></td></tr></table></figure>
 <p>写好 Dockerfile 后执行 build 命令生成镜像：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build . -t fighter:lastest</div></pre></td></tr></table></figure>
 <h3 id="导入-导出-Docker-镜像"><a href="#导入-导出-Docker-镜像" class="headerlink" title="导入/导出 Docker 镜像"></a>导入/导出 Docker 镜像</h3><p>将镜像导出为 tar 包：</p>
@@ -505,6 +505,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/12/04/other_notes/Kubernetes-记录/" rel="prev" title="Kubernetes 记录">
+                Kubernetes 记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -611,7 +615,7 @@ var jiathis_config={
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -633,7 +637,7 @@ var jiathis_config={
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

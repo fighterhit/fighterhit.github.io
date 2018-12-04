@@ -262,6 +262,270 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/02/17/Java_Notes/Jvm/类文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fighter.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fighter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/17/Java_Notes/Jvm/类文件/" itemprop="url">类文件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-17T23:52:32+08:00">
+                2018-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Java笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="class-文件结构"><a href="#class-文件结构" class="headerlink" title="class 文件结构"></a>class 文件结构</h2><ul>
+<li>class 文件是一组以 8 位字节为基础单位的二进制流，各个数据项目严格按照顺序紧凑的排列在 class 文件之中，中间没有添加任何分隔符，整个 class 文件中存储的内容几乎全部是程序运行的必要数据，没有空隙存在。</li>
+<li>当遇到 8 位字节以上的空间的数据项时，则会按照高位在前的方式分割成若干个 8 位字节进行存储。</li>
+<li>class 文件中有两种数据类型，分别是无符号数和表（引用类型）。</li>
+</ul>
+<blockquote>
+<ul>
+<li>魔数</li>
+<li>class 文件版本</li>
+<li>常量池</li>
+<li>访问标志</li>
+<li>类索引，父类索引，接口索引集合</li>
+<li>字段表集合</li>
+<li>方法表集合</li>
+<li>属性表集合</li>
+</ul>
+</blockquote>
+<h3 id="魔数"><a href="#魔数" class="headerlink" title="魔数"></a>魔数</h3><ul>
+<li>版本</li>
+<li>JDK 1.8=52</li>
+<li>JDK 1.7=51</li>
+<li>JDK 1.6=50</li>
+<li>JDK 1.5=49</li>
+<li>JDK 1.4=48</li>
+<li>JDK 1.3=47</li>
+<li>JDK 1.2=46</li>
+<li>JDK 1.1=45</li>
+</ul>
+<p>class 文件以 cafebabe 开头，后面跟着的是 JDK 次版本号和主版本号</p>
+<h3 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h3><ul>
+<li><p>CP_info</p>
+</li>
+<li><p>CONSTANT_Methodref_info 用于记录方法信息（包括类中定义的方法以及代码中使用到的方法）</p>
+</li>
+</ul>
+<blockquote>
+<p>查看 class 文件信息：javap -verbose HelloWorld.class</p>
+</blockquote>
+<h3 id="访问标志"><a href="#访问标志" class="headerlink" title="访问标志"></a>访问标志</h3><h3 id="类索引"><a href="#类索引" class="headerlink" title="类索引"></a>类索引</h3><h3 id="字段表集合"><a href="#字段表集合" class="headerlink" title="字段表集合"></a>字段表集合</h3><p>字段表用于描述接口或者类中声明的变量</p>
+<h3 id="方法表集合"><a href="#方法表集合" class="headerlink" title="方法表集合"></a>方法表集合</h3><h3 id="属性表集合"><a href="#属性表集合" class="headerlink" title="属性表集合"></a>属性表集合</h3><h2 id="字节码指令"><a href="#字节码指令" class="headerlink" title="字节码指令"></a>字节码指令</h2><ul>
+<li>Java 虚拟机的指令由一个字节长度的，代表着某种特定操作含义的数字，称之为操作码，以及跟随其后的零至多个代表此操作所需参数的操作数而构成。</li>
+<li>操作码长度为 1 个字节，因此最大只有 256 条。</li>
+<li>基于栈的指令集架构</li>
+</ul>
+<h3 id="字节码与数据类型"><a href="#字节码与数据类型" class="headerlink" title="字节码与数据类型"></a>字节码与数据类型</h3><ul>
+<li>在虚拟机的指令集中，大多数的指令都包含了其操作所对应的数据类型信息。</li>
+<li>lload fload</li>
+<li>大多数指令是包含类型信息的</li>
+<li>也有不包含类型信息的<ul>
+<li>goto 与类型无关</li>
+<li>Arraylength 操作数组类型</li>
+</ul>
+</li>
+<li>类型多，指令少</li>
+</ul>
+<h3 id="加载和存储指令"><a href="#加载和存储指令" class="headerlink" title="加载和存储指令"></a>加载和存储指令</h3><ul>
+<li>加载和存储指令用于将数据在栈帧中的局部变量表和操作数栈之间来回传输。</li>
+<li>将局部变量表加载到操作数栈：iload lload fload dload aload</li>
+<li>将一个数值从操作数栈存储到局部变量表：istore lfda</li>
+<li>将一个常量加载到操作数栈：bipush sipush ldc ldc_w_ldc2_w aconst_null iconst_m1 iconst</li>
+<li>扩充局部变量表的访问索引的指令：wide</li>
+</ul>
+<h3 id="运算指令"><a href="#运算指令" class="headerlink" title="运算指令"></a>运算指令</h3><ul>
+<li>运算或算术指令用于对两个操作数栈上的值进行某种特定的运算，并把结果存储到操作数栈顶。</li>
+<li>加法指令：add</li>
+<li>减法指令：sub</li>
+<li>乘法指令：mul</li>
+<li>除法指令：div</li>
+<li>取余指令：rem</li>
+<li>取反指令：neg</li>
+</ul>
+<h3 id="类型转换指令"><a href="#类型转换指令" class="headerlink" title="类型转换指令"></a>类型转换指令</h3><ul>
+<li>类型转换指令可以将两种不同的数值类型进行相互转换，这些转换操作一般用于实现用户代码中的显示类型转换操作以及用来处理字节码指令集中数据类型相关指令无法与数据类型一一对应的问题。</li>
+<li>宽化类型处理和窄化类型处理</li>
+<li>i2b i2c i2s l2i</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">问题：</div><div class="line">Animal animal = getAnimal()</div><div class="line">Object obj = animal;</div><div class="line">User u = (User) obj;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> hour = <span class="number">24</span>;</div><div class="line"><span class="comment">//计算过程都按 int 计算，int 越界</span></div><div class="line"><span class="keyword">long</span> mi = hour * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span>;</div><div class="line"><span class="keyword">long</span> mic = hour * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span>*<span class="number">1000</span>;</div><div class="line"><span class="comment">//最后执行一次 i2l</span></div><div class="line">System.out.println(mic / mi);</div></pre></td></tr></table></figure>
+<h3 id="对象创建与访问指令"><a href="#对象创建与访问指令" class="headerlink" title="对象创建与访问指令"></a>对象创建与访问指令</h3><ul>
+<li>创建类实例的指令：new</li>
+<li>创建数组的指令：newarray anewarray multianewarray</li>
+<li>访问类字段：getfield putfield getstatic putstatic</li>
+<li>把数组元素加载到操作数栈的指令：baload c s i l f d a</li>
+<li>将操作数栈的值存储到数组元素：astore</li>
+<li>取数组长度的指令：arraylength</li>
+<li>检查实例类型的指令：instanceof checkcast</li>
+</ul>
+<h3 id="操作数栈管理指令"><a href="#操作数栈管理指令" class="headerlink" title="操作数栈管理指令"></a>操作数栈管理指令</h3><ul>
+<li>操作数栈指令用于直接操作操作数栈</li>
+<li>将操作数栈的一个或两个元素出栈：pop pop2</li>
+<li>复制栈顶一个或两个数值并将复制或双份复制值重新压入栈顶：dup dup2 dup_x1 dup_x2</li>
+<li>将栈顶的两个数值替换：swap</li>
+</ul>
+<h3 id="控制转移指令"><a href="#控制转移指令" class="headerlink" title="控制转移指令"></a>控制转移指令</h3><ul>
+<li>控制转移指令可以让 Java 虚拟机有条件或无条件的从指定的位置指令而不是控制转移指令的下一条指令继续执行程序。可以认为控制转移指令就是在修改 pc 寄存器的值。</li>
+<li>条件分支：ifeq iflt ifle ifne ifgt ifnull ifcmple</li>
+<li>复合条件分支：tableswitch lookupswitch</li>
+<li>无条件分支：goto goto_w jsr jsr_w ret</li>
+</ul>
+<h3 id="方法调用和返回指令"><a href="#方法调用和返回指令" class="headerlink" title="方法调用和返回指令"></a>方法调用和返回指令</h3><h4 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h4><ul>
+<li>invokevirtual 指令用于调用对象的实例方法，根据对象的实际类型进行分派（虚方法分派），这也是 Java 语言中最常见的方法分派方式。</li>
+<li>invokeinterface 指令用于调用接口方法，它会在运行时搜索一个实现了这个接口方法的对象，找出适合的方法进行调用。</li>
+<li>invokespecial 指令用于调用一些需要特殊处理的实例方法，包括实例初始化方法、私有方法和父类方法。</li>
+<li>invokestatic 指令用于调用类方法（static 方法）</li>
+</ul>
+<h4 id="方法的返回指令"><a href="#方法的返回指令" class="headerlink" title="方法的返回指令"></a>方法的返回指令</h4><ul>
+<li>方法的调用指令与数据类型无关，而方法返回指令则是根据返回值的类型区分的，包括 ireturn（当返回值是 boolean、byte、char、short 和 int 类型时使用）、lreturn、freturn、dreturn 和 areturn，另外还有一条 return 指令供声明为 void 的方法、实例初始化方法、类和接口的类初始化方法使用。</li>
+</ul>
+<h3 id="异常处理指令"><a href="#异常处理指令" class="headerlink" title="异常处理指令"></a>异常处理指令</h3><p>在程序中<strong>显式抛出异常的操作</strong>会由 athrow 指令实现，除了这种情况，还有别的异常会在其他 Java 虚拟机指令检测到异常状况时由虚拟机自动抛出。</p>
+<p>新 jdk 不再使用字节码指令执行 catch 语句了，而使用 exception table 执行 catch 下语句。</p>
+<p><a href="http://www.itwendao.com/article/detail/335271.html" target="_blank" rel="noopener">Java虚拟机是如何处理异常的？</a><br><a href="https://www.javaworld.com/article/2076868/learn-java/how-the-java-virtual-machine-handles-exceptions.html" target="_blank" rel="noopener">How the Java virtual machine handles exceptions
+</a></p>
+<h3 id="同步指令"><a href="#同步指令" class="headerlink" title="同步指令"></a>同步指令</h3><h4 id="同步指令-1"><a href="#同步指令-1" class="headerlink" title="同步指令"></a>同步指令</h4><ul>
+<li>Java 虚拟机可以支持方法级的同步和方法内部一段指令序列的同步，这两种同步结构都是使用管程（monitor）来支持的。</li>
+<li>方法级的同步是隐式的，即无需通过字节码指令来控制，它实现在方法调用和返回操作中。虚拟机可以从方法常量池中的方法表结构（method info structure）中的 ACC_SYNCHRONIZED 访问标志是否被设置，如果设置了，执行线程将先持有管程，然后再执行方法，最后在方法完成（无论正常完成还是非正常完成）时释放管程。在方法执行期间，执行线程持有了管程，其他任何线程都无法再获得同一个管程。如果一个同步方法执行期间抛出了异常，并在方法内部无法处理此异常，那这个同步方法所持有的管程将在异常抛到同步方法外时自动释放。</li>
+<li>同步一段指令集序列通常是由 Java 语言中的 synchronized 块表示，Java 虚拟机的指令集中有 monitorenter 和 monitorexit 两条指令来支持 synchronized 关键字的语义，正确实现 synchronized 关键字需要编译器与 Java 虚拟机两者协作支持。</li>
+</ul>
+<h4 id="管程"><a href="#管程" class="headerlink" title="管程"></a>管程</h4><ul>
+<li>管程 (英语：Monitors，也称为监视器) 是一种程序结构，结构内的多个子程序（对象或模块）形成的多个工作线程互斥访问共享资源。这些共享资源一般是硬件设备或一群变量。</li>
+<li>管程实现了在一个时间点，最多只有一个线程在执行管程的某个子程序。与那些通过修改数据结构实现互斥访问的并发程序设计相比，管程实现很大程度上简化了程序设计。</li>
+<li>系统中的各种硬件资源和软件资源，均可用数据结构抽象地描述其资源特性，即用少量信息和对资源所执行的操作来表征该资源，而忽略了它们的内部结构和实现细节。</li>
+<li>利用共享数据结构抽象地表示系统中的共享资源，而把对该共享数据结构实施的操作定义为一组过程。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2018/02/16/Java_Notes/Jvm/性能调优/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1916,157 +2180,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fighterhit.github.io/2017/12/26/algorithm_and_datastructure/二分查找/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Fighter.">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fighter's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/26/algorithm_and_datastructure/二分查找/" itemprop="url">你真的会二分查找吗？</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T17:00:55+08:00">
-                2017-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法与数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">算法与数据结构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>今天想来说说二分查找，因为最近笔者的同学在面试时正好遇到了，而自己以前还真没认真研究过。</p>
-<p>说起二分查找，对算法和数据结构比较熟悉的都知道这是一个复杂度为 <code>O(logN)</code> 的典型<strong>分治</strong>算法，它的用途是在<strong>有序数组</strong>中查找某个数是否存在。但就是这么听起来很普通的算法却常常很难完全写对。</p>
-<ul>
-<li>据D.Knuth在《计算机程序设计的艺术 第3卷：排序和查找》书中指出，虽然二分查找1946年就公诸于世，但1962年才有人写出没有 bug 的二分查找程序。</li>
-<li>除此之外，就连我们熟悉的 Java 语言里 JDK 的二分查找 <code>java.util.Arrays.binarySearch</code> 中也曾有一个隐藏了10年之久bug!（文末附bug链接）不过，这个bug已经不是什么新鲜事了，是 JDK5 时代的产物了，不过我们可以再来回顾一下，看看我们平常是不是就在写bug，是不是真应了那个表情包“哟，写bug呢”🙊</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/26/algorithm_and_datastructure/二分查找/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2121,7 +2234,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2143,7 +2256,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
